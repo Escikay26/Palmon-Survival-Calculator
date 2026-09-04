@@ -863,6 +863,68 @@ document
   });
 
 // -----------------------------
+// PAGE NAVIGATION
+// -----------------------------
+
+document
+  .querySelectorAll(
+    ".nav-button"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const page =
+          button.dataset.page;
+
+
+        document
+          .querySelectorAll(
+            ".nav-button"
+          )
+          .forEach(navButton => {
+
+            navButton.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        document
+          .querySelectorAll(
+            ".app-page"
+          )
+          .forEach(pageElement => {
+
+            pageElement.classList.remove(
+              "active"
+            );
+
+          });
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        document
+          .getElementById(
+            `page-${page}`
+          )
+          .classList.add(
+            "active"
+          );
+
+      }
+    );
+
+  });
+
+// -----------------------------
 // START
 // -----------------------------
 
