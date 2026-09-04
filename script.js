@@ -946,11 +946,6 @@ function renderAchievements() {
         level++
       ) {
 
-        const permanentlyUnlocked =
-          unlockedAchievements[
-            achievement.name
-          ] === true;
-
       const disableLevelZero =
         permanentlyUnlocked &&
         level === 0;
@@ -1013,11 +1008,6 @@ function renderAchievements() {
       // -------------------------
 
     let lockMessage = "";
-
-    const permanentlyUnlocked =
-      unlockedAchievements[
-        achievement.name
-      ] === true;
 
     if (!available) {
 
