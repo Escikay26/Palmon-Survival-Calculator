@@ -4,6 +4,8 @@ let selectedElement = "Water";
 
 let selectedLevels = {};
 
+let unlockedAchievements = {};
+
 let currentPage = "overview";
 
 
@@ -97,7 +99,10 @@ function saveState() {
         selectedElement,
 
       levels:
-        selectedLevels
+        selectedLevels,
+
+      unlocked: 
+        unlockedAchievements
     })
   );
 
@@ -134,6 +139,10 @@ function loadSavedState() {
 
     selectedLevels =
       data.levels ||
+      {};
+
+    unlockedAchievements =
+      data.unlocked ||
       {};
 
 
@@ -302,6 +311,80 @@ function getLevel(name) {
   return (
     selectedLevels[name] ||
     0
+  );
+
+}
+
+
+// =============================
+// Is Prerequisite Unlocked
+// =============================
+
+function updatePrerequisiteUnlocks() {
+
+  achievements.forEach(
+    achievement => {
+
+      if (
+        !achievement.prerequisite
+      ) {
+        return;
+      }
+
+      const prerequisiteLevel =
+        getLevel(
+          achievement.prerequisite
+        );
+
+      // Voraussetzung wurde erreicht:
+      // Achievement dauerhaft freischalten.
+      if (
+        prerequisiteLevel === 6
+      ) {
+
+        unlockedAchievements[
+          achievement.name
+        ] = true;
+
+        // Beim ersten Unlock mindestens Level 1.
+        if (
+          getLevel(
+            achievement.name
+          ) === 0
+        ) {
+
+          selectedLevels[
+            achievement.name
+          ] = 1;
+
+        }
+
+      }
+
+      // Bereits freigeschaltet,
+      // aber Voraussetzung wurde zurückgesetzt.
+      else if (
+        unlockedAchievements[
+          achievement.name
+        ]
+      ) {
+
+        // Alles über Level 1 wird auf Level 1 zurückgesetzt.
+        if (
+          getLevel(
+            achievement.name
+          ) > 1
+        ) {
+
+          selectedLevels[
+            achievement.name
+          ] = 1;
+
+        }
+
+      }
+
+    }
   );
 
 }
@@ -808,6 +891,15 @@ function renderAchievements() {
         level++
       ) {
 
+        const permanentlyUnlocked =
+          unlockedAchievements[
+            achievement.name
+          ] === true;
+
+      const disableLevelZero =
+        permanentlyUnlocked &&
+        level === 0;
+
         const label =
           level === 0
             ? "—"
@@ -830,7 +922,8 @@ function renderAchievements() {
             }"
             data-level="${level}"
             ${
-              !available
+              !available ||
+              disableLevelZero
                 ? "disabled"
                 : ""
             }
@@ -982,6 +1075,7 @@ function addLevelListeners() {
           selectedLevels[name] =
             level;
 
+          updatePrerequisiteUnlocks();
 
           saveState();
 
