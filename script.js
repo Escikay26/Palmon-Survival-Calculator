@@ -6,6 +6,8 @@ let selectedLevels = {};
 
 let unlockedAchievements = {};
 
+let selectedFilter = "all";
+
 let currentPage = "overview";
 
 
@@ -813,6 +815,47 @@ function renderAchievements() {
         );
 
 
+      const permanentlyUnlocked =
+        unlockedAchievements[
+          achievement.name
+        ] === true;
+
+
+      const trulyLocked =
+        !available &&
+        !permanentlyUnlocked;
+
+
+      if (
+        selectedFilter === "selected" &&
+        currentLevel === 0
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        selectedFilter === "available" &&
+        !available
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        selectedFilter === "locked" &&
+        !trulyLocked
+      ) {
+
+        return;
+
+      }
+      
+
       const row =
         document.createElement(
           "div"
@@ -837,28 +880,23 @@ function renderAchievements() {
 
       if (!available) {
 
-      const permanentlyUnlocked =
-        unlockedAchievements[
-          achievement.name
-        ] === true;
+        if (permanentlyUnlocked) {
 
-      if (permanentlyUnlocked) {
+          row.classList.add(
+            "upgrade-locked"
+          );
+  
+        }
 
-        row.classList.add(
-          "upgrade-locked"
-        );
+        else {
 
-      }
+          row.classList.add(
+            "locked"
+          );
 
-      else {
-
-        row.classList.add(
-          "locked"
-        );
+        }
 
       }
-
-    }
 
 
       // -------------------------
@@ -1244,10 +1282,60 @@ if (resetButton) {
 
 
 // =============================
+// ACHIEVEMENT FILTERS
+// =============================
+
+function addFilterListeners() {
+
+  document
+    .querySelectorAll(
+      ".filter-button"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          selectedFilter =
+            button.dataset.filter;
+
+
+          document
+            .querySelectorAll(
+              ".filter-button"
+            )
+            .forEach(filterButton => {
+
+              filterButton.classList.remove(
+                "active"
+              );
+
+            });
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          renderAchievements();
+
+        }
+      );
+
+    });
+
+}
+
+
+// =============================
 // START
 // =============================
 
 addNavigationListeners();
+
+addFilterListeners();
 
 showPage(
   currentPage
