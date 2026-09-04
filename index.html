@@ -24,99 +24,194 @@
     </div>
   </header>
 
+  <nav class="main-nav">
+    <div class="main-nav-content">
 
+      <button
+        class="nav-button active"
+        data-page="overview"
+      >
+        Overview
+      </button>
+
+      <button
+        class="nav-button"
+        data-page="achievements"
+      >
+        Achievements
+      </button>
+
+      <button
+        class="nav-button"
+        data-page="research"
+      >
+        Research
+      </button>
+
+    </div>
+  </nav>
+  
   <main class="container">
 
-    <!-- SETTINGS -->
-
-    <section class="settings">
-
-      <div>
-        <label for="element">T1 Element</label>
-
-        <select id="element">
-          <option value="Water">Water</option>
-          <option value="Fire">Fire</option>
-          <option value="Earth">Earth</option>
-          <option value="Electro">Electro</option>
-        </select>
-      </div>
-
-    </section>
-
-
-    <!-- SUMMARY -->
-
-    <section class="summary">
-
-      <div class="summary-card">
-        <span class="summary-label">
-          Tokens Spent
-        </span>
-
-        <strong id="total-cost">
-          0
-        </strong>
-      </div>
-
-      <div class="summary-card">
-        <span class="summary-label">
-          Next Upgrades
-        </span>
-
-        <strong id="next-cost">
-          0
-        </strong>
-      </div>
-
-    </section>
-
-
-    <!-- STATS -->
-
-    <section class="section">
+    <section
+      id="page-overview"
+      class="app-page active"
+    >
 
       <div class="section-header">
-        <h2>Current Stats</h2>
+        <h2>Overview</h2>
+
+        <p class="section-description">
+          Your overall stats and team will appear here.
+        </p>
       </div>
 
-      <div
-        id="stats"
-        class="stats-grid"
-      ></div>
+      <div class="overview-placeholder">
+
+        <div class="placeholder-card">
+          <h3>Overall Stats</h3>
+
+          <p>
+            Achievement, research and other bonuses
+            will be combined here later.
+          </p>
+        </div>
+
+        <div class="placeholder-card">
+          <h3>Palmon Team</h3>
+
+          <p>
+            Your team of up to 7 Palmon will be
+            configured here later.
+          </p>
+        </div>
+
+      </div>
 
     </section>
+    
+    <section
+      id="page-achievements"
+      class="app-page"
+    >
+      <!-- SETTINGS -->
+
+      <section class="settings">
+
+        <div>
+          <label for="element">T1 Element</label>
+
+          <select id="element">
+            <option value="Water">Water</option>
+            <option value="Fire">Fire</option>
+            <option value="Earth">Earth</option>
+            <option value="Electro">Electro</option>
+          </select>
+        </div>
+
+      </section>
 
 
-    <!-- ACHIEVEMENTS -->
+      <!-- SUMMARY -->
 
-    <section class="section">
+      <section class="summary">
 
-      <div class="section-header">
-        <h2>Achievements</h2>
-      </div>
+        <div class="summary-card">
+          <span class="summary-label">
+            Tokens Spent
+          </span>
 
-      <div class="achievement-filters">
-        <button class="filter-button active" data-filter="all">
-          All
-        </button>
+          <strong id="total-cost">
+            0
+          </strong>
+        </div>
 
-        <button class="filter-button" data-filter="available">
-          Available
-        </button>
+        <div class="summary-card">
+          <span class="summary-label">
+            Next Upgrades
+          </span>
 
-        <button class="filter-button" data-filter="locked">
-          Locked
-        </button>
-      </div>
+          <strong id="next-cost">
+            0
+          </strong>
+        </div>
+
+      </section>
+
+
+      <!-- STATS -->
+
+      <section class="section">
+
+        <div class="section-header">
+          <h2>Current Stats</h2>
+        </div>
+
+        <div
+          id="stats"
+          class="stats-grid"
+        ></div>
+
+      </section>
+
+
+      <!-- ACHIEVEMENTS -->
+
+      <section class="section">
+
+        <div class="section-header">
+          <h2>Achievements</h2>
+        </div>
+
+        <div class="achievement-filters">
+          <button class="filter-button active" data-filter="all">
+            All
+          </button>
+
+          <button class="filter-button" data-filter="available">
+            Available
+          </button>
+
+          <button class="filter-button" data-filter="locked">
+            Locked
+          </button>
+        </div>
       
-      <div
-        id="achievements"
-        class="achievement-list"
-      ></div>
+        <div
+          id="achievements"
+          class="achievement-list"
+        ></div>
 
+      </section>
+      
     </section>
 
+    <section
+      id="page-research"
+      class="app-page"
+    >
+
+      <div class="section-header">
+        <h2>Research</h2>
+
+        <p class="section-description">
+          Research bonuses will be added here later.
+        </p>
+      </div>
+
+      <div class="placeholder-card">
+
+        <h3>Coming later</h3>
+
+        <p>
+          Research will become its own calculator
+          module.
+        </p>
+
+      </div>
+
+    </section>
+    
   </main>
 
 
