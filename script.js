@@ -4,12 +4,12 @@ let selectedElement = "Water";
 
 let selectedLevels = {};
 
-let selectedFilter = "all";
+let currentPage = "overview";
 
 
-// -----------------------------
+// =============================
 // STAT NAMES
-// -----------------------------
+// =============================
 
 const statNames = {
   attack: "Attack",
@@ -18,59 +18,95 @@ const statNames = {
   critChance: "Crit Chance",
   critDamage: "Crit Damage",
   accuracy: "Accuracy",
-  critDamageReduction: "Crit Damage Reduction",
+  critDamageReduction:
+    "Crit Damage Reduction",
   tenacity: "Tenacity",
   rage: "Rage",
-  rageSkillDamageBonus: "Rage Skill Damage Bonus",
+  rageSkillDamageBonus:
+    "Rage Skill Damage Bonus",
   rageSkillDamageTakenReduction:
     "Rage Skill Damage Taken Reduction",
   allPalmonArmigoCapacity:
     "Palmon Armigo Capacity",
-  armigoAttack: "Armigo Attack",
-  armigoHP: "Armigo HP"
+  armigoAttack:
+    "Armigo Attack",
+  armigoHP:
+    "Armigo HP"
 };
 
 
-// -----------------------------
+// =============================
 // LOAD DATA
-// -----------------------------
+// =============================
 
 async function loadData() {
 
-  const response =
-    await fetch("./achievements.json");
+  try {
 
-  const data =
-    await response.json();
+    const response =
+      await fetch(
+        "./achievements.json"
+      );
 
-  achievements =
-    data.achievements;
 
-  loadSavedState();
+    if (!response.ok) {
 
-  render();
+      throw new Error(
+        `Could not load achievements.json (${response.status})`
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    achievements =
+      data.achievements || [];
+
+
+    loadSavedState();
+
+    render();
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Could not load achievement data.",
+      error
+    );
+
+  }
+
 }
 
 
-// -----------------------------
+// =============================
 // SAVE
-// -----------------------------
+// =============================
 
 function saveState() {
 
   localStorage.setItem(
     "achievementPlanner",
     JSON.stringify({
-      element: selectedElement,
-      levels: selectedLevels
+      element:
+        selectedElement,
+
+      levels:
+        selectedLevels
     })
   );
+
 }
 
 
-// -----------------------------
+// =============================
 // LOAD SAVE
-// -----------------------------
+// =============================
 
 function loadSavedState() {
 
@@ -79,38 +115,162 @@ function loadSavedState() {
       "achievementPlanner"
     );
 
-  if (!saved) return;
+
+  if (!saved) {
+    return;
+  }
+
 
   try {
 
     const data =
       JSON.parse(saved);
 
+
     selectedElement =
-      data.element || "Water";
+      data.element ||
+      "Water";
+
 
     selectedLevels =
-      data.levels || {};
+      data.levels ||
+      {};
 
-    document.getElementById(
-      "element"
-    ).value = selectedElement;
 
-  } catch (error) {
+    const elementSelect =
+      document.getElementById(
+        "element"
+      );
+
+
+    if (elementSelect) {
+
+      elementSelect.value =
+        selectedElement;
+
+    }
+
+  }
+
+  catch (error) {
 
     console.error(
       "Could not load save.",
       error
     );
+
   }
+
 }
 
 
-// -----------------------------
-// AVAILABILITY
-// -----------------------------
+// =============================
+// PAGE NAVIGATION
+// =============================
 
-function isAvailable(achievement) {
+function showPage(pageName) {
+
+  const targetPage =
+    document.getElementById(
+      `page-${pageName}`
+    );
+
+
+  if (!targetPage) {
+
+    console.error(
+      `Page not found: ${pageName}`
+    );
+
+    return;
+  }
+
+
+  currentPage =
+    pageName;
+
+
+  document
+    .querySelectorAll(
+      ".app-page"
+    )
+    .forEach(page => {
+
+      page.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(
+      ".nav-button"
+    )
+    .forEach(button => {
+
+      button.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  targetPage.classList.add(
+    "active"
+  );
+
+
+  const activeButton =
+    document.querySelector(
+      `.nav-button[data-page="${pageName}"]`
+    );
+
+
+  if (activeButton) {
+
+    activeButton.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+function addNavigationListeners() {
+
+  document
+    .querySelectorAll(
+      ".nav-button"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const page =
+            button.dataset.page;
+
+
+          showPage(page);
+
+        }
+      );
+
+    });
+
+}
+
+
+// =============================
+// AVAILABILITY
+// =============================
+
+function isAvailable(
+  achievement
+) {
 
   const elementOK =
     !achievement.element ||
@@ -125,132 +285,186 @@ function isAvailable(achievement) {
     ] === 6;
 
 
-  return elementOK &&
-         prerequisiteOK;
+  return (
+    elementOK &&
+    prerequisiteOK
+  );
+
 }
 
 
-// -----------------------------
+// =============================
 // CURRENT LEVEL
-// -----------------------------
+// =============================
 
 function getLevel(name) {
 
-  return selectedLevels[name] || 0;
+  return (
+    selectedLevels[name] ||
+    0
+  );
+
 }
 
 
-// -----------------------------
+// =============================
 // TOTAL COST FOR ACHIEVEMENT
-// -----------------------------
+// =============================
 
 function getAchievementCost(
   achievement
 ) {
 
   const currentLevel =
-    getLevel(achievement.name);
+    getLevel(
+      achievement.name
+    );
+
 
   let total = 0;
+
 
   achievement.levels.forEach(
     level => {
 
       if (
-        level.level <= currentLevel
+        level.level <=
+        currentLevel
       ) {
-        total += level.cost;
+
+        total +=
+          level.cost;
+
       }
 
     }
   );
 
+
   return total;
+
 }
 
 
-// -----------------------------
+// =============================
 // NEXT COST
-// -----------------------------
+// =============================
 
 function getNextCost(
   achievement
 ) {
 
   const currentLevel =
-    getLevel(achievement.name);
+    getLevel(
+      achievement.name
+    );
 
-  if (currentLevel >= 6) {
+
+  if (
+    currentLevel >= 6
+  ) {
+
     return null;
+
   }
+
 
   const nextLevel =
     currentLevel + 1;
 
+
   const data =
     achievement.levels.find(
       level =>
-        level.level === nextLevel
+        level.level ===
+        nextLevel
     );
 
-  return data
-    ? data.cost
-    : null;
+
+  return (
+    data
+      ? data.cost
+      : null
+  );
+
 }
 
 
-// -----------------------------
+// =============================
 // TOTAL COST
-// -----------------------------
+// =============================
 
 function calculateTotalCost() {
 
   return achievements.reduce(
-    (total, achievement) => {
+    (
+      total,
+      achievement
+    ) => {
 
-      return total +
+      return (
+        total +
         getAchievementCost(
           achievement
-        );
+        )
+      );
 
     },
     0
   );
+
 }
 
 
-// -----------------------------
+// =============================
 // NEXT UPGRADE COSTS
-// -----------------------------
+// =============================
 
 function calculateNextCosts() {
 
   let total = 0;
 
+
   achievements.forEach(
     achievement => {
 
-      if (!isAvailable(achievement)) {
+      if (
+        !isAvailable(
+          achievement
+        )
+      ) {
+
         return;
+
       }
 
-      const next =
-        getNextCost(achievement);
 
-      if (next !== null) {
+      const next =
+        getNextCost(
+          achievement
+        );
+
+
+      if (
+        next !== null
+      ) {
+
         total += next;
+
       }
 
     }
   );
 
+
   return total;
+
 }
 
 
-// -----------------------------
+// =============================
 // STATS
-// -----------------------------
+// =============================
 
 function calculateStats() {
 
@@ -265,8 +479,13 @@ function calculateStats() {
           achievement.name
         );
 
-      if (currentLevel === 0) {
+
+      if (
+        currentLevel === 0
+      ) {
+
         return;
+
       }
 
 
@@ -278,7 +497,9 @@ function calculateStats() {
         );
 
 
-      if (!levelData) return;
+      if (!levelData) {
+        return;
+      }
 
 
       Object.entries(
@@ -286,7 +507,9 @@ function calculateStats() {
       ).forEach(
         ([stat, value]) => {
 
-          if (!totals[stat]) {
+          if (
+            !totals[stat]
+          ) {
 
             totals[stat] = {
               flat: 0,
@@ -296,26 +519,25 @@ function calculateStats() {
           }
 
 
-          // Percentage stored as text:
-          // "7%"
-
           if (
-            typeof value === "string" &&
+            typeof value ===
+              "string" &&
             value.includes("%")
           ) {
 
-            totals[stat].percent +=
+            totals[stat]
+              .percent +=
               parseFloat(value);
 
           }
 
-          // Normal number
-
           else if (
-            typeof value === "number"
+            typeof value ===
+            "number"
           ) {
 
-            totals[stat].flat +=
+            totals[stat]
+              .flat +=
               value;
 
           }
@@ -328,24 +550,28 @@ function calculateStats() {
 
 
   return totals;
+
 }
 
 
-// -----------------------------
+// =============================
 // FORMAT NUMBER
-// -----------------------------
+// =============================
 
-function formatNumber(number) {
+function formatNumber(
+  number
+) {
 
   return new Intl.NumberFormat(
     "en-US"
   ).format(number);
+
 }
 
 
-// -----------------------------
+// =============================
 // RENDER STATS
-// -----------------------------
+// =============================
 
 function renderStats() {
 
@@ -354,26 +580,40 @@ function renderStats() {
       "stats"
     );
 
+
+  if (!container) {
+    return;
+  }
+
+
   const stats =
     calculateStats();
+
 
   container.innerHTML = "";
 
 
-  Object.keys(statNames).forEach(
+  Object.keys(
+    statNames
+  ).forEach(
     key => {
 
       const stat =
         stats[key];
 
-      if (!stat) return;
+
+      if (!stat) {
+        return;
+      }
 
 
       if (
         stat.flat === 0 &&
         stat.percent === 0
       ) {
+
         return;
+
       }
 
 
@@ -382,6 +622,7 @@ function renderStats() {
           "div"
         );
 
+
       card.className =
         "stat-card";
 
@@ -389,20 +630,26 @@ function renderStats() {
       let valueHTML = "";
 
 
-      if (stat.flat !== 0) {
+      if (
+        stat.flat !== 0
+      ) {
 
         valueHTML += `
           <span class="stat-value">
-            ${formatNumber(
-              stat.flat
-            )}
+            ${
+              formatNumber(
+                stat.flat
+              )
+            }
           </span>
         `;
 
       }
 
 
-      if (stat.percent !== 0) {
+      if (
+        stat.percent !== 0
+      ) {
 
         valueHTML += `
           <span class="stat-percent">
@@ -431,7 +678,8 @@ function renderStats() {
 
 
   if (
-    container.children.length === 0
+    container.children.length ===
+    0
   ) {
 
     container.innerHTML = `
@@ -443,12 +691,13 @@ function renderStats() {
     `;
 
   }
+
 }
 
 
-// -----------------------------
+// =============================
 // RENDER ACHIEVEMENTS
-// -----------------------------
+// =============================
 
 function renderAchievements() {
 
@@ -456,6 +705,12 @@ function renderAchievements() {
     document.getElementById(
       "achievements"
     );
+
+
+  if (!container) {
+    return;
+  }
+
 
   container.innerHTML = "";
 
@@ -468,19 +723,6 @@ function renderAchievements() {
           achievement
         );
 
-      if (
-        selectedFilter === "available" &&
-        !available
-      ) {
-        return;
-      }
-
-      if (
-        selectedFilter === "locked" &&
-        available
-      ) {
-        return;
-      }
 
       const currentLevel =
         getLevel(
@@ -498,7 +740,9 @@ function renderAchievements() {
         "achievement";
 
 
-      if (achievement.element) {
+      if (
+        achievement.element
+      ) {
 
         row.classList.add(
           achievement.element
@@ -517,14 +761,16 @@ function renderAchievements() {
       }
 
 
-      // -----------------
-      // NAME
-      // -----------------
+      // -------------------------
+      // META
+      // -------------------------
 
       let meta = "";
 
 
-      if (achievement.element) {
+      if (
+        achievement.element
+      ) {
 
         meta =
           achievement.element;
@@ -537,7 +783,11 @@ function renderAchievements() {
       ) {
 
         meta +=
-          `${meta ? " · " : ""}` +
+          `${
+            meta
+              ? " · "
+              : ""
+          }` +
           `Requires ${
             achievement.prerequisite
           } Lv. 6`;
@@ -545,9 +795,9 @@ function renderAchievements() {
       }
 
 
-      // -----------------
+      // -------------------------
       // LEVEL BUTTONS
-      // -----------------
+      // -------------------------
 
       let buttons = "";
 
@@ -569,7 +819,8 @@ function renderAchievements() {
             class="
               level-button
               ${
-                currentLevel === level
+                currentLevel ===
+                level
                   ? "active"
                   : ""
               }
@@ -591,9 +842,9 @@ function renderAchievements() {
       }
 
 
-      // -----------------
+      // -------------------------
       // COST
-      // -----------------
+      // -------------------------
 
       const nextCost =
         getNextCost(
@@ -609,9 +860,9 @@ function renderAchievements() {
             );
 
 
-      // -----------------
+      // -------------------------
       // LOCK MESSAGE
-      // -----------------
+      // -------------------------
 
       let lockMessage = "";
 
@@ -698,12 +949,13 @@ function renderAchievements() {
 
 
   addLevelListeners();
+
 }
 
 
-// -----------------------------
+// =============================
 // LEVEL BUTTON EVENTS
-// -----------------------------
+// =============================
 
 function addLevelListeners() {
 
@@ -719,6 +971,7 @@ function addLevelListeners() {
 
           const name =
             button.dataset.name;
+
 
           const level =
             Number(
@@ -738,35 +991,53 @@ function addLevelListeners() {
       );
 
     });
+
 }
 
 
-// -----------------------------
+// =============================
 // SUMMARY
-// -----------------------------
+// =============================
 
 function renderSummary() {
 
-  document.getElementById(
-    "total-cost"
-  ).textContent =
-    formatNumber(
-      calculateTotalCost()
+  const totalCost =
+    document.getElementById(
+      "total-cost"
     );
 
 
-  document.getElementById(
-    "next-cost"
-  ).textContent =
-    formatNumber(
-      calculateNextCosts()
+  const nextCost =
+    document.getElementById(
+      "next-cost"
     );
+
+
+  if (totalCost) {
+
+    totalCost.textContent =
+      formatNumber(
+        calculateTotalCost()
+      );
+
+  }
+
+
+  if (nextCost) {
+
+    nextCost.textContent =
+      formatNumber(
+        calculateNextCosts()
+      );
+
+  }
+
 }
 
 
-// -----------------------------
+// =============================
 // RENDER EVERYTHING
-// -----------------------------
+// =============================
 
 function render() {
 
@@ -775,157 +1046,88 @@ function render() {
   renderStats();
 
   renderAchievements();
+
 }
 
 
-// -----------------------------
+// =============================
 // ELEMENT SELECT
-// -----------------------------
+// =============================
 
-document.getElementById(
-  "element"
-).addEventListener(
-  "change",
-  event => {
-
-    selectedElement =
-      event.target.value;
-
-    saveState();
-
-    render();
-
-  }
-);
+const elementSelect =
+  document.getElementById(
+    "element"
+  );
 
 
-// -----------------------------
+if (elementSelect) {
+
+  elementSelect.addEventListener(
+    "change",
+    event => {
+
+      selectedElement =
+        event.target.value;
+
+
+      saveState();
+
+      render();
+
+    }
+  );
+
+}
+
+
+// =============================
 // RESET
-// -----------------------------
+// =============================
 
-document.getElementById(
-  "reset-button"
-).addEventListener(
-  "click",
-  () => {
-
-    const confirmed =
-      confirm(
-        "Reset all selected levels?"
-      );
-
-    if (!confirmed) return;
+const resetButton =
+  document.getElementById(
+    "reset-button"
+  );
 
 
-    selectedLevels = {};
+if (resetButton) {
 
-    saveState();
+  resetButton.addEventListener(
+    "click",
+    () => {
 
-    render();
-
-  }
-);
-
-document
-  .querySelectorAll(
-    ".filter-button"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        selectedFilter =
-          button.dataset.filter;
-
-        document
-          .querySelectorAll(
-            ".filter-button"
-          )
-          .forEach(otherButton => {
-
-            otherButton.classList.remove(
-              "active"
-            );
-
-          });
-
-        button.classList.add(
-          "active"
-        );
-
-        renderAchievements();
-
-      }
-    );
-
-  });
-
-// -----------------------------
-// PAGE NAVIGATION
-// -----------------------------
-
-document
-  .querySelectorAll(
-    ".nav-button"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const page =
-          button.dataset.page;
-
-
-        document
-          .querySelectorAll(
-            ".nav-button"
-          )
-          .forEach(navButton => {
-
-            navButton.classList.remove(
-              "active"
-            );
-
-          });
-
-
-        document
-          .querySelectorAll(
-            ".app-page"
-          )
-          .forEach(pageElement => {
-
-            pageElement.classList.remove(
-              "active"
-            );
-
-          });
-
-
-        button.classList.add(
-          "active"
+      const confirmed =
+        confirm(
+          "Reset all selected achievement levels?"
         );
 
 
-        document
-          .getElementById(
-            `page-${page}`
-          )
-          .classList.add(
-            "active"
-          );
-
+      if (!confirmed) {
+        return;
       }
-    );
 
-  });
 
-// -----------------------------
+      selectedLevels = {};
+
+
+      saveState();
+
+      render();
+
+    }
+  );
+
+}
+
+
+// =============================
 // START
-// -----------------------------
+// =============================
+
+addNavigationListeners();
+
+showPage(
+  currentPage
+);
 
 loadData();
