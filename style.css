@@ -65,6 +65,102 @@ h1 {
   font-size: 14px;
 }
 
+/* MAIN NAVIGATION */
+
+.main-nav {
+  background: white;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.main-nav-content {
+  max-width: 1200px;
+  margin: auto;
+
+  padding: 0 20px;
+
+  display: flex;
+  gap: 4px;
+}
+
+.nav-button {
+  padding: 14px 16px;
+
+  background: transparent;
+
+  border: 0;
+  border-bottom: 3px solid transparent;
+
+  color: var(--muted);
+
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-button:hover {
+  color: var(--text);
+}
+
+.nav-button.active {
+  color: var(--primary);
+
+  border-bottom-color: var(--primary);
+}
+
+/* APP PAGES */
+
+.app-page {
+  display: none;
+}
+
+.app-page.active {
+  display: block;
+}
+
+.section-description {
+  margin: 6px 0 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+}
+
+.overview-placeholder {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+.placeholder-card {
+  padding: 20px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.placeholder-card h3 {
+  margin: 0 0 8px;
+
+  font-size: 16px;
+}
+
+.placeholder-card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 1.5;
+}
 
 /* GENERAL */
 
@@ -418,6 +514,18 @@ select {
 
   .summary {
     grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .overview-placeholder {
+    grid-template-columns: 1fr;
+  }
+
+  .main-nav-content {
+    overflow-x: auto;
   }
 
 }
