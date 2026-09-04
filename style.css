@@ -728,3 +728,51 @@ select {
   }
 
 }
+
+/* ============================= */
+/* ACHIEVEMENT UNLOCK */
+/* ============================= */
+
+.achievement.locked {
+  opacity: 0.55;
+}
+
+.achievement.upgrade-locked {
+  opacity: 0.75;
+}
+
+.achievement.upgrade-locked .locked-text {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+
+.unlock-button {
+  margin-top: 9px;
+
+  padding: 7px 11px;
+
+  background: white;
+
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+
+  color: var(--primary);
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+.unlock-button:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+}
+
+
+.unlock-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
