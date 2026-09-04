@@ -615,6 +615,30 @@ select {
   font-weight: 600;
 }
 
+.unlock-button {
+  margin-top: 9px;
+
+  padding: 6px 10px;
+
+  background: white;
+
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+
+  color: var(--primary);
+
+  cursor: pointer;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.unlock-button:hover {
+  background: var(--primary);
+
+  color: white;
+}
+
 .achievement.locked .level-button {
   cursor: not-allowed;
 }
