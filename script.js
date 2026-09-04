@@ -1,185 +1,818 @@
 let achievements = [];
-let selectedLevels = {};
+
 let selectedElement = "Water";
 
-async function loadAchievements() {
+let selectedLevels = {};
+
+
+// -----------------------------
+// STAT NAMES
+// -----------------------------
+
+const statNames = {
+  attack: "Attack",
+  defense: "Defense",
+  hp: "HP",
+  critChance: "Crit Chance",
+  critDamage: "Crit Damage",
+  accuracy: "Accuracy",
+  critDamageReduction: "Crit Damage Reduction",
+  tenacity: "Tenacity",
+  rage: "Rage",
+  rageSkillDamageBonus: "Rage Skill Damage Bonus",
+  rageSkillDamageTakenReduction:
+    "Rage Skill Damage Taken Reduction",
+  allPalmonArmigoCapacity:
+    "Palmon Armigo Capacity",
+  armigoAttack: "Armigo Attack",
+  armigoHP: "Armigo HP"
+};
+
+
+// -----------------------------
+// LOAD DATA
+// -----------------------------
+
+async function loadData() {
+
+  const response =
+    await fetch("./achievements.json");
+
+  const data =
+    await response.json();
+
+  achievements =
+    data.achievements;
+
+  loadSavedState();
+
+  render();
+}
+
+
+// -----------------------------
+// SAVE
+// -----------------------------
+
+function saveState() {
+
+  localStorage.setItem(
+    "achievementPlanner",
+    JSON.stringify({
+      element: selectedElement,
+      levels: selectedLevels
+    })
+  );
+}
+
+
+// -----------------------------
+// LOAD SAVE
+// -----------------------------
+
+function loadSavedState() {
+
+  const saved =
+    localStorage.getItem(
+      "achievementPlanner"
+    );
+
+  if (!saved) return;
+
   try {
-    const response = await fetch("./achievements.json");
 
-    if (!response.ok) {
-      throw new Error("Could not load achievements.json");
-    }
+    const data =
+      JSON.parse(saved);
 
-    const data = await response.json();
-    achievements = data.achievements;
+    selectedElement =
+      data.element || "Water";
 
-    renderAchievements();
+    selectedLevels =
+      data.levels || {};
+
+    document.getElementById(
+      "element"
+    ).value = selectedElement;
 
   } catch (error) {
-    console.error(error);
 
-    document.getElementById("achievements").innerHTML =
-      "<p>Could not load achievement data.</p>";
+    console.error(
+      "Could not load save.",
+      error
+    );
   }
 }
 
-function renderAchievements() {
-  const container = document.getElementById("achievements");
+
+// -----------------------------
+// AVAILABILITY
+// -----------------------------
+
+function isAvailable(achievement) {
+
+  const elementOK =
+    !achievement.element ||
+    achievement.element ===
+      selectedElement;
+
+
+  const prerequisiteOK =
+    !achievement.prerequisite ||
+    selectedLevels[
+      achievement.prerequisite
+    ] === 6;
+
+
+  return elementOK &&
+         prerequisiteOK;
+}
+
+
+// -----------------------------
+// CURRENT LEVEL
+// -----------------------------
+
+function getLevel(name) {
+
+  return selectedLevels[name] || 0;
+}
+
+
+// -----------------------------
+// TOTAL COST FOR ACHIEVEMENT
+// -----------------------------
+
+function getAchievementCost(
+  achievement
+) {
+
+  const currentLevel =
+    getLevel(achievement.name);
+
+  let total = 0;
+
+  achievement.levels.forEach(
+    level => {
+
+      if (
+        level.level <= currentLevel
+      ) {
+        total += level.cost;
+      }
+
+    }
+  );
+
+  return total;
+}
+
+
+// -----------------------------
+// NEXT COST
+// -----------------------------
+
+function getNextCost(
+  achievement
+) {
+
+  const currentLevel =
+    getLevel(achievement.name);
+
+  if (currentLevel >= 6) {
+    return null;
+  }
+
+  const nextLevel =
+    currentLevel + 1;
+
+  const data =
+    achievement.levels.find(
+      level =>
+        level.level === nextLevel
+    );
+
+  return data
+    ? data.cost
+    : null;
+}
+
+
+// -----------------------------
+// TOTAL COST
+// -----------------------------
+
+function calculateTotalCost() {
+
+  return achievements.reduce(
+    (total, achievement) => {
+
+      return total +
+        getAchievementCost(
+          achievement
+        );
+
+    },
+    0
+  );
+}
+
+
+// -----------------------------
+// NEXT UPGRADE COSTS
+// -----------------------------
+
+function calculateNextCosts() {
+
+  let total = 0;
+
+  achievements.forEach(
+    achievement => {
+
+      if (!isAvailable(achievement)) {
+        return;
+      }
+
+      const next =
+        getNextCost(achievement);
+
+      if (next !== null) {
+        total += next;
+      }
+
+    }
+  );
+
+  return total;
+}
+
+
+// -----------------------------
+// STATS
+// -----------------------------
+
+function calculateStats() {
+
+  const totals = {};
+
+
+  achievements.forEach(
+    achievement => {
+
+      const currentLevel =
+        getLevel(
+          achievement.name
+        );
+
+      if (currentLevel === 0) {
+        return;
+      }
+
+
+      const levelData =
+        achievement.levels.find(
+          level =>
+            level.level ===
+            currentLevel
+        );
+
+
+      if (!levelData) return;
+
+
+      Object.entries(
+        levelData.stats
+      ).forEach(
+        ([stat, value]) => {
+
+          if (!totals[stat]) {
+
+            totals[stat] = {
+              flat: 0,
+              percent: 0
+            };
+
+          }
+
+
+          // Percentage stored as text:
+          // "7%"
+
+          if (
+            typeof value === "string" &&
+            value.includes("%")
+          ) {
+
+            totals[stat].percent +=
+              parseFloat(value);
+
+          }
+
+          // Normal number
+
+          else if (
+            typeof value === "number"
+          ) {
+
+            totals[stat].flat +=
+              value;
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+  return totals;
+}
+
+
+// -----------------------------
+// FORMAT NUMBER
+// -----------------------------
+
+function formatNumber(number) {
+
+  return new Intl.NumberFormat(
+    "en-US"
+  ).format(number);
+}
+
+
+// -----------------------------
+// RENDER STATS
+// -----------------------------
+
+function renderStats() {
+
+  const container =
+    document.getElementById(
+      "stats"
+    );
+
+  const stats =
+    calculateStats();
 
   container.innerHTML = "";
 
-  achievements.forEach((achievement) => {
-    const card = document.createElement("div");
 
-    card.classList.add("achievement-card");
+  Object.keys(statNames).forEach(
+    key => {
 
-    // Element-Klasse hinzufügen
-    if (achievement.element) {
-      card.classList.add(
-        `element-${achievement.element.toLowerCase()}`
-      );
-    }
+      const stat =
+        stats[key];
 
-    // Prüfen, ob das Achievement zum T1 Element passt
-    const wrongElement =
-      achievement.element &&
-      achievement.element !== selectedElement;
+      if (!stat) return;
 
-    // Prüfen, ob das Prerequisite Level 6 erreicht hat
-    let prerequisiteLocked = false;
 
-    if (achievement.prerequisite) {
-      const prerequisiteLevel =
-        selectedLevels[achievement.prerequisite] || 0;
-
-      prerequisiteLocked = prerequisiteLevel < 6;
-    }
-
-    const locked = wrongElement || prerequisiteLocked;
-
-    if (locked) {
-      card.classList.add("locked");
-    }
-
-    // Aktuelles Level
-    const currentLevel =
-      selectedLevels[achievement.name] || 0;
-
-    // Level Dropdown
-    const levelOptions = [
-      `<option value="0">Not unlocked</option>`
-    ];
-
-    for (let level = 1; level <= 6; level++) {
-      levelOptions.push(
-        `<option value="${level}" ${
-          currentLevel === level ? "selected" : ""
-        }>
-          Level ${level}
-        </option>`
-      );
-    }
-
-    // Prerequisite Text
-    let prerequisiteText = "None";
-
-    if (achievement.prerequisite) {
-      prerequisiteText =
-        `${achievement.prerequisite} — Level 6`;
-    }
-
-    // Element Badge
-    const elementBadge = achievement.element
-      ? `<span class="element-badge">
-          ${achievement.element}
-        </span>`
-      : "";
-
-    card.innerHTML = `
-      <div class="achievement-header">
-
-        <div>
-          <h3>${achievement.name}</h3>
-          ${elementBadge}
-        </div>
-
-      </div>
-
-      <div class="achievement-info">
-
-        <div>
-          <span class="label">Prerequisite</span>
-          <span>${prerequisiteText}</span>
-        </div>
-
-        <div>
-          <span class="label">Current Level</span>
-
-          <select
-            class="level-select"
-            data-achievement="${achievement.name}"
-            ${locked ? "disabled" : ""}
-          >
-            ${levelOptions.join("")}
-          </select>
-
-        </div>
-
-      </div>
-
-      ${
-        prerequisiteLocked
-          ? `<div class="locked-message">
-               🔒 Requires ${achievement.prerequisite} Level 6
-             </div>`
-          : ""
+      if (
+        stat.flat === 0 &&
+        stat.percent === 0
+      ) {
+        return;
       }
 
-      ${
-        wrongElement
-          ? `<div class="locked-message">
-               Not available for ${selectedElement} T1
-             </div>`
-          : ""
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "stat-card";
+
+
+      let valueHTML = "";
+
+
+      if (stat.flat !== 0) {
+
+        valueHTML += `
+          <span class="stat-value">
+            ${formatNumber(
+              stat.flat
+            )}
+          </span>
+        `;
+
       }
+
+
+      if (stat.percent !== 0) {
+
+        valueHTML += `
+          <span class="stat-percent">
+            +${stat.percent}%
+          </span>
+        `;
+
+      }
+
+
+      card.innerHTML = `
+        <span class="stat-name">
+          ${statNames[key]}
+        </span>
+
+        ${valueHTML}
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  if (
+    container.children.length === 0
+  ) {
+
+    container.innerHTML = `
+      <div class="stat-card">
+        <span class="stat-name">
+          No stats selected yet.
+        </span>
+      </div>
     `;
 
-    container.appendChild(card);
-  });
+  }
+}
+
+
+// -----------------------------
+// RENDER ACHIEVEMENTS
+// -----------------------------
+
+function renderAchievements() {
+
+  const container =
+    document.getElementById(
+      "achievements"
+    );
+
+  container.innerHTML = "";
+
+
+  achievements.forEach(
+    achievement => {
+
+      const available =
+        isAvailable(
+          achievement
+        );
+
+      const currentLevel =
+        getLevel(
+          achievement.name
+        );
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "achievement";
+
+
+      if (achievement.element) {
+
+        row.classList.add(
+          achievement.element
+            .toLowerCase()
+        );
+
+      }
+
+
+      if (!available) {
+
+        row.classList.add(
+          "locked"
+        );
+
+      }
+
+
+      // -----------------
+      // NAME
+      // -----------------
+
+      let meta = "";
+
+
+      if (achievement.element) {
+
+        meta =
+          achievement.element;
+
+      }
+
+
+      if (
+        achievement.prerequisite
+      ) {
+
+        meta +=
+          `${meta ? " · " : ""}` +
+          `Requires ${
+            achievement.prerequisite
+          } Lv. 6`;
+
+      }
+
+
+      // -----------------
+      // LEVEL BUTTONS
+      // -----------------
+
+      let buttons = "";
+
+
+      for (
+        let level = 0;
+        level <= 6;
+        level++
+      ) {
+
+        const label =
+          level === 0
+            ? "—"
+            : level;
+
+
+        buttons += `
+          <button
+            class="
+              level-button
+              ${
+                currentLevel === level
+                  ? "active"
+                  : ""
+              }
+            "
+            data-name="${
+              achievement.name
+            }"
+            data-level="${level}"
+            ${
+              !available
+                ? "disabled"
+                : ""
+            }
+          >
+            ${label}
+          </button>
+        `;
+
+      }
+
+
+      // -----------------
+      // COST
+      // -----------------
+
+      const nextCost =
+        getNextCost(
+          achievement
+        );
+
+
+      const costText =
+        nextCost === null
+          ? "MAX"
+          : formatNumber(
+              nextCost
+            );
+
+
+      // -----------------
+      // LOCK MESSAGE
+      // -----------------
+
+      let lockMessage = "";
+
+
+      if (!available) {
+
+        if (
+          achievement.element &&
+          achievement.element !==
+            selectedElement
+        ) {
+
+          lockMessage =
+            `Not available for ` +
+            `${selectedElement} T1`;
+
+        }
+
+        else if (
+          achievement.prerequisite
+        ) {
+
+          lockMessage =
+            `🔒 Requires ` +
+            `${achievement.prerequisite} ` +
+            `Level 6`;
+
+        }
+
+      }
+
+
+      row.innerHTML = `
+
+        <div>
+
+          <div class="achievement-name">
+            ${achievement.name}
+          </div>
+
+          <div class="achievement-meta">
+            ${meta || "Universal"}
+          </div>
+
+          ${
+            lockMessage
+              ? `
+                <div class="locked-text">
+                  ${lockMessage}
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <div class="levels">
+          ${buttons}
+        </div>
+
+
+        <div class="achievement-cost">
+
+          <span class="cost-label">
+            Next Upgrade
+          </span>
+
+          <span class="cost-value">
+            ${costText}
+          </span>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        row
+      );
+
+    }
+  );
+
 
   addLevelListeners();
 }
 
+
+// -----------------------------
+// LEVEL BUTTON EVENTS
+// -----------------------------
+
 function addLevelListeners() {
-  const selects =
-    document.querySelectorAll(".level-select");
 
-  selects.forEach((select) => {
-    select.addEventListener("change", (event) => {
+  document
+    .querySelectorAll(
+      ".level-button"
+    )
+    .forEach(button => {
 
-      const achievementName =
-        event.target.dataset.achievement;
+      button.addEventListener(
+        "click",
+        () => {
 
-      const level =
-        Number(event.target.value);
+          const name =
+            button.dataset.name;
 
-      selectedLevels[achievementName] = level;
+          const level =
+            Number(
+              button.dataset.level
+            );
 
-      renderAchievements();
+
+          selectedLevels[name] =
+            level;
+
+
+          saveState();
+
+          render();
+
+        }
+      );
+
     });
-  });
 }
 
-// T1 Element Dropdown
-const elementSelect =
-  document.getElementById("element");
 
-elementSelect.addEventListener("change", () => {
+// -----------------------------
+// SUMMARY
+// -----------------------------
 
-  selectedElement = elementSelect.value;
+function renderSummary() {
+
+  document.getElementById(
+    "total-cost"
+  ).textContent =
+    formatNumber(
+      calculateTotalCost()
+    );
+
+
+  document.getElementById(
+    "next-cost"
+  ).textContent =
+    formatNumber(
+      calculateNextCosts()
+    );
+}
+
+
+// -----------------------------
+// RENDER EVERYTHING
+// -----------------------------
+
+function render() {
+
+  renderSummary();
+
+  renderStats();
 
   renderAchievements();
-});
+}
 
-// App starten
-loadAchievements();
+
+// -----------------------------
+// ELEMENT SELECT
+// -----------------------------
+
+document.getElementById(
+  "element"
+).addEventListener(
+  "change",
+  event => {
+
+    selectedElement =
+      event.target.value;
+
+    saveState();
+
+    render();
+
+  }
+);
+
+
+// -----------------------------
+// RESET
+// -----------------------------
+
+document.getElementById(
+  "reset-button"
+).addEventListener(
+  "click",
+  () => {
+
+    const confirmed =
+      confirm(
+        "Reset all selected levels?"
+      );
+
+    if (!confirmed) return;
+
+
+    selectedLevels = {};
+
+    saveState();
+
+    render();
+
+  }
+);
+
+
+// -----------------------------
+// START
+// -----------------------------
+
+loadData();
