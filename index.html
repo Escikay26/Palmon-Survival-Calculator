@@ -4,25 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Achievement Planner</title>
+  <title>Palmon Calculator</title>
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <!-- HEADER -->
+
   <header class="topbar">
     <div class="topbar-content">
+
       <div>
-        <h1>Achievement Planner</h1>
-        <p>Plan your achievement upgrades and stats.</p>
+        <h1>Palmon Calculator</h1>
+        <p>Plan your progression, stats and Palmon team.</p>
       </div>
 
-      <button id="reset-button" class="reset-button">
+      <button
+        id="reset-button"
+        class="reset-button"
+      >
         Reset
       </button>
+
     </div>
   </header>
+
+
+  <!-- MAIN NAVIGATION -->
 
   <nav class="main-nav">
     <div class="main-nav-content">
@@ -50,62 +60,107 @@
 
     </div>
   </nav>
-  
+
+
+  <!-- MAIN CONTENT -->
+
   <main class="container">
+
+
+    <!-- ============================= -->
+    <!-- OVERVIEW -->
+    <!-- ============================= -->
 
     <section
       id="page-overview"
       class="app-page active"
     >
 
-      <div class="section-header">
+      <div class="page-header">
         <h2>Overview</h2>
 
-        <p class="section-description">
-          Your overall stats and team will appear here.
+        <p>
+          Your overall progression and Palmon team
+          will be shown here.
         </p>
       </div>
 
-      <div class="overview-placeholder">
+
+      <div class="overview-grid">
 
         <div class="placeholder-card">
+
           <h3>Overall Stats</h3>
 
           <p>
             Achievement, research and other bonuses
             will be combined here later.
           </p>
+
         </div>
 
+
         <div class="placeholder-card">
+
           <h3>Palmon Team</h3>
 
           <p>
             Your team of up to 7 Palmon will be
             configured here later.
           </p>
+
         </div>
 
       </div>
 
     </section>
-    
+
+
+
+    <!-- ============================= -->
+    <!-- ACHIEVEMENTS -->
+    <!-- ============================= -->
+
     <section
       id="page-achievements"
       class="app-page"
     >
+
+      <div class="page-header">
+        <h2>Achievements</h2>
+
+        <p>
+          Select your current achievement levels
+          and calculate their bonuses.
+        </p>
+      </div>
+
+
       <!-- SETTINGS -->
 
       <section class="settings">
 
         <div>
-          <label for="element">T1 Element</label>
+          <label for="element">
+            T1 Element
+          </label>
 
           <select id="element">
-            <option value="Water">Water</option>
-            <option value="Fire">Fire</option>
-            <option value="Earth">Earth</option>
-            <option value="Electro">Electro</option>
+            <option value="Water">
+              Water
+            </option>
+
+            <option value="Fire">
+              Fire
+            </option>
+
+            <option value="Earth">
+              Earth
+            </option>
+
+            <option value="Electro">
+              Electro
+            </option>
           </select>
         </div>
 
@@ -117,6 +172,7 @@
       <section class="summary">
 
         <div class="summary-card">
+
           <span class="summary-label">
             Tokens Spent
           </span>
@@ -124,9 +180,12 @@
           <strong id="total-cost">
             0
           </strong>
+
         </div>
 
+
         <div class="summary-card">
+
           <span class="summary-label">
             Next Upgrades
           </span>
@@ -134,12 +193,13 @@
           <strong id="next-cost">
             0
           </strong>
+
         </div>
 
       </section>
 
 
-      <!-- STATS -->
+      <!-- CURRENT STATS -->
 
       <section class="section">
 
@@ -155,7 +215,7 @@
       </section>
 
 
-      <!-- ACHIEVEMENTS -->
+      <!-- ACHIEVEMENT LIST -->
 
       <section class="section">
 
@@ -163,55 +223,50 @@
           <h2>Achievements</h2>
         </div>
 
-        <div class="achievement-filters">
-          <button class="filter-button active" data-filter="all">
-            All
-          </button>
-
-          <button class="filter-button" data-filter="available">
-            Available
-          </button>
-
-          <button class="filter-button" data-filter="locked">
-            Locked
-          </button>
-        </div>
-      
         <div
           id="achievements"
           class="achievement-list"
         ></div>
 
       </section>
-      
+
     </section>
+
+
+
+    <!-- ============================= -->
+    <!-- RESEARCH -->
+    <!-- ============================= -->
 
     <section
       id="page-research"
       class="app-page"
     >
 
-      <div class="section-header">
+      <div class="page-header">
         <h2>Research</h2>
 
-        <p class="section-description">
-          Research bonuses will be added here later.
+        <p>
+          Research bonuses will be added as another
+          progression module.
         </p>
       </div>
+
 
       <div class="placeholder-card">
 
         <h3>Coming later</h3>
 
         <p>
-          Research will become its own calculator
-          module.
+          Research will have its own levels and bonuses
+          and will feed into the overall stats.
         </p>
 
       </div>
 
     </section>
-    
+
+
   </main>
 
 
