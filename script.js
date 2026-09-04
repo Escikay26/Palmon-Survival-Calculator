@@ -1392,7 +1392,7 @@ if (resetButton) {
 
 
       selectedLevels = {};
-
+      unlockedAchievements = {};
 
       saveState();
 
