@@ -557,6 +557,14 @@ select {
   opacity: 0.4;
 }
 
+.achievement.upgrade-locked {
+  opacity: 0.75;
+}
+
+.achievement.upgrade-locked .locked-text {
+  color: var(--primary);
+  font-weight: 600;
+}
 
 .achievement.locked .level-button {
   cursor: not-allowed;
