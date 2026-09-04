@@ -11,23 +11,102 @@
 
 <body>
 
+  <header class="topbar">
+    <div class="topbar-content">
+      <div>
+        <h1>Achievement Planner</h1>
+        <p>Plan your achievement upgrades and stats.</p>
+      </div>
+
+      <button id="reset-button" class="reset-button">
+        Reset
+      </button>
+    </div>
+  </header>
+
+
   <main class="container">
-    <h1>Achievement Planner</h1>
 
-    <p>Your Palmon achievement planning tool.</p>
+    <!-- SETTINGS -->
 
-    <label for="element">T1 Element</label>
+    <section class="settings">
 
-    <select id="element">
-      <option value="Water">Water</option>
-      <option value="Fire">Fire</option>
-      <option value="Earth">Earth</option>
-      <option value="Electro">Electro</option>
-    </select>
+      <div>
+        <label for="element">T1 Element</label>
 
-    <div id="achievements"></div>
+        <select id="element">
+          <option value="Water">Water</option>
+          <option value="Fire">Fire</option>
+          <option value="Earth">Earth</option>
+          <option value="Electro">Electro</option>
+        </select>
+      </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <section class="summary">
+
+      <div class="summary-card">
+        <span class="summary-label">
+          Tokens Spent
+        </span>
+
+        <strong id="total-cost">
+          0
+        </strong>
+      </div>
+
+      <div class="summary-card">
+        <span class="summary-label">
+          Next Upgrades
+        </span>
+
+        <strong id="next-cost">
+          0
+        </strong>
+      </div>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="section">
+
+      <div class="section-header">
+        <h2>Current Stats</h2>
+      </div>
+
+      <div
+        id="stats"
+        class="stats-grid"
+      ></div>
+
+    </section>
+
+
+    <!-- ACHIEVEMENTS -->
+
+    <section class="section">
+
+      <div class="section-header">
+        <h2>Achievements</h2>
+      </div>
+
+      <div
+        id="achievements"
+        class="achievement-list"
+      ></div>
+
+    </section>
+
   </main>
 
+
   <script src="script.js"></script>
+
 </body>
 </html>
