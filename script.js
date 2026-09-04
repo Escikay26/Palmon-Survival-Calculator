@@ -4,6 +4,8 @@ let selectedElement = "Water";
 
 let selectedLevels = {};
 
+let selectedFilter = "all";
+
 
 // -----------------------------
 // STAT NAMES
@@ -466,6 +468,20 @@ function renderAchievements() {
           achievement
         );
 
+      if (
+        selectedFilter === "available" &&
+        !available
+      ) {
+        return;
+      }
+
+      if (
+        selectedFilter === "locked" &&
+        available
+      ) {
+        return;
+      }
+
       const currentLevel =
         getLevel(
           achievement.name
@@ -810,6 +826,41 @@ document.getElementById(
   }
 );
 
+document
+  .querySelectorAll(
+    ".filter-button"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        selectedFilter =
+          button.dataset.filter;
+
+        document
+          .querySelectorAll(
+            ".filter-button"
+          )
+          .forEach(otherButton => {
+
+            otherButton.classList.remove(
+              "active"
+            );
+
+          });
+
+        button.classList.add(
+          "active"
+        );
+
+        renderAchievements();
+
+      }
+    );
+
+  });
 
 // -----------------------------
 // START
