@@ -837,11 +837,28 @@ function renderAchievements() {
 
       if (!available) {
 
+      const permanentlyUnlocked =
+        unlockedAchievements[
+          achievement.name
+        ] === true;
+
+      if (permanentlyUnlocked) {
+
+        row.classList.add(
+          "upgrade-locked"
+        );
+
+      }
+
+      else {
+
         row.classList.add(
           "locked"
         );
 
       }
+
+    }
 
 
       // -------------------------
@@ -957,35 +974,47 @@ function renderAchievements() {
       // LOCK MESSAGE
       // -------------------------
 
-      let lockMessage = "";
+    let lockMessage = "";
 
+    const permanentlyUnlocked =
+      unlockedAchievements[
+        achievement.name
+      ] === true;
 
-      if (!available) {
+    if (!available) {
 
-        if (
-          achievement.element &&
-          achievement.element !==
-            selectedElement
-        ) {
+      if (
+        achievement.element &&
+        achievement.element !==
+          selectedElement
+      ) {
+
+        lockMessage =
+          `Not available for ${selectedElement} T1`;
+
+      }
+
+      else if (
+        achievement.prerequisite
+      ) {
+
+        if (permanentlyUnlocked) {
 
           lockMessage =
-            `Not available for ` +
-            `${selectedElement} T1`;
+            `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
 
         }
 
-        else if (
-          achievement.prerequisite
-        ) {
+        else {
 
           lockMessage =
-            `🔒 Requires ` +
-            `${achievement.prerequisite} ` +
-            `Level 6`;
+            `🔒 Requires ${achievement.prerequisite} Level 6`;
 
         }
 
       }
+
+    }
 
 
       row.innerHTML = `
@@ -1110,9 +1139,9 @@ function renderSummary() {
   if (totalCost) {
 
     totalCost.textContent =
-      formatNumber(
+      `${formatNumber(
         calculateTotalCost()
-      );
+      )} UR Tokens`;
 
   }
 
@@ -1120,9 +1149,9 @@ function renderSummary() {
   if (nextCost) {
 
     nextCost.textContent =
-      formatNumber(
+      `${formatNumber(
         calculateNextCosts()
-      );
+      )} UR Tokens`;
 
   }
 
