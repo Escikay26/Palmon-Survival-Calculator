@@ -201,6 +201,37 @@ select {
   font-weight: 600;
 }
 
+.achievement-filters {
+  display: flex;
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.filter-button {
+  padding: 7px 12px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.filter-button:hover {
+  background: #f9fafb;
+}
+
+.filter-button.active {
+  background: var(--primary);
+  border-color: var(--primary);
+
+  color: white;
+}
 
 /* ACHIEVEMENTS */
 
