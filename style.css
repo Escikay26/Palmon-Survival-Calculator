@@ -399,6 +399,55 @@ select {
 
 
 /* ============================= */
+/* ACHIEVEMENT FILTERS */
+/* ============================= */
+
+.achievement-filters {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+}
+
+
+.filter-button {
+  padding: 8px 13px;
+
+  background: white;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 7px;
+
+  color: var(--muted);
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+
+.filter-button:hover {
+  color: var(--text);
+
+  border-color: #9ca3af;
+}
+
+
+.filter-button.active {
+  background: var(--primary);
+
+  border-color: var(--primary);
+
+  color: white;
+}
+
+
+/* ============================= */
 /* ACHIEVEMENTS */
 /* ============================= */
 
