@@ -279,26 +279,36 @@ function addNavigationListeners() {
 // AVAILABILITY
 // =============================
 
-function isAvailable(
-  achievement
-) {
+function isAvailable(achievement) {
 
   const elementOK =
     !achievement.element ||
-    achievement.element ===
-      selectedElement;
+    achievement.element === selectedElement;
+
+
+  // Achievements ohne Voraussetzung
+  // sind direkt verfügbar.
+  if (!achievement.prerequisite) {
+    return elementOK;
+  }
 
 
   const prerequisiteOK =
-    !achievement.prerequisite ||
-    selectedLevels[
+    getLevel(
       achievement.prerequisite
-    ] === 6;
+    ) === 6;
+
+
+  const unlocked =
+    unlockedAchievements[
+      achievement.name
+    ] === true;
 
 
   return (
     elementOK &&
-    prerequisiteOK
+    prerequisiteOK &&
+    unlocked
   );
 
 }
@@ -322,67 +332,60 @@ function getLevel(name) {
 // Is Prerequisite Unlocked
 // =============================
 
-function updatePrerequisiteUnlocks() {
+function updatePrerequisiteStates() {
 
   achievements.forEach(
     achievement => {
 
-      if (
-        !achievement.prerequisite
-      ) {
+      if (!achievement.prerequisite) {
         return;
       }
+
+
+      const unlocked =
+        unlockedAchievements[
+          achievement.name
+        ] === true;
+
+
+      if (!unlocked) {
+        return;
+      }
+
 
       const prerequisiteLevel =
         getLevel(
           achievement.prerequisite
         );
 
-      // Voraussetzung wurde erreicht:
-      // Achievement dauerhaft freischalten.
+
+      // Ein einmal freigeschaltetes Achievement
+      // bleibt mindestens Level 1.
       if (
-        prerequisiteLevel === 6
+        getLevel(
+          achievement.name
+        ) < 1
       ) {
 
-        unlockedAchievements[
+        selectedLevels[
           achievement.name
-        ] = true;
-
-        // Beim ersten Unlock mindestens Level 1.
-        if (
-          getLevel(
-            achievement.name
-          ) === 0
-        ) {
-
-          selectedLevels[
-            achievement.name
-          ] = 1;
-
-        }
+        ] = 1;
 
       }
 
-      // Bereits freigeschaltet,
-      // aber Voraussetzung wurde zurückgesetzt.
-      else if (
-        unlockedAchievements[
+
+      // Wird die Voraussetzung zurückgesetzt,
+      // fällt das Achievement auf Level 1 zurück.
+      if (
+        prerequisiteLevel < 6 &&
+        getLevel(
           achievement.name
-        ]
+        ) > 1
       ) {
 
-        // Alles über Level 1 wird auf Level 1 zurückgesetzt.
-        if (
-          getLevel(
-            achievement.name
-          ) > 1
-        ) {
-
-          selectedLevels[
-            achievement.name
-          ] = 1;
-
-        }
+        selectedLevels[
+          achievement.name
+        ] = 1;
 
       }
 
@@ -784,6 +787,63 @@ function renderStats() {
 // RENDER ACHIEVEMENTS
 // =============================
 
+function unlockAchievement(
+  achievementName
+) {
+
+  const achievement =
+    achievements.find(
+      item =>
+        item.name ===
+        achievementName
+    );
+
+
+  if (!achievement) {
+    return;
+  }
+
+
+  if (!achievement.prerequisite) {
+    return;
+  }
+
+
+  const prerequisiteLevel =
+    getLevel(
+      achievement.prerequisite
+    );
+
+
+  if (prerequisiteLevel !== 6) {
+    return;
+  }
+
+
+  unlockedAchievements[
+    achievement.name
+  ] = true;
+
+
+  if (
+    getLevel(
+      achievement.name
+    ) < 1
+  ) {
+
+    selectedLevels[
+      achievement.name
+    ] = 1;
+
+  }
+
+
+  saveState();
+
+  render();
+
+}
+
 function renderAchievements() {
 
   const container =
@@ -820,6 +880,22 @@ function renderAchievements() {
           achievement.name
         ] === true;
 
+      const prerequisiteMet =
+        !achievement.prerequisite ||
+        getLevel(
+          achievement.prerequisite
+        ) === 6;
+
+
+      const canMarkAsUnlocked =
+        achievement.prerequisite &&
+        !permanentlyUnlocked &&
+        prerequisiteMet &&
+        (
+          !achievement.element ||
+          achievement.element ===
+            selectedElement
+        );
 
       const trulyLocked =
         !available &&
@@ -1009,42 +1085,69 @@ function renderAchievements() {
 
     let lockMessage = "";
 
-    if (!available) {
 
-      if (
-        achievement.element &&
-        achievement.element !==
-          selectedElement
-      ) {
+    if (
+      achievement.prerequisite &&
+      !permanentlyUnlocked
+    ) {
+
+      if (!prerequisiteMet) {
 
         lockMessage =
-          `Not available for ${selectedElement} T1`;
+          `🔒 Locked · Requires ${achievement.prerequisite} Level 6`;
 
       }
 
-      else if (
-        achievement.prerequisite
-      ) {
+      else {
 
-        if (permanentlyUnlocked) {
-
-          lockMessage =
-            `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
-
-        }
-
-        else {
-
-          lockMessage =
-            `🔒 Requires ${achievement.prerequisite} Level 6`;
-
-        }
+        lockMessage =
+          `🔒 Locked · Additional Palmon requirement not tracked`;
 
       }
 
     }
 
+    else if (
+      achievement.prerequisite &&
+      permanentlyUnlocked &&
+      !prerequisiteMet
+    ) {
 
+      lockMessage =
+        `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
+
+    }
+
+    else if (
+      achievement.element &&
+      achievement.element !==
+        selectedElement
+    ) {
+
+      lockMessage =
+        `Not available for ${selectedElement} T1`;
+
+    }
+
+    let unlockButtonHTML = "";
+
+
+    if (canMarkAsUnlocked) {
+
+      unlockButtonHTML = `
+        <button
+          class="unlock-button"
+          data-unlock="${
+            achievement.name
+          }"
+        >
+          Mark as Unlocked
+        </button>
+      `;
+
+    }
+      
+      
       row.innerHTML = `
 
         <div>
@@ -1066,6 +1169,8 @@ function renderAchievements() {
               `
               : ""
           }
+
+          ${unlockButtonHTML}
 
         </div>
 
@@ -1100,6 +1205,8 @@ function renderAchievements() {
 
   addLevelListeners();
 
+  addUnlockListeners();
+
 }
 
 
@@ -1132,7 +1239,7 @@ function addLevelListeners() {
           selectedLevels[name] =
             level;
 
-          updatePrerequisiteUnlocks();
+          updatePrerequisiteStates();
 
           saveState();
 
@@ -1145,6 +1252,32 @@ function addLevelListeners() {
 
 }
 
+function addUnlockListeners() {
+
+  document
+    .querySelectorAll(
+      ".unlock-button"
+    )
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const achievementName =
+            button.dataset.unlock;
+
+
+          unlockAchievement(
+            achievementName
+          );
+
+        }
+      );
+
+    });
+
+}
 
 // =============================
 // SUMMARY
