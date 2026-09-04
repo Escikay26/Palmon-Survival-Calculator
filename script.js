@@ -143,9 +143,36 @@ function loadSavedState() {
       data.levels ||
       {};
 
+
     unlockedAchievements =
       data.unlocked ||
       {};
+
+
+    // Alte Saves übernehmen:
+    // Wenn vorher bereits ein Level > 0
+    // ausgewählt war, gilt das Achievement
+    // als unlocked.
+    Object.entries(
+      selectedLevels
+    ).forEach(
+      ([name, level]) => {
+
+        if (
+          Number(level) > 0
+        ) {
+
+          unlockedAchievements[
+            name
+          ] = true;
+
+        }
+
+      }
+    );
+
+
+    updatePrerequisiteStates();
 
 
     const elementSelect =
@@ -286,8 +313,17 @@ function isAvailable(achievement) {
     achievement.element === selectedElement;
 
 
-  // Achievements ohne Voraussetzung
-  // sind direkt verfügbar.
+  const unlocked =
+    unlockedAchievements[
+      achievement.name
+    ] === true;
+
+
+  if (!unlocked) {
+    return false;
+  }
+
+
   if (!achievement.prerequisite) {
     return elementOK;
   }
@@ -299,16 +335,9 @@ function isAvailable(achievement) {
     ) === 6;
 
 
-  const unlocked =
-    unlockedAchievements[
-      achievement.name
-    ] === true;
-
-
   return (
     elementOK &&
-    prerequisiteOK &&
-    unlocked
+    prerequisiteOK
   );
 
 }
@@ -337,11 +366,6 @@ function updatePrerequisiteStates() {
   achievements.forEach(
     achievement => {
 
-      if (!achievement.prerequisite) {
-        return;
-      }
-
-
       const unlocked =
         unlockedAchievements[
           achievement.name
@@ -353,14 +377,8 @@ function updatePrerequisiteStates() {
       }
 
 
-      const prerequisiteLevel =
-        getLevel(
-          achievement.prerequisite
-        );
-
-
-      // Ein einmal freigeschaltetes Achievement
-      // bleibt mindestens Level 1.
+      // Ein freigeschaltetes Achievement
+      // ist immer mindestens Level 1.
       if (
         getLevel(
           achievement.name
@@ -374,8 +392,22 @@ function updatePrerequisiteStates() {
       }
 
 
-      // Wird die Voraussetzung zurückgesetzt,
-      // fällt das Achievement auf Level 1 zurück.
+      // Nur Achievements mit Voraussetzung
+      // brauchen die folgende Prüfung.
+      if (!achievement.prerequisite) {
+        return;
+      }
+
+
+      const prerequisiteLevel =
+        getLevel(
+          achievement.prerequisite
+        );
+
+
+      // Wird die Voraussetzung später
+      // wieder unter Level 6 gesetzt,
+      // fällt das Achievement auf Level 1.
       if (
         prerequisiteLevel < 6 &&
         getLevel(
@@ -402,6 +434,17 @@ function updatePrerequisiteStates() {
 function getAchievementCost(
   achievement
 ) {
+
+  const unlocked =
+    unlockedAchievements[
+      achievement.name
+    ] === true;
+
+
+  if (!unlocked) {
+    return 0;
+  }
+
 
   const currentLevel =
     getLevel(
@@ -562,6 +605,17 @@ function calculateStats() {
   achievements.forEach(
     achievement => {
 
+      const unlocked =
+        unlockedAchievements[
+          achievement.name
+        ] === true;
+
+
+      if (!unlocked) {
+        return;
+      }
+
+
       const currentLevel =
         getLevel(
           achievement.name
@@ -569,11 +623,10 @@ function calculateStats() {
 
 
       if (
-        currentLevel === 0
+        currentLevel < 1
       ) {
 
         return;
-
       }
 
 
@@ -595,9 +648,7 @@ function calculateStats() {
       ).forEach(
         ([stat, value]) => {
 
-          if (
-            !totals[stat]
-          ) {
+          if (!totals[stat]) {
 
             totals[stat] = {
               flat: 0,
@@ -804,19 +855,39 @@ function unlockAchievement(
   }
 
 
-  if (!achievement.prerequisite) {
+  const elementOK =
+    !achievement.element ||
+    achievement.element === selectedElement;
+
+
+  if (!elementOK) {
     return;
   }
 
 
-  const prerequisiteLevel =
-    getLevel(
-      achievement.prerequisite
-    );
-
-
-  if (prerequisiteLevel !== 6) {
+  if (
+    unlockedAchievements[
+      achievement.name
+    ] === true
+  ) {
     return;
+  }
+
+
+  // Bei Achievements mit Prerequisite
+  // muss diese zuerst Level 6 sein.
+  if (achievement.prerequisite) {
+
+    const prerequisiteLevel =
+      getLevel(
+        achievement.prerequisite
+      );
+
+
+    if (prerequisiteLevel !== 6) {
+      return;
+    }
+
   }
 
 
@@ -825,17 +896,9 @@ function unlockAchievement(
   ] = true;
 
 
-  if (
-    getLevel(
-      achievement.name
-    ) < 1
-  ) {
-
-    selectedLevels[
-      achievement.name
-    ] = 1;
-
-  }
+  selectedLevels[
+    achievement.name
+  ] = 1;
 
 
   saveState();
@@ -863,22 +926,23 @@ function renderAchievements() {
   achievements.forEach(
     achievement => {
 
-      const available =
-        isAvailable(
-          achievement
-        );
-
-
       const currentLevel =
         getLevel(
           achievement.name
         );
 
 
-      const permanentlyUnlocked =
+      const unlocked =
         unlockedAchievements[
           achievement.name
         ] === true;
+
+
+      const elementOK =
+        !achievement.element ||
+        achievement.element ===
+          selectedElement;
+
 
       const prerequisiteMet =
         !achievement.prerequisite ||
@@ -887,24 +951,30 @@ function renderAchievements() {
         ) === 6;
 
 
-      const canMarkAsUnlocked =
-        achievement.prerequisite &&
-        !permanentlyUnlocked &&
-        prerequisiteMet &&
-        (
-          !achievement.element ||
-          achievement.element ===
-            selectedElement
+      const available =
+        isAvailable(
+          achievement
         );
 
-      const trulyLocked =
-        !available &&
-        !permanentlyUnlocked;
 
+      const canMarkAsUnlocked =
+        !unlocked &&
+        elementOK &&
+        prerequisiteMet;
+
+
+      const trulyLocked =
+        !unlocked;
+
+
+      // -------------------------
+      // FILTER
+      // -------------------------
 
       if (
-        selectedFilter === "selected" &&
-        currentLevel === 0
+        selectedFilter ===
+          "selected" &&
+        !unlocked
       ) {
 
         return;
@@ -913,7 +983,8 @@ function renderAchievements() {
 
 
       if (
-        selectedFilter === "available" &&
+        selectedFilter ===
+          "available" &&
         !available
       ) {
 
@@ -923,14 +994,15 @@ function renderAchievements() {
 
 
       if (
-        selectedFilter === "locked" &&
+        selectedFilter ===
+          "locked" &&
         !trulyLocked
       ) {
 
         return;
 
       }
-      
+
 
       const row =
         document.createElement(
@@ -942,9 +1014,7 @@ function renderAchievements() {
         "achievement";
 
 
-      if (
-        achievement.element
-      ) {
+      if (achievement.element) {
 
         row.classList.add(
           achievement.element
@@ -954,23 +1024,19 @@ function renderAchievements() {
       }
 
 
-      if (!available) {
+      if (!unlocked) {
 
-        if (permanentlyUnlocked) {
+        row.classList.add(
+          "locked"
+        );
 
-          row.classList.add(
-            "upgrade-locked"
-          );
-  
-        }
+      }
 
-        else {
+      else if (!available) {
 
-          row.classList.add(
-            "locked"
-          );
-
-        }
+        row.classList.add(
+          "upgrade-locked"
+        );
 
       }
 
@@ -982,9 +1048,7 @@ function renderAchievements() {
       let meta = "";
 
 
-      if (
-        achievement.element
-      ) {
+      if (achievement.element) {
 
         meta =
           achievement.element;
@@ -992,9 +1056,7 @@ function renderAchievements() {
       }
 
 
-      if (
-        achievement.prerequisite
-      ) {
+      if (achievement.prerequisite) {
 
         meta +=
           `${
@@ -1017,19 +1079,13 @@ function renderAchievements() {
 
 
       for (
-        let level = 0;
+        let level = 1;
         level <= 6;
         level++
       ) {
 
-      const disableLevelZero =
-        permanentlyUnlocked &&
-        level === 0;
-
         const label =
-          level === 0
-            ? "—"
-            : level;
+          level;
 
 
         buttons += `
@@ -1037,8 +1093,8 @@ function renderAchievements() {
             class="
               level-button
               ${
-                currentLevel ===
-                level
+                unlocked &&
+                currentLevel === level
                   ? "active"
                   : ""
               }
@@ -1048,8 +1104,7 @@ function renderAchievements() {
             }"
             data-level="${level}"
             ${
-              !available ||
-              disableLevelZero
+              !available
                 ? "disabled"
                 : ""
             }
@@ -1071,83 +1126,108 @@ function renderAchievements() {
         );
 
 
-      const costText =
-        nextCost === null
-          ? "MAX"
-          : formatNumber(
-              nextCost
-            );
+      let costText = "LOCKED";
 
 
-      // -------------------------
-      // LOCK MESSAGE
-      // -------------------------
+      if (unlocked) {
 
-    let lockMessage = "";
-
-
-    if (
-      achievement.prerequisite &&
-      !permanentlyUnlocked
-    ) {
-
-      if (!prerequisiteMet) {
-
-        lockMessage =
-          `🔒 Locked · Requires ${achievement.prerequisite} Level 6`;
+        costText =
+          nextCost === null
+            ? "MAX"
+            : formatNumber(
+                nextCost
+              );
 
       }
 
-      else {
+
+      // -------------------------
+      // STATUS MESSAGE
+      // -------------------------
+
+      let lockMessage = "";
+
+
+      if (!elementOK) {
 
         lockMessage =
-          `🔒 Locked · Additional Palmon requirement not tracked`;
+          `Not available for ${selectedElement} T1`;
 
       }
 
-    }
+      else if (!unlocked) {
 
-    else if (
-      achievement.prerequisite &&
-      permanentlyUnlocked &&
-      !prerequisiteMet
-    ) {
+        if (
+          achievement.prerequisite &&
+          !prerequisiteMet
+        ) {
 
-      lockMessage =
-        `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
+          lockMessage =
+            `🔒 Locked · Requires ${achievement.prerequisite} Level 6`;
 
-    }
+        }
 
-    else if (
-      achievement.element &&
-      achievement.element !==
-        selectedElement
-    ) {
+        else if (
+          achievement.prerequisite
+        ) {
 
-      lockMessage =
-        `Not available for ${selectedElement} T1`;
+          lockMessage =
+            "🔒 Locked · Additional Palmon requirement not tracked";
 
-    }
+        }
 
-    let unlockButtonHTML = "";
+        else {
+
+          lockMessage =
+            "🔒 Locked · Mark as unlocked when available ingame";
+
+        }
+
+      }
+
+      else if (
+        achievement.prerequisite &&
+        !prerequisiteMet
+      ) {
+
+        lockMessage =
+          `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
+
+      }
 
 
-    if (canMarkAsUnlocked) {
+      // -------------------------
+      // UNLOCK BUTTON
+      // -------------------------
 
-      unlockButtonHTML = `
-        <button
-          class="unlock-button"
-          data-unlock="${
-            achievement.name
-          }"
-        >
-          Mark as Unlocked
-        </button>
-      `;
+      let unlockButtonHTML = "";
 
-    }
-      
-      
+
+      if (!unlocked) {
+
+        unlockButtonHTML = `
+          <button
+            class="unlock-button"
+            data-unlock="${
+              achievement.name
+            }"
+            ${
+              canMarkAsUnlocked
+                ? ""
+                : "disabled"
+            }
+          >
+            Mark as Unlocked
+          </button>
+        `;
+
+      }
+
+
+      // -------------------------
+      // HTML
+      // -------------------------
+
       row.innerHTML = `
 
         <div>
@@ -1382,7 +1462,7 @@ if (resetButton) {
 
       const confirmed =
         confirm(
-          "Reset all selected achievement levels?"
+          "Reset all achievements?"
         );
 
 
@@ -1392,7 +1472,9 @@ if (resetButton) {
 
 
       selectedLevels = {};
+
       unlockedAchievements = {};
+
 
       saveState();
 
