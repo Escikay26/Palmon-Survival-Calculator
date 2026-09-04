@@ -4,23 +4,193 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  color: #222;
+  font-family:
+    Inter,
+    Arial,
+    sans-serif;
+
+  background: #f3f4f6;
+  color: #1f2937;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
 }
 
 h1 {
   margin-bottom: 5px;
 }
 
-select {
-  padding: 8px 12px;
-  margin-top: 10px;
-  font-size: 16px;
+.container > p {
+  color: #6b7280;
+  margin-top: 0;
+}
+
+/* T1 Selector */
+
+label {
+  display: block;
+  margin-top: 30px;
+  margin-bottom: 6px;
+
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+#element {
+  padding: 10px 14px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  background: white;
+
+  font-size: 15px;
+}
+
+/* Achievement Liste */
+
+#achievements {
+  margin-top: 30px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 16px;
+}
+
+/* Achievement Card */
+
+.achievement-card {
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  border-left: 5px solid #9ca3af;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.achievement-card:hover {
+  transform: translateY(-2px);
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.achievement-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 17px;
+}
+
+/* Elemente */
+
+.element-water {
+  border-left-color: #3b82f6;
+}
+
+.element-fire {
+  border-left-color: #ef4444;
+}
+
+.element-earth {
+  border-left-color: #92400e;
+}
+
+.element-electro {
+  border-left-color: #eab308;
+}
+
+.element-badge {
+  display: inline-block;
+
+  padding: 3px 8px;
+
+  border-radius: 20px;
+
+  background: #f3f4f6;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Informationen */
+
+.achievement-info {
+  margin-top: 18px;
+
+  display: grid;
+
+  gap: 12px;
+}
+
+.achievement-info > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.label {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.level-select {
+  padding: 6px 8px;
+
+  border-radius: 6px;
+
+  border: 1px solid #d1d5db;
+
+  background: white;
+}
+
+/* Gesperrt */
+
+.achievement-card.locked {
+  opacity: 0.38;
+  filter: grayscale(0.7);
+}
+
+.achievement-card.locked:hover {
+  transform: none;
+}
+
+.locked-message {
+  margin-top: 14px;
+
+  padding-top: 10px;
+
+  border-top: 1px solid #e5e7eb;
+
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 25px 14px;
+  }
+
+  #achievements {
+    grid-template-columns: 1fr;
+  }
 }
