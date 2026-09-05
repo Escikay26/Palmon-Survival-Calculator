@@ -981,11 +981,7 @@ function renderBonuses(
                   </div>
                 `).join("")
             : `
-              <p
-                class="
-                  boss-empty-text
-                "
-              >
+              <p class="boss-empty-text">
                 No active conditional
                 battle effects.
               </p>
