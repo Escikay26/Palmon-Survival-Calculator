@@ -1,0 +1,896 @@
+{
+  "version": 1,
+  "notes": {
+    "scopeRules": {
+      "general": "Applies to all Palmon in the same squad.",
+      "element": "Applies only to Palmon of the specified element in the same squad.",
+      "conditional": "Battle effect with its own condition; not treated as a simple always-on squad stat.",
+      "unspecified": "The source text does not explicitly state whether the effect is general or element-only."
+    },
+    "skillRules": {
+      "unlock": "Skill 1 unlocks at 1 star, Skill 2 at 2 stars, and so on.",
+      "minimumLevelAfterUnlock": 1,
+      "maximumLevel": 5,
+      "levelOneCost": 0,
+      "independentSkillLevels": true,
+      "toolBehavior": "Unlocked skills may be upgraded freely in the calculator. The ingame random skill-upgrade selection is intentionally not simulated.",
+      "effectBehavior": "Only the effect of the currently selected skill level applies; skill level effects are not cumulative."
+    },
+    "ascensionRules": {
+      "starCount": 5,
+      "stepsPerStar": 5,
+      "totalUpgradeSteps": 25,
+      "elementAttackDefenseHpBehavior": "replace",
+      "elementAttackDefenseHpNote": "Water Attack, Water Defense and Water HP percentage effects replace the previous value of the same stat rather than stacking with it.",
+      "otherEffectStacking": "Defined per effect. Water Attack/Defense/HP replace previous values; Counter Fire, Crit Rate and repeated Tenacity effects stack additively."
+    }
+  },
+  "bosses": [
+    {
+      "id": "inkuisitor",
+      "name": "Inkuisitor",
+      "element": "Water",
+      "maxLevel": 300,
+      "levelGrowth": [
+        {
+          "displayedLevelRange": "1-50",
+          "minLevel": 1,
+          "maxLevel": 50,
+          "perLevelIncrease": {
+            "attack": 10,
+            "defense": 1,
+            "hp": 3000
+          }
+        },
+        {
+          "displayedLevelRange": "51-100",
+          "minLevel": 51,
+          "maxLevel": 100,
+          "perLevelIncrease": {
+            "attack": 15,
+            "defense": 1,
+            "hp": 4500
+          }
+        },
+        {
+          "displayedLevelRange": "101-150",
+          "minLevel": 101,
+          "maxLevel": 150,
+          "perLevelIncrease": {
+            "attack": 22,
+            "defense": 1,
+            "hp": 6600
+          }
+        },
+        {
+          "displayedLevelRange": "151-200",
+          "minLevel": 151,
+          "maxLevel": 200,
+          "perLevelIncrease": {
+            "attack": 28,
+            "defense": 3,
+            "hp": 8400
+          }
+        },
+        {
+          "displayedLevelRange": "201-250",
+          "minLevel": 201,
+          "maxLevel": 250,
+          "perLevelIncrease": {
+            "attack": 35,
+            "defense": 4,
+            "hp": 10000
+          }
+        },
+        {
+          "displayedLevelRange": "251-300",
+          "minLevel": 251,
+          "maxLevel": 300,
+          "perLevelIncrease": {
+            "attack": 40,
+            "defense": 7,
+            "hp": 12000
+          }
+        }
+      ],
+      "ascensionTiers": [
+        {
+          "fromStars": 0,
+          "toStars": 1,
+          "perStepFlatStats": {
+            "attack": 100,
+            "defense": 20,
+            "hp": 30000
+          },
+          "titanSealsPerStep": 200
+        },
+        {
+          "fromStars": 1,
+          "toStars": 2,
+          "perStepFlatStats": {
+            "attack": 200,
+            "defense": 40,
+            "hp": 60000
+          },
+          "titanSealsPerStep": 400
+        },
+        {
+          "fromStars": 2,
+          "toStars": 3,
+          "perStepFlatStats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 90000
+          },
+          "titanSealsPerStep": 800
+        },
+        {
+          "fromStars": 3,
+          "toStars": 4,
+          "perStepFlatStats": {
+            "attack": 400,
+            "defense": 80,
+            "hp": 120000
+          },
+          "titanSealsPerStep": 2500
+        },
+        {
+          "fromStars": 4,
+          "toStars": 5,
+          "perStepFlatStats": {
+            "attack": 500,
+            "defense": 100,
+            "hp": 150000
+          },
+          "titanSealsPerStep": 4000
+        }
+      ],
+      "ascensionSteps": [
+        {
+          "progress": 1,
+          "label": "0-1",
+          "starsReached": 0,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Attack +4%"
+          }
+        },
+        {
+          "progress": 2,
+          "label": "0-2",
+          "starsReached": 0,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Defense +4%"
+          }
+        },
+        {
+          "progress": 3,
+          "label": "0-3",
+          "starsReached": 0,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water HP +4%"
+          }
+        },
+        {
+          "progress": 4,
+          "label": "0-4",
+          "starsReached": 0,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "additive",
+            "description": "General Crit Rate +5%"
+          }
+        },
+        {
+          "progress": 5,
+          "label": "1",
+          "starsReached": 1,
+          "subLevel": 0,
+          "unlocksSkill": "splash_sprint",
+          "effect": {
+            "stat": "counterFire",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "additive",
+            "description": "Water Counter Fire +15%"
+          }
+        },
+        {
+          "progress": 6,
+          "label": "1-1",
+          "starsReached": 1,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Attack +7%"
+          }
+        },
+        {
+          "progress": 7,
+          "label": "1-2",
+          "starsReached": 1,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Defense +7%"
+          }
+        },
+        {
+          "progress": 8,
+          "label": "1-3",
+          "starsReached": 1,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water HP +7%"
+          }
+        },
+        {
+          "progress": 9,
+          "label": "1-4",
+          "starsReached": 1,
+          "subLevel": 4,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "additive",
+            "description": "General Tenacity +5%"
+          }
+        },
+        {
+          "progress": 10,
+          "label": "2",
+          "starsReached": 2,
+          "subLevel": 0,
+          "unlocksSkill": "frost_mark",
+          "effect": {
+            "stat": "counterFire",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "additive",
+            "description": "Water Counter Fire +15%"
+          }
+        },
+        {
+          "progress": 11,
+          "label": "2-1",
+          "starsReached": 2,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Attack +10%"
+          }
+        },
+        {
+          "progress": 12,
+          "label": "2-2",
+          "starsReached": 2,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Defense +10%"
+          }
+        },
+        {
+          "progress": 13,
+          "label": "2-3",
+          "starsReached": 2,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water HP +10%"
+          }
+        },
+        {
+          "progress": 14,
+          "label": "2-4",
+          "starsReached": 2,
+          "subLevel": 4,
+          "effect": {
+            "stat": "armigoMorale",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "unknown",
+            "description": "General Armigo Morale +5%"
+          }
+        },
+        {
+          "progress": 15,
+          "label": "3",
+          "starsReached": 3,
+          "subLevel": 0,
+          "unlocksSkill": "frostbite_bonus",
+          "effect": {
+            "stat": "counterFire",
+            "value": 20,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "additive",
+            "description": "Water Counter Fire +20%"
+          }
+        },
+        {
+          "progress": 16,
+          "label": "3-1",
+          "starsReached": 3,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Attack +13%"
+          }
+        },
+        {
+          "progress": 17,
+          "label": "3-2",
+          "starsReached": 3,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Defense +13%"
+          }
+        },
+        {
+          "progress": 18,
+          "label": "3-3",
+          "starsReached": 3,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water HP +13%"
+          }
+        },
+        {
+          "progress": 19,
+          "label": "3-4",
+          "starsReached": 3,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "additive",
+            "description": "General Crit Rate +5%"
+          }
+        },
+        {
+          "progress": 20,
+          "label": "4",
+          "starsReached": 4,
+          "subLevel": 0,
+          "unlocksSkill": "icefall",
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "additive",
+            "description": "General Tenacity +5%"
+          }
+        },
+        {
+          "progress": 21,
+          "label": "4-1",
+          "starsReached": 4,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Attack +16%"
+          }
+        },
+        {
+          "progress": 22,
+          "label": "4-2",
+          "starsReached": 4,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water Defense +16%"
+          }
+        },
+        {
+          "progress": 23,
+          "label": "4-3",
+          "starsReached": 4,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "element": "Water",
+            "stacking": "replace",
+            "description": "Water HP +16%"
+          }
+        },
+        {
+          "progress": 24,
+          "label": "4-4",
+          "starsReached": 4,
+          "subLevel": 4,
+          "effect": {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "unknown",
+            "description": "General Final Damage +5%"
+          }
+        },
+        {
+          "progress": 25,
+          "label": "5",
+          "starsReached": 5,
+          "subLevel": 0,
+          "unlocksSkill": "midnight_tide",
+          "effect": {
+            "stat": "finalDamageTaken",
+            "value": -5,
+            "unit": "percent",
+            "scope": "general",
+            "stacking": "unknown",
+            "description": "General Final Damage Taken -5%"
+          }
+        }
+      ],
+      "skillUpgradeCosts": {
+        "currency": "Bloomstones",
+        "paidUpgradeCountMax": 20,
+        "costs": [
+          5,
+          10,
+          15,
+          20,
+          30,
+          40,
+          50,
+          60,
+          90,
+          120,
+          150,
+          180,
+          220,
+          260,
+          300,
+          340,
+          400,
+          450,
+          500,
+          550
+        ]
+      },
+      "skills": [
+        {
+          "id": "splash_sprint",
+          "name": "Splash Sprint",
+          "requiredStars": 1,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "stat": "attack",
+                "value": 2,
+                "unit": "percent",
+                "scope": "element",
+                "element": "Water",
+                "description": "Water Attack +2%"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "stat": "attack",
+                "value": 4,
+                "unit": "percent",
+                "scope": "element",
+                "element": "Water",
+                "description": "Water Attack +4%"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "stat": "attack",
+                "value": 6,
+                "unit": "percent",
+                "scope": "element",
+                "element": "Water",
+                "description": "Water Attack +6%"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "stat": "attack",
+                "value": 8,
+                "unit": "percent",
+                "scope": "element",
+                "element": "Water",
+                "description": "Water Attack +8%"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "stat": "attack",
+                "value": 10,
+                "unit": "percent",
+                "scope": "element",
+                "element": "Water",
+                "description": "Water Attack +10%"
+              }
+            }
+          ]
+        },
+        {
+          "id": "frost_mark",
+          "name": "Frost Mark",
+          "requiredStars": 2,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalDebuff",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "procChance": 50,
+                "procChanceUnit": "percent",
+                "maxStacks": 5,
+                "attackSpeedReductionPerStack": 0.6,
+                "unit": "percent",
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 0.6% for up to 5 stacks"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalDebuff",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "procChance": 50,
+                "procChanceUnit": "percent",
+                "maxStacks": 5,
+                "attackSpeedReductionPerStack": 1.2,
+                "unit": "percent",
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1.2% for up to 5 stacks"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalDebuff",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "procChance": 50,
+                "procChanceUnit": "percent",
+                "maxStacks": 5,
+                "attackSpeedReductionPerStack": 1.8,
+                "unit": "percent",
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1.8% for up to 5 stacks"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalDebuff",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "procChance": 50,
+                "procChanceUnit": "percent",
+                "maxStacks": 5,
+                "attackSpeedReductionPerStack": 2.4,
+                "unit": "percent",
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 2.4% for up to 5 stacks"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalDebuff",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "procChance": 50,
+                "procChanceUnit": "percent",
+                "maxStacks": 5,
+                "attackSpeedReductionPerStack": 3,
+                "unit": "percent",
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 3% for up to 5 stacks"
+              }
+            }
+          ]
+        },
+        {
+          "id": "frostbite_bonus",
+          "name": "Frostbite Bonus",
+          "requiredStars": 3,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalDamageBonus",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "condition": "Target has Frost Mark",
+                "damageBonus": 4,
+                "unit": "percent",
+                "description": "Water Palmon deal 4% extra damage to enemies with Frost Mark"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalDamageBonus",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "condition": "Target has Frost Mark",
+                "damageBonus": 8,
+                "unit": "percent",
+                "description": "Water Palmon deal 8% extra damage to enemies with Frost Mark"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalDamageBonus",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "condition": "Target has Frost Mark",
+                "damageBonus": 12,
+                "unit": "percent",
+                "description": "Water Palmon deal 12% extra damage to enemies with Frost Mark"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalDamageBonus",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "condition": "Target has Frost Mark",
+                "damageBonus": 16,
+                "unit": "percent",
+                "description": "Water Palmon deal 16% extra damage to enemies with Frost Mark"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalDamageBonus",
+                "scope": "conditional",
+                "sourceElement": "Water",
+                "condition": "Target has Frost Mark",
+                "damageBonus": 20,
+                "unit": "percent",
+                "description": "Water Palmon deal 20% extra damage to enemies with Frost Mark"
+              }
+            }
+          ]
+        },
+        {
+          "id": "icefall",
+          "name": "Icefall",
+          "requiredStars": 4,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalEnemyDamageReduction",
+                "scope": "conditional",
+                "condition": "Enemy has Frost Mark",
+                "enemyDamageReduction": 4,
+                "unit": "percent",
+                "description": "Enemies affected by Frost Mark deal 4% less damage"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalEnemyDamageReduction",
+                "scope": "conditional",
+                "condition": "Enemy has Frost Mark",
+                "enemyDamageReduction": 8,
+                "unit": "percent",
+                "description": "Enemies affected by Frost Mark deal 8% less damage"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalEnemyDamageReduction",
+                "scope": "conditional",
+                "condition": "Enemy has Frost Mark",
+                "enemyDamageReduction": 12,
+                "unit": "percent",
+                "description": "Enemies affected by Frost Mark deal 12% less damage"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalEnemyDamageReduction",
+                "scope": "conditional",
+                "condition": "Enemy has Frost Mark",
+                "enemyDamageReduction": 16,
+                "unit": "percent",
+                "description": "Enemies affected by Frost Mark deal 16% less damage"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalEnemyDamageReduction",
+                "scope": "conditional",
+                "condition": "Enemy has Frost Mark",
+                "enemyDamageReduction": 20,
+                "unit": "percent",
+                "description": "Enemies affected by Frost Mark deal 20% less damage"
+              }
+            }
+          ]
+        },
+        {
+          "id": "midnight_tide",
+          "name": "Midnight Tide",
+          "requiredStars": 5,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "stat": "finalDamage",
+                "value": 5,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Water Final Damage +5%",
+                "element": "Water"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "stat": "finalDamage",
+                "value": 10,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Water Final Damage +10%",
+                "element": "Water"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "stat": "finalDamage",
+                "value": 15,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Water Final Damage +15%",
+                "element": "Water"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "stat": "finalDamage",
+                "value": 20,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Water Final Damage +20%",
+                "element": "Water"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "stat": "finalDamage",
+                "value": 25,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Water Final Damage +25%",
+                "element": "Water"
+              }
+            }
+          ]
+        }
+      ],
+      "levelStatScope": "general",
+      "ascensionFlatStatScope": "general",
+      "bossDealsDamage": false
+    }
+  ]
+}
