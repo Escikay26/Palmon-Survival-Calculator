@@ -492,7 +492,7 @@
     {
       "name": "Fitness Icons",
       "element": null,
-      "prerequisite": null,
+      "prerequisite": "It's over 9000!",
       "levels": [
         {
           "level": 1,
