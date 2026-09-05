@@ -540,7 +540,7 @@ function renderProgressControls(
           </div>
 
           <span class="boss-control-hint">
-            Max. ${boss.maxLevel}
+            Max ${boss.maxLevel}
           </span>
         </div>
 
@@ -580,7 +580,7 @@ function renderProgressControls(
             ${state.ascensionProgress}
             /
             ${boss.ascensionSteps.length}
-            Schritte
+            steps
           </span>
         </div>
       </div>
@@ -613,7 +613,7 @@ function renderResourceSummary(
         </strong>
 
         <small>
-          für aktuelle Ascension
+          for current Ascension
         </small>
       </div>
 
@@ -630,13 +630,13 @@ function renderResourceSummary(
         </strong>
 
         <small>
-          für Skill-Upgrades
+          for Skill upgrades
         </small>
       </div>
 
       <div class="boss-resource-card">
         <span>
-          Bezahlte Skill-Upgrades
+          Paid Skill Upgrades
         </span>
 
         <strong>
@@ -650,7 +650,7 @@ function renderResourceSummary(
         </strong>
 
         <small>
-          Level 1 ist kostenlos
+          Level 1 is free
         </small>
       </div>
     </section>
@@ -671,8 +671,8 @@ function renderSkills(
           <h3>Skills</h3>
 
           <p>
-            Freigeschaltete Skills
-            starten automatisch auf Level 1.
+            Unlocked Skills automatically
+            start at Level 1.
           </p>
         </div>
       </div>
