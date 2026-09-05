@@ -21,6 +21,21 @@ let selectedFilter =
   "all";
 
 
+// Unlimited ist der Standard.
+let buildMode =
+  "unlimited";
+
+
+// Tokens, die der Spieler
+// aktuell noch besitzt.
+let ownedTokens = 0;
+
+
+// Wert des Builds in dem Moment,
+// in dem Budget Build aktiviert wird.
+let budgetBaseCost = 0;
+
+
 // =============================
 // STAT NAMES
 // =============================
@@ -113,6 +128,8 @@ initAchievementSystem() {
 
     addFilterListeners();
 
+    addBuildModeListeners();
+
     render();
 
   }
@@ -127,7 +144,6 @@ initAchievementSystem() {
   }
 
 }
-
 
 // =============================
 // SAVE
@@ -144,12 +160,20 @@ function saveState() {
       selectedLevels,
 
     unlocked:
-      unlockedAchievements
+      unlockedAchievements,
+
+    ownedTokens:
+      ownedTokens,
+
+    buildMode:
+      buildMode,
+
+    budgetBaseCost:
+      budgetBaseCost
 
   });
 
 }
-
 
 // =============================
 // LOAD SAVE
@@ -170,11 +194,20 @@ function loadSavedState() {
   unlockedAchievements =
     data.unlocked;
 
+  ownedTokens =
+    data.ownedTokens;
+
+  buildMode =
+    data.buildMode;
+
+  budgetBaseCost =
+    data.budgetBaseCost;
+
 
   // Migration für ältere Saves:
-  // Ein bereits ausgewähltes Level > 0
-  // bedeutet, dass das Achievement
-  // schon unlocked war.
+  // Level > 0 bedeutet,
+  // dass dieses Achievement
+  // bereits unlocked war.
   Object.entries(
     selectedLevels
   ).forEach(
@@ -214,7 +247,6 @@ function loadSavedState() {
   saveState();
 
 }
-
 
 // =============================
 // AVAILABILITY
@@ -444,7 +476,41 @@ function unlockAchievement(
 
 
 // =============================
-// ACHIEVEMENT COST
+// COST FOR TARGET LEVEL
+// =============================
+
+function getCostForLevel(
+  achievement,
+  targetLevel
+) {
+
+  let total = 0;
+
+
+  achievement.levels.forEach(
+    level => {
+
+      if (
+        level.level <=
+        targetLevel
+      ) {
+
+        total +=
+          level.cost;
+
+      }
+
+    }
+  );
+
+
+  return total;
+
+}
+
+
+// =============================
+// CURRENT ACHIEVEMENT COST
 // =============================
 
 function getAchievementCost(
@@ -470,27 +536,10 @@ function getAchievementCost(
     );
 
 
-  let total = 0;
-
-
-  achievement.levels.forEach(
-    level => {
-
-      if (
-        level.level <=
-        currentLevel
-      ) {
-
-        total +=
-          level.cost;
-
-      }
-
-    }
+  return getCostForLevel(
+    achievement,
+    currentLevel
   );
-
-
-  return total;
 
 }
 
@@ -560,6 +609,145 @@ function calculateTotalCost() {
 
     },
     0
+  );
+
+}
+
+
+// =============================
+// BUILD BUDGET
+// =============================
+
+function getTotalBudget() {
+
+  return (
+    budgetBaseCost +
+    ownedTokens
+  );
+
+}
+
+
+function getAvailableTokens() {
+
+  if (
+    buildMode ===
+    "unlimited"
+  ) {
+
+    return Infinity;
+
+  }
+
+
+  return (
+    getTotalBudget() -
+    calculateTotalCost()
+  );
+
+}
+
+
+function canAffordLevel(
+  achievement,
+  targetLevel
+) {
+
+  // Unlimited ignoriert
+  // sämtliche Token-Grenzen.
+  if (
+    buildMode ===
+    "unlimited"
+  ) {
+
+    return true;
+
+  }
+
+
+  const currentLevel =
+    getLevel(
+      achievement.name
+    );
+
+
+  // Zurückbauen ist immer erlaubt.
+  if (
+    targetLevel <=
+    currentLevel
+  ) {
+
+    return true;
+
+  }
+
+
+  const currentCost =
+    getAchievementCost(
+      achievement
+    );
+
+
+  const targetCost =
+    getCostForLevel(
+      achievement,
+      targetLevel
+    );
+
+
+  const additionalCost =
+    targetCost -
+    currentCost;
+
+
+  return (
+    additionalCost <=
+    getAvailableTokens()
+  );
+
+}
+
+
+function getMissingTokens(
+  achievement,
+  targetLevel
+) {
+
+  if (
+    buildMode ===
+    "unlimited"
+  ) {
+
+    return 0;
+
+  }
+
+
+  const currentCost =
+    getAchievementCost(
+      achievement
+    );
+
+
+  const targetCost =
+    getCostForLevel(
+      achievement,
+      targetLevel
+    );
+
+
+  const additionalCost =
+    Math.max(
+      0,
+      targetCost -
+      currentCost
+    );
+
+
+  return Math.max(
+    0,
+    additionalCost -
+      getAvailableTokens()
   );
 
 }
@@ -875,21 +1063,27 @@ function renderStats() {
 
 function renderSummary() {
 
-  const totalCost =
+  const buildCostElement =
     document.getElementById(
-      "total-cost"
+      "build-cost"
     );
 
 
-  const nextCost =
+  const availableElement =
     document.getElementById(
-      "next-cost"
+      "available-tokens"
     );
 
 
-  if (totalCost) {
+  const tokenInput =
+    document.getElementById(
+      "owned-tokens"
+    );
 
-    totalCost.textContent =
+
+  if (buildCostElement) {
+
+    buildCostElement.textContent =
       `${formatNumber(
         calculateTotalCost()
       )} UR Tokens`;
@@ -897,14 +1091,60 @@ function renderSummary() {
   }
 
 
-  if (nextCost) {
+  if (availableElement) {
 
-    nextCost.textContent =
-      `${formatNumber(
-        calculateNextCosts()
-      )} UR Tokens`;
+    if (
+      buildMode ===
+      "unlimited"
+    ) {
+
+      availableElement.textContent =
+        "Unlimited";
+
+    }
+
+    else {
+
+      const available =
+        Math.max(
+          0,
+          getAvailableTokens()
+        );
+
+
+      availableElement.textContent =
+        `${formatNumber(
+          available
+        )} UR Tokens`;
+
+    }
 
   }
+
+
+  if (tokenInput) {
+
+    tokenInput.value =
+      ownedTokens;
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".build-mode-button"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.buildMode ===
+            buildMode
+        );
+
+      }
+    );
 
 }
 
@@ -966,10 +1206,21 @@ function renderAchievements() {
         );
 
 
+      const levelOneAffordable =
+        buildMode ===
+          "unlimited" ||
+        getCostForLevel(
+          achievement,
+          1
+        ) <=
+          getAvailableTokens();
+
+
       const canMarkAsUnlocked =
         !unlocked &&
         elementOK &&
-        prerequisiteMet;
+        prerequisiteMet &&
+        levelOneAffordable;
 
 
       const trulyLocked =
@@ -1099,6 +1350,42 @@ function renderAchievements() {
         level++
       ) {
 
+        const affordable =
+          canAffordLevel(
+            achievement,
+            level
+          );
+
+
+        const disabled =
+          !available ||
+          !affordable;
+
+
+        let buttonTitle =
+          "";
+
+
+        if (
+          available &&
+          !affordable
+        ) {
+
+          const missingTokens =
+            getMissingTokens(
+              achievement,
+              level
+            );
+
+
+          buttonTitle =
+            `Not enough UR Tokens · Need ${formatNumber(
+              missingTokens
+            )} more`;
+
+        }
+
+
         buttons += `
           <button
             class="
@@ -1110,14 +1397,26 @@ function renderAchievements() {
                   ? "active"
                   : ""
               }
+
+              ${
+                !affordable &&
+                available
+                  ? "unaffordable"
+                  : ""
+              }
             "
             data-name="${
               achievement.name
             }"
             data-level="${level}"
             ${
-              !available
+              disabled
                 ? "disabled"
+                : ""
+            }
+            ${
+              buttonTitle
+                ? `title="${buttonTitle}"`
                 : ""
             }
           >
@@ -1331,6 +1630,44 @@ function addLevelListeners() {
               );
 
 
+            const achievement =
+              achievements.find(
+                item =>
+                  item.name ===
+                  name
+              );
+
+
+            if (!achievement) {
+
+              return;
+
+            }
+
+
+            if (
+              !isAvailable(
+                achievement
+              )
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              !canAffordLevel(
+                achievement,
+                level
+              )
+            ) {
+
+              return;
+
+            }
+
+
             selectedLevels[
               name
             ] = level;
@@ -1349,7 +1686,6 @@ function addLevelListeners() {
     );
 
 }
-
 
 // =============================
 // UNLOCK BUTTON EVENTS
@@ -1469,6 +1805,112 @@ function addResetListener() {
 
     }
   );
+
+}
+
+
+// =============================
+// BUILD MODE
+// =============================
+
+function addBuildModeListeners() {
+
+  const tokenInput =
+    document.getElementById(
+      "owned-tokens"
+    );
+
+
+  if (tokenInput) {
+
+    tokenInput.addEventListener(
+      "input",
+      event => {
+
+        const value =
+          Number(
+            event.target.value
+          );
+
+
+        ownedTokens =
+          Math.max(
+            0,
+            Number.isFinite(value)
+              ? Math.floor(value)
+              : 0
+          );
+
+
+        saveState();
+
+        render();
+
+      }
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".build-mode-button"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const newMode =
+              button.dataset.buildMode;
+
+
+            if (
+              newMode === buildMode
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              newMode ===
+              "budget"
+            ) {
+
+              // Der aktuelle Build wird
+              // zum Ausgangspunkt.
+              budgetBaseCost =
+                calculateTotalCost();
+
+
+              buildMode =
+                "budget";
+
+            }
+
+            else {
+
+              buildMode =
+                "unlimited";
+
+              budgetBaseCost = 0;
+
+            }
+
+
+            saveState();
+
+            render();
+
+          }
+        );
+
+      }
+    );
 
 }
 
