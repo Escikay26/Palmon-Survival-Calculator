@@ -130,6 +130,8 @@ initAchievementSystem() {
 
     addBuildModeListeners();
 
+    addHelpListeners();
+
     render();
 
   }
@@ -1965,6 +1967,135 @@ function addFilterListeners() {
 
       }
     );
+
+}
+
+
+// =============================
+// HELP MODAL
+// =============================
+
+function addHelpListeners() {
+
+  const openButton =
+    document.getElementById(
+      "achievements-help-button"
+    );
+
+
+  const modal =
+    document.getElementById(
+      "achievements-help-modal"
+    );
+
+
+  const closeButton =
+    document.getElementById(
+      "achievements-help-close"
+    );
+
+
+  const backdrop =
+    modal
+      ? modal.querySelector(
+          ".help-modal-backdrop"
+        )
+      : null;
+
+
+  if (
+    !openButton ||
+    !modal
+  ) {
+
+    return;
+
+  }
+
+
+  function openHelp() {
+
+    modal.classList.add(
+      "open"
+    );
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+
+    document.body.style
+      .overflow =
+      "hidden";
+
+  }
+
+
+  function closeHelp() {
+
+    modal.classList.remove(
+      "open"
+    );
+
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    document.body.style
+      .overflow =
+      "";
+
+  }
+
+
+  openButton.addEventListener(
+    "click",
+    openHelp
+  );
+
+
+  if (closeButton) {
+
+    closeButton.addEventListener(
+      "click",
+      closeHelp
+    );
+
+  }
+
+
+  if (backdrop) {
+
+    backdrop.addEventListener(
+      "click",
+      closeHelp
+    );
+
+  }
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape" &&
+        modal.classList.contains(
+          "open"
+        )
+      ) {
+
+        closeHelp();
+
+      }
+
+    }
+  );
 
 }
 
