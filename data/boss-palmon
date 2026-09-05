@@ -22,7 +22,7 @@
       "totalUpgradeSteps": 25,
       "elementAttackDefenseHpBehavior": "replace",
       "elementAttackDefenseHpNote": "Water Attack, Water Defense and Water HP percentage effects replace the previous value of the same stat rather than stacking with it.",
-      "otherEffectStacking": "unknown"
+      "otherEffectStacking": "Defined per effect. Water Attack/Defense/HP replace previous values; Counter Fire, Crit Rate and repeated Tenacity effects stack additively."
     }
   },
   "bosses": [
@@ -201,8 +201,8 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
-            "description": "General Crit +5%"
+            "stacking": "additive",
+            "description": "General Crit Rate +5%"
           }
         },
         {
@@ -217,7 +217,7 @@
             "unit": "percent",
             "scope": "element",
             "element": "Water",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "Water Counter Fire +15%"
           }
         },
@@ -276,7 +276,7 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "General Tenacity +5%"
           }
         },
@@ -292,7 +292,7 @@
             "unit": "percent",
             "scope": "element",
             "element": "Water",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "Water Counter Fire +15%"
           }
         },
@@ -367,7 +367,7 @@
             "unit": "percent",
             "scope": "element",
             "element": "Water",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "Water Counter Fire +20%"
           }
         },
@@ -426,7 +426,7 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "General Crit Rate +5%"
           }
         },
@@ -441,7 +441,7 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
+            "stacking": "additive",
             "description": "General Tenacity +5%"
           }
         },
@@ -836,8 +836,9 @@
                 "stat": "finalDamage",
                 "value": 5,
                 "unit": "percent",
-                "scope": "unspecified",
-                "description": "Final Damage +5%"
+                "scope": "element",
+                "description": "Water Final Damage +5%",
+                "element": "Water"
               }
             },
             {
@@ -846,8 +847,9 @@
                 "stat": "finalDamage",
                 "value": 10,
                 "unit": "percent",
-                "scope": "unspecified",
-                "description": "Final Damage +10%"
+                "scope": "element",
+                "description": "Water Final Damage +10%",
+                "element": "Water"
               }
             },
             {
@@ -856,8 +858,9 @@
                 "stat": "finalDamage",
                 "value": 15,
                 "unit": "percent",
-                "scope": "unspecified",
-                "description": "Final Damage +15%"
+                "scope": "element",
+                "description": "Water Final Damage +15%",
+                "element": "Water"
               }
             },
             {
@@ -866,8 +869,9 @@
                 "stat": "finalDamage",
                 "value": 20,
                 "unit": "percent",
-                "scope": "unspecified",
-                "description": "Final Damage +20%"
+                "scope": "element",
+                "description": "Water Final Damage +20%",
+                "element": "Water"
               }
             },
             {
@@ -876,13 +880,17 @@
                 "stat": "finalDamage",
                 "value": 25,
                 "unit": "percent",
-                "scope": "unspecified",
-                "description": "Final Damage +25%"
+                "scope": "element",
+                "description": "Water Final Damage +25%",
+                "element": "Water"
               }
             }
           ]
         }
-      ]
+      ],
+      "levelStatScope": "general",
+      "ascensionFlatStatScope": "general",
+      "bossDealsDamage": false
     }
   ]
 }
