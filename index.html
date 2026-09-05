@@ -126,13 +126,30 @@
       class="app-page"
     >
 
-      <div class="page-header">
-        <h2>Achievements</h2>
+      <div class="page-header page-header-with-action">
 
-        <p>
-          Select your current achievement levels
-          and calculate their bonuses.
-        </p>
+        <div>
+
+          <h2>
+            Achievements
+          </h2>
+
+          <p>
+            Plan your achievement progression,
+            bonuses and UR Token usage.
+          </p>
+
+        </div>
+
+
+        <button
+          id="achievements-help-button"
+          class="help-button"
+          type="button"
+        >
+          ? How to Use
+        </button>
+
       </div>
 
 
@@ -361,6 +378,204 @@
 
   </main>
 
+  <!-- ACHIEVEMENTS HELP MODAL -->
+
+  <div
+    id="achievements-help-modal"
+    class="help-modal"
+    aria-hidden="true"
+  >
+
+    <div class="help-modal-backdrop"></div>
+
+
+    <div
+      class="help-modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="achievements-help-title"
+    >
+
+      <div class="help-modal-header">
+
+        <div>
+
+          <h2
+            id="achievements-help-title"
+          >
+            How to Use Achievements
+          </h2>
+
+          <p>
+            Recreate your current progress
+            or experiment with new builds.
+          </p>
+
+        </div>
+
+
+        <button
+          id="achievements-help-close"
+          class="help-modal-close"
+          type="button"
+          aria-label="Close help"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="help-modal-body">
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            1
+          </span>
+
+          <div>
+
+            <h3>
+              Recreate your current progress
+            </h3>
+
+            <p>
+              Start in
+              <strong>Unlimited</strong>
+              mode.
+              Mark the achievements you already
+              own as unlocked and select their
+              current levels.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            2
+          </span>
+
+          <div>
+
+            <h3>
+              Enter your UR Tokens
+            </h3>
+
+            <p>
+              Enter the number of UR Tokens
+              you currently have available.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            3
+          </span>
+
+          <div>
+
+            <h3>
+              Start a Budget Build
+            </h3>
+
+            <p>
+              Switch to
+              <strong>Budget Build</strong>.
+              Your current achievement setup
+              becomes the starting point and
+              your entered UR Tokens become
+              your available budget.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            4
+          </span>
+
+          <div>
+
+            <h3>
+              Experiment with your build
+            </h3>
+
+            <p>
+              Upgrade achievements as you like.
+              Levels you cannot afford are
+              disabled automatically.
+              Downgrading an achievement returns
+              its UR Tokens to your available
+              budget.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            5
+          </span>
+
+          <div>
+
+            <h3>
+              Prerequisite Achievements
+            </h3>
+
+            <p>
+              Some achievements require another
+              achievement at Level 6 and specific
+              Palmon.
+              Since Palmon requirements are not
+              tracked yet, use
+              <strong>Mark as Unlocked</strong>
+              once you have actually unlocked
+              the achievement ingame.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-note">
+
+          <strong>
+            Tip
+          </strong>
+
+          <p>
+            Switching from Unlimited to
+            Budget Build uses your current
+            achievement setup as the new
+            starting point.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
   <script
   type="module"
