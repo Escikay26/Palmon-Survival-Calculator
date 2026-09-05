@@ -1,0 +1,1440 @@
+{
+  "version": 1,
+  "achievements": [
+    {
+      "name": "Child of the Sea",
+      "element": "Water",
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 400,
+            "defense": 60,
+            "hp": 72000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 60,
+          "stats": {
+            "attack": 800,
+            "defense": 120,
+            "hp": 144000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 125,
+          "stats": {
+            "attack": 1600,
+            "defense": 240,
+            "hp": 288000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 250,
+          "stats": {
+            "attack": 3200,
+            "defense": 480,
+            "hp": 576000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 500,
+          "stats": {
+            "attack": 5800,
+            "defense": 870,
+            "hp": 1044000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 1000,
+          "stats": {
+            "attack": 9000,
+            "defense": 1650,
+            "hp": 1620000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Super Voltaic Trio",
+      "element": "Electro",
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 400,
+            "defense": 60,
+            "hp": 72000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 60,
+          "stats": {
+            "attack": 800,
+            "defense": 120,
+            "hp": 144000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 125,
+          "stats": {
+            "attack": 1600,
+            "defense": 240,
+            "hp": 288000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 250,
+          "stats": {
+            "attack": 3200,
+            "defense": 480,
+            "hp": 576000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 500,
+          "stats": {
+            "attack": 5800,
+            "defense": 870,
+            "hp": 1044000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 1000,
+          "stats": {
+            "attack": 9000,
+            "defense": 1650,
+            "hp": 1620000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Surface Blitz Squad",
+      "element": "Earth",
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 400,
+            "defense": 60,
+            "hp": 72000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 60,
+          "stats": {
+            "attack": 800,
+            "defense": 120,
+            "hp": 144000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 125,
+          "stats": {
+            "attack": 1600,
+            "defense": 240,
+            "hp": 288000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 250,
+          "stats": {
+            "attack": 3200,
+            "defense": 480,
+            "hp": 576000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 500,
+          "stats": {
+            "attack": 5800,
+            "defense": 870,
+            "hp": 1044000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 1000,
+          "stats": {
+            "attack": 9000,
+            "defense": 1650,
+            "hp": 1620000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Burn! My Cosmos!",
+      "element": "Fire",
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 400,
+            "defense": 60,
+            "hp": 72000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 60,
+          "stats": {
+            "attack": 800,
+            "defense": 120,
+            "hp": 144000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 125,
+          "stats": {
+            "attack": 1600,
+            "defense": 240,
+            "hp": 288000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 250,
+          "stats": {
+            "attack": 3200,
+            "defense": 480,
+            "hp": 576000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 500,
+          "stats": {
+            "attack": 5800,
+            "defense": 870,
+            "hp": 1044000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 1000,
+          "stats": {
+            "attack": 9000,
+            "defense": 1650,
+            "hp": 1620000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Critical Hit",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "critDamage": "3%",
+            "accuracy": "3%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 100,
+          "stats": {
+            "attack": 700,
+            "critDamage": "7%",
+            "accuracy": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 240,
+          "stats": {
+            "attack": 1500,
+            "critDamage": "10%",
+            "accuracy": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 550,
+          "stats": {
+            "attack": 3000,
+            "critDamage": "15%",
+            "accuracy": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1100,
+          "stats": {
+            "attack": 4800,
+            "critDamage": "22%",
+            "accuracy": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2000,
+          "stats": {
+            "attack": 8000,
+            "critDamage": "30%",
+            "accuracy": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unmovable Mountain",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "defense": 75,
+            "hp": 50000,
+            "critDamageReduction": "3%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 100,
+          "stats": {
+            "defense": 175,
+            "hp": 120000,
+            "critDamageReduction": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 240,
+          "stats": {
+            "defense": 375,
+            "hp": 255000,
+            "critDamageReduction": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 550,
+          "stats": {
+            "defense": 750,
+            "hp": 510000,
+            "critDamageReduction": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1100,
+          "stats": {
+            "defense": 1200,
+            "hp": 816000,
+            "critDamageReduction": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2000,
+          "stats": {
+            "defense": 2000,
+            "hp": 1360000,
+            "critDamageReduction": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "It's over 9000!",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 240,
+            "defense": 36,
+            "hp": 43200
+          }
+        },
+        {
+          "level": 2,
+          "cost": 75,
+          "stats": {
+            "attack": 650,
+            "defense": 98,
+            "hp": 117000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 150,
+          "stats": {
+            "attack": 1280,
+            "defense": 192,
+            "hp": 230400
+          }
+        },
+        {
+          "level": 4,
+          "cost": 350,
+          "stats": {
+            "attack": 2800,
+            "defense": 420,
+            "hp": 504000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 800,
+          "stats": {
+            "attack": 4200,
+            "defense": 630,
+            "hp": 756000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 1500,
+          "stats": {
+            "attack": 7500,
+            "defense": 1125,
+            "hp": 1350000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Meow Mashup",
+      "element": null,
+      "prerequisite": "It's over 9000!",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "hp": 54000,
+            "rage": 4
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": 700,
+            "hp": 126000,
+            "rage": 6
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": 1500,
+            "hp": 270000,
+            "rage": 8
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": 3000,
+            "hp": 540000,
+            "rage": 10
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": 4800,
+            "hp": 864000,
+            "rage": 15
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": 8000,
+            "hp": 1440000,
+            "rage": 20
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fitness Icons",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "allPalmonArmigoCapacity": 8,
+            "armigoAttack": "1.5%",
+            "armigoHP": "1.5%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "allPalmonArmigoCapacity": 12,
+            "armigoAttack": "3%",
+            "armigoHP": "3%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "allPalmonArmigoCapacity": 16,
+            "armigoAttack": "5%",
+            "armigoHP": "5%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "allPalmonArmigoCapacity": 20,
+            "armigoAttack": "7%",
+            "armigoHP": "7%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "allPalmonArmigoCapacity": 30,
+            "armigoAttack": "10%",
+            "armigoHP": "10%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "allPalmonArmigoCapacity": 40,
+            "armigoAttack": "15%",
+            "armigoHP": "15%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Elemental Guardian",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 100,
+            "defense": 20,
+            "hp": 18000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": 200,
+            "defense": 40,
+            "hp": 36000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": 500,
+            "defense": 100,
+            "hp": 90000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": 1000,
+            "defense": 200,
+            "hp": 180000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": 1500,
+            "defense": 300,
+            "hp": 270000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": 2500,
+            "defense": 500,
+            "hp": 450000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Protection Detail",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "defense": 60,
+            "hp": 54000,
+            "tenacity": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "defense": 140,
+            "hp": 126000,
+            "tenacity": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "defense": 300,
+            "hp": 270000,
+            "tenacity": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "defense": 600,
+            "hp": 540000,
+            "tenacity": "12%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "defense": 960,
+            "hp": 864000,
+            "tenacity": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "defense": 1600,
+            "hp": 1440000,
+            "tenacity": "20%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "How to Collect Your Dragons",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "critChance": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": 700,
+            "critChance": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": 1500,
+            "critChance": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": 3000,
+            "critChance": "12%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": 4800,
+            "critChance": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": 8000,
+            "critChance": "20%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ball is Life",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 54000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 100,
+          "stats": {
+            "attack": 700,
+            "defense": 140,
+            "hp": 126000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 240,
+          "stats": {
+            "attack": 1500,
+            "defense": 300,
+            "hp": 270000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 550,
+          "stats": {
+            "attack": 3000,
+            "defense": 600,
+            "hp": 540000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1100,
+          "stats": {
+            "attack": 4800,
+            "defense": 960,
+            "hp": 864000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2000,
+          "stats": {
+            "attack": 8000,
+            "defense": 1600,
+            "hp": 1440000
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bipedal Buddies",
+      "element": null,
+      "prerequisite": "Ball is Life",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "allPalmonArmigoCapacity": 20
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "allPalmonArmigoCapacity": 30
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "allPalmonArmigoCapacity": 40
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "allPalmonArmigoCapacity": 50
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "allPalmonArmigoCapacity": 60
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "allPalmonArmigoCapacity": 80
+          }
+        }
+      ]
+    },
+    {
+      "name": "Prehistoric Party",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "rageSkillDamageTakenReduction": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": 700,
+            "rageSkillDamageTakenReduction": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": 1500,
+            "rageSkillDamageTakenReduction": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": 3000,
+            "rageSkillDamageTakenReduction": "12%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": 4800,
+            "rageSkillDamageTakenReduction": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": 8000,
+            "rageSkillDamageTakenReduction": "20%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "A Mon of Ice and Fire",
+      "element": null,
+      "prerequisite": "Prehistoric Party",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "hp": 54000,
+            "rageSkillDamageBonus": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "hp": 126000,
+            "rageSkillDamageBonus": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "hp": 270000,
+            "rageSkillDamageBonus": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "hp": 540000,
+            "rageSkillDamageBonus": "12%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "hp": 864000,
+            "rageSkillDamageBonus": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "hp": 1440000,
+            "rageSkillDamageBonus": "20%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tempest Breaker",
+      "element": "Water",
+      "prerequisite": "Child of the Sea",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": "2%",
+            "defense": "2%",
+            "hp": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": "7%",
+            "defense": "7%",
+            "hp": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": "10%",
+            "defense": "10%",
+            "hp": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": "15%",
+            "defense": "15%",
+            "hp": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": "22%",
+            "defense": "22%",
+            "hp": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": "30%",
+            "defense": "30%",
+            "hp": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Million Volts",
+      "element": "Electro",
+      "prerequisite": "Super Voltaic Trio",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": "2%",
+            "defense": "2%",
+            "hp": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": "7%",
+            "defense": "7%",
+            "hp": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": "10%",
+            "defense": "10%",
+            "hp": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": "15%",
+            "defense": "15%",
+            "hp": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": "22%",
+            "defense": "22%",
+            "hp": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": "30%",
+            "defense": "30%",
+            "hp": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Call of the Earth",
+      "element": "Earth",
+      "prerequisite": "Surface Blitz Squad",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": "2%",
+            "defense": "2%",
+            "hp": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": "7%",
+            "defense": "7%",
+            "hp": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": "10%",
+            "defense": "10%",
+            "hp": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": "15%",
+            "defense": "15%",
+            "hp": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": "22%",
+            "defense": "22%",
+            "hp": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": "30%",
+            "defense": "30%",
+            "hp": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ultimate Blaze",
+      "element": "Fire",
+      "prerequisite": "Burn! My Cosmos!",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": "2%",
+            "defense": "2%",
+            "hp": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 150,
+          "stats": {
+            "attack": "7%",
+            "defense": "7%",
+            "hp": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 300,
+          "stats": {
+            "attack": "10%",
+            "defense": "10%",
+            "hp": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 750,
+          "stats": {
+            "attack": "15%",
+            "defense": "15%",
+            "hp": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1500,
+          "stats": {
+            "attack": "22%",
+            "defense": "22%",
+            "hp": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2500,
+          "stats": {
+            "attack": "30%",
+            "defense": "30%",
+            "hp": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Child of Twilight",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 90000
+          }
+        },
+        {
+          "level": 2,
+          "cost": 100,
+          "stats": {
+            "attack": 700,
+            "defense": 140,
+            "hp": 210000
+          }
+        },
+        {
+          "level": 3,
+          "cost": 240,
+          "stats": {
+            "attack": 1500,
+            "defense": 300,
+            "hp": 450000
+          }
+        },
+        {
+          "level": 4,
+          "cost": 550,
+          "stats": {
+            "attack": 3000,
+            "defense": 600,
+            "hp": 900000
+          }
+        },
+        {
+          "level": 5,
+          "cost": 1100,
+          "stats": {
+            "attack": 4800,
+            "defense": 960,
+            "hp": 1440000
+          }
+        },
+        {
+          "level": 6,
+          "cost": 2000,
+          "stats": {
+            "attack": 8000,
+            "defense": 1600,
+            "hp": 2400000
+          }
+        }
+      ]
+    },
+    {
+      "name": "High Energy Assault",
+      "element": null,
+      "prerequisite": "Child of Twilight",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "attack": 300,
+            "critChance": "2%",
+            "critDamage": "3%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 200,
+          "stats": {
+            "attack": 700,
+            "critChance": "4%",
+            "critDamage": "7%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 400,
+          "stats": {
+            "attack": 1500,
+            "critChance": "7%",
+            "critDamage": "10%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 1000,
+          "stats": {
+            "attack": 3000,
+            "critChance": "12%",
+            "critDamage": "15%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 2000,
+          "stats": {
+            "attack": 4800,
+            "critChance": "15%",
+            "critDamage": "22%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 3200,
+          "stats": {
+            "attack": 8000,
+            "critChance": "20%",
+            "critDamage": "30%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Iron Resolve",
+      "element": null,
+      "prerequisite": null,
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "hp": 90000,
+            "critDamageReduction": "3%",
+            "tenacity": "2%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 200,
+          "stats": {
+            "hp": 210000,
+            "critDamageReduction": "7%",
+            "tenacity": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 400,
+          "stats": {
+            "hp": 450000,
+            "critDamageReduction": "10%",
+            "tenacity": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 1000,
+          "stats": {
+            "hp": 900000,
+            "critDamageReduction": "15%",
+            "tenacity": "12%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 2000,
+          "stats": {
+            "hp": 1440000,
+            "critDamageReduction": "22%",
+            "tenacity": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 3200,
+          "stats": {
+            "hp": 2400000,
+            "critDamageReduction": "30%",
+            "tenacity": "20%"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mythbearer",
+      "element": null,
+      "prerequisite": "Iron Resolve",
+      "levels": [
+        {
+          "level": 1,
+          "cost": 0,
+          "stats": {
+            "allPalmonArmigoCapacity": 10,
+            "armigoAttack": "1.5%",
+            "armigoHP": "1.5%"
+          }
+        },
+        {
+          "level": 2,
+          "cost": 200,
+          "stats": {
+            "allPalmonArmigoCapacity": 15,
+            "armigoAttack": "4%",
+            "armigoHP": "4%"
+          }
+        },
+        {
+          "level": 3,
+          "cost": 400,
+          "stats": {
+            "allPalmonArmigoCapacity": 20,
+            "armigoAttack": "7%",
+            "armigoHP": "7%"
+          }
+        },
+        {
+          "level": 4,
+          "cost": 1000,
+          "stats": {
+            "allPalmonArmigoCapacity": 25,
+            "armigoAttack": "10%",
+            "armigoHP": "10%"
+          }
+        },
+        {
+          "level": 5,
+          "cost": 2000,
+          "stats": {
+            "allPalmonArmigoCapacity": 35,
+            "armigoAttack": "15%",
+            "armigoHP": "15%"
+          }
+        },
+        {
+          "level": 6,
+          "cost": 3200,
+          "stats": {
+            "allPalmonArmigoCapacity": 50,
+            "armigoAttack": "20%",
+            "armigoHP": "20%"
+          }
+        }
+      ]
+    }
+  ]
+}
+
