@@ -15,7 +15,10 @@ export function loadAchievementState() {
     return {
       element: "Water",
       levels: {},
-      unlocked: {}
+      unlocked: {},
+      ownedTokens: 0,
+      buildMode: "unlimited",
+      budgetBaseCost: 0
     };
 
   }
@@ -28,6 +31,7 @@ export function loadAchievementState() {
 
 
     return {
+
       element:
         data.element ||
         "Water",
@@ -38,7 +42,22 @@ export function loadAchievementState() {
 
       unlocked:
         data.unlocked ||
-        {}
+        {},
+
+      ownedTokens:
+        Number(
+          data.ownedTokens
+        ) || 0,
+
+      buildMode:
+        data.buildMode ||
+        "unlimited",
+
+      budgetBaseCost:
+        Number(
+          data.budgetBaseCost
+        ) || 0
+
     };
 
   }
@@ -54,7 +73,10 @@ export function loadAchievementState() {
     return {
       element: "Water",
       levels: {},
-      unlocked: {}
+      unlocked: {},
+      ownedTokens: 0,
+      buildMode: "unlimited",
+      budgetBaseCost: 0
     };
 
   }
@@ -70,7 +92,9 @@ export function saveAchievementState(
 
     localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify(state)
+      JSON.stringify(
+        state
+      )
     );
 
   }
