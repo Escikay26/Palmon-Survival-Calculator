@@ -904,14 +904,9 @@ function renderBonuses(
           effect.stat,
 
         value:
-          effect.stat ===
-          "finalDamageTaken"
-            ? `-${formatPercent(
-                effect.value
-              )}`
-            : `+${formatPercent(
-                effect.value
-              )}`
+          `+${formatPercent(
+            effect.value
+          )}`
       });
     });
 
@@ -919,8 +914,7 @@ function renderBonuses(
     percentEffects
       .filter(
         effect =>
-          effect.scope ===
-            "element" &&
+          effect.scope === "element" &&
           effect.element === "Water"
       )
       .map(effect => ({
@@ -941,9 +935,9 @@ function renderBonuses(
           <h3>Current Bonuses</h3>
 
           <p>
-            General gilt für alle Palmon
-            im Squad. Water gilt nur für
-            Water Palmon.
+            General bonuses apply to all Palmon
+            in the Squad. Water bonuses apply only
+            to Water Palmon.
           </p>
         </div>
       </div>
