@@ -197,7 +197,7 @@
           "starsReached": 0,
           "subLevel": 4,
           "effect": {
-            "stat": "critChance",
+            "stat": "critRate",
             "value": 5,
             "unit": "percent",
             "scope": "general",
@@ -422,7 +422,7 @@
           "starsReached": 3,
           "subLevel": 4,
           "effect": {
-            "stat": "critChance",
+            "stat": "critRate",
             "value": 5,
             "unit": "percent",
             "scope": "general",
