@@ -167,32 +167,92 @@
       </section>
 
 
-      <!-- SUMMARY -->
+      <!-- BUILD SETTINGS -->
 
-      <section class="summary">
+      <section class="build-settings">
 
-        <div class="summary-card">
+        <div class="build-settings-header">
+  
+          <div>
 
-          <span class="summary-label">
-            Tokens Spent
-          </span>
+            <h3>
+              Build Mode
+            </h3>
 
-          <strong id="total-cost">
-            0
-          </strong>
+            <p>
+              Use Unlimited to enter your current build,
+              then switch to Budget Build to plan with
+              your available UR Tokens.
+            </p>
+
+          </div>
+
+
+          <div class="build-mode-toggle">
+
+            <button
+              class="build-mode-button active"
+              data-build-mode="unlimited"
+            >
+              Unlimited
+            </button>
+
+            <button
+              class="build-mode-button"
+              data-build-mode="budget"
+            >
+              Budget Build
+            </button>
+
+          </div>
 
         </div>
 
 
-        <div class="summary-card">
+        <div class="summary">
 
-          <span class="summary-label">
-            Next Upgrades
-          </span>
+          <label class="summary-card token-input-card">
 
-          <strong id="next-cost">
-            0
-          </strong>
+            <span class="summary-label">
+              Owned UR Tokens
+            </span>
+
+            <input
+              id="owned-tokens"
+              class="token-input"
+              type="number"
+              min="0"
+              step="1"
+              value="0"
+            >
+
+          </label>
+
+
+          <div class="summary-card">
+
+            <span class="summary-label">
+              Available
+            </span>
+
+            <strong id="available-tokens">
+              Unlimited
+            </strong>
+
+          </div>
+
+
+          <div class="summary-card">
+
+            <span class="summary-label">
+              Build Cost
+            </span>
+
+            <strong id="build-cost">
+              0 UR Tokens
+            </strong>
+
+          </div>
 
         </div>
 
