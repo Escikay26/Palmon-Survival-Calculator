@@ -1,11 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "notes": {
     "scopeRules": {
       "general": "Applies to all Palmon in the same squad.",
       "element": "Applies only to Palmon of the specified element in the same squad.",
-      "conditional": "Battle effect with its own condition; not treated as a simple always-on squad stat.",
-      "unspecified": "The source text does not explicitly state whether the effect is general or element-only."
+      "conditional": "Battle effect with its own condition; not treated as a simple always-on squad stat."
     },
     "skillRules": {
       "unlock": "Skill 1 unlocks at 1 star, Skill 2 at 2 stars, and so on.",
@@ -21,8 +20,7 @@
       "stepsPerStar": 5,
       "totalUpgradeSteps": 25,
       "elementAttackDefenseHpBehavior": "replace",
-      "elementAttackDefenseHpNote": "Water Attack, Water Defense and Water HP percentage effects replace the previous value of the same stat rather than stacking with it.",
-      "otherEffectStacking": "Defined per effect. Water Attack/Defense/HP replace previous values; Counter Fire, Crit Rate and repeated Tenacity effects stack additively."
+      "otherEffectStacking": "Element Attack/Defense/HP replace previous values. Counter bonuses, repeated Crit Rate and repeated Tenacity effects stack additively."
     }
   },
   "bosses": [
@@ -156,9 +154,9 @@
             "value": 4,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Attack +4%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Attack +4%"
+            "stacking": "replace"
           }
         },
         {
@@ -171,9 +169,9 @@
             "value": 4,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Defense +4%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Defense +4%"
+            "stacking": "replace"
           }
         },
         {
@@ -186,9 +184,9 @@
             "value": 4,
             "unit": "percent",
             "scope": "element",
+            "description": "Water HP +4%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water HP +4%"
+            "stacking": "replace"
           }
         },
         {
@@ -201,8 +199,8 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "additive",
-            "description": "General Crit Rate +5%"
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
           }
         },
         {
@@ -210,16 +208,16 @@
           "label": "1",
           "starsReached": 1,
           "subLevel": 0,
-          "unlocksSkill": "splash_sprint",
           "effect": {
             "stat": "counterFire",
             "value": 15,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Counter Fire +15%",
             "element": "Water",
-            "stacking": "additive",
-            "description": "Water Counter Fire +15%"
-          }
+            "stacking": "additive"
+          },
+          "unlocksSkill": "splash_sprint"
         },
         {
           "progress": 6,
@@ -231,9 +229,9 @@
             "value": 7,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Attack +7%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Attack +7%"
+            "stacking": "replace"
           }
         },
         {
@@ -246,9 +244,9 @@
             "value": 7,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Defense +7%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Defense +7%"
+            "stacking": "replace"
           }
         },
         {
@@ -261,9 +259,9 @@
             "value": 7,
             "unit": "percent",
             "scope": "element",
+            "description": "Water HP +7%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water HP +7%"
+            "stacking": "replace"
           }
         },
         {
@@ -276,8 +274,8 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "additive",
-            "description": "General Tenacity +5%"
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
           }
         },
         {
@@ -285,16 +283,16 @@
           "label": "2",
           "starsReached": 2,
           "subLevel": 0,
-          "unlocksSkill": "frost_mark",
           "effect": {
             "stat": "counterFire",
             "value": 15,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Counter Fire +15%",
             "element": "Water",
-            "stacking": "additive",
-            "description": "Water Counter Fire +15%"
-          }
+            "stacking": "additive"
+          },
+          "unlocksSkill": "frost_mark"
         },
         {
           "progress": 11,
@@ -306,9 +304,9 @@
             "value": 10,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Attack +10%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Attack +10%"
+            "stacking": "replace"
           }
         },
         {
@@ -321,9 +319,9 @@
             "value": 10,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Defense +10%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Defense +10%"
+            "stacking": "replace"
           }
         },
         {
@@ -336,9 +334,9 @@
             "value": 10,
             "unit": "percent",
             "scope": "element",
+            "description": "Water HP +10%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water HP +10%"
+            "stacking": "replace"
           }
         },
         {
@@ -351,7 +349,6 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
             "description": "General Armigo Morale +5%"
           }
         },
@@ -360,16 +357,16 @@
           "label": "3",
           "starsReached": 3,
           "subLevel": 0,
-          "unlocksSkill": "frostbite_bonus",
           "effect": {
             "stat": "counterFire",
             "value": 20,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Counter Fire +20%",
             "element": "Water",
-            "stacking": "additive",
-            "description": "Water Counter Fire +20%"
-          }
+            "stacking": "additive"
+          },
+          "unlocksSkill": "frostbite_bonus"
         },
         {
           "progress": 16,
@@ -381,9 +378,9 @@
             "value": 13,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Attack +13%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Attack +13%"
+            "stacking": "replace"
           }
         },
         {
@@ -396,9 +393,9 @@
             "value": 13,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Defense +13%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Defense +13%"
+            "stacking": "replace"
           }
         },
         {
@@ -411,9 +408,9 @@
             "value": 13,
             "unit": "percent",
             "scope": "element",
+            "description": "Water HP +13%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water HP +13%"
+            "stacking": "replace"
           }
         },
         {
@@ -426,8 +423,8 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "additive",
-            "description": "General Crit Rate +5%"
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
           }
         },
         {
@@ -435,15 +432,15 @@
           "label": "4",
           "starsReached": 4,
           "subLevel": 0,
-          "unlocksSkill": "icefall",
           "effect": {
             "stat": "tenacity",
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "additive",
-            "description": "General Tenacity +5%"
-          }
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "icefall"
         },
         {
           "progress": 21,
@@ -455,9 +452,9 @@
             "value": 16,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Attack +16%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Attack +16%"
+            "stacking": "replace"
           }
         },
         {
@@ -470,9 +467,9 @@
             "value": 16,
             "unit": "percent",
             "scope": "element",
+            "description": "Water Defense +16%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water Defense +16%"
+            "stacking": "replace"
           }
         },
         {
@@ -485,9 +482,9 @@
             "value": 16,
             "unit": "percent",
             "scope": "element",
+            "description": "Water HP +16%",
             "element": "Water",
-            "stacking": "replace",
-            "description": "Water HP +16%"
+            "stacking": "replace"
           }
         },
         {
@@ -500,7 +497,6 @@
             "value": 5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
             "description": "General Final Damage +5%"
           }
         },
@@ -509,15 +505,14 @@
           "label": "5",
           "starsReached": 5,
           "subLevel": 0,
-          "unlocksSkill": "midnight_tide",
           "effect": {
             "stat": "finalDamageTaken",
             "value": -5,
             "unit": "percent",
             "scope": "general",
-            "stacking": "unknown",
             "description": "General Final Damage Taken -5%"
-          }
+          },
+          "unlocksSkill": "midnight_tide"
         }
       ],
       "skillUpgradeCosts": {
@@ -561,8 +556,8 @@
                 "value": 2,
                 "unit": "percent",
                 "scope": "element",
-                "element": "Water",
-                "description": "Water Attack +2%"
+                "description": "Water Attack +2%",
+                "element": "Water"
               }
             },
             {
@@ -572,8 +567,8 @@
                 "value": 4,
                 "unit": "percent",
                 "scope": "element",
-                "element": "Water",
-                "description": "Water Attack +4%"
+                "description": "Water Attack +4%",
+                "element": "Water"
               }
             },
             {
@@ -583,8 +578,8 @@
                 "value": 6,
                 "unit": "percent",
                 "scope": "element",
-                "element": "Water",
-                "description": "Water Attack +6%"
+                "description": "Water Attack +6%",
+                "element": "Water"
               }
             },
             {
@@ -594,8 +589,8 @@
                 "value": 8,
                 "unit": "percent",
                 "scope": "element",
-                "element": "Water",
-                "description": "Water Attack +8%"
+                "description": "Water Attack +8%",
+                "element": "Water"
               }
             },
             {
@@ -605,8 +600,8 @@
                 "value": 10,
                 "unit": "percent",
                 "scope": "element",
-                "element": "Water",
-                "description": "Water Attack +10%"
+                "description": "Water Attack +10%",
+                "element": "Water"
               }
             }
           ]
@@ -621,71 +616,46 @@
             {
               "level": 1,
               "effect": {
-                "type": "conditionalDebuff",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "procChance": 50,
-                "procChanceUnit": "percent",
-                "maxStacks": 5,
-                "attackSpeedReductionPerStack": 0.6,
-                "unit": "percent",
-                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 0.6% for up to 5 stacks"
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 0.6% for up to 5 stacks",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 2,
               "effect": {
-                "type": "conditionalDebuff",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "procChance": 50,
-                "procChanceUnit": "percent",
-                "maxStacks": 5,
-                "attackSpeedReductionPerStack": 1.2,
-                "unit": "percent",
-                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1.2% for up to 5 stacks"
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1,2% for up to 5 stacks",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 3,
               "effect": {
-                "type": "conditionalDebuff",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "procChance": 50,
-                "procChanceUnit": "percent",
-                "maxStacks": 5,
-                "attackSpeedReductionPerStack": 1.8,
-                "unit": "percent",
-                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1.8% for up to 5 stacks"
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 1,8% for up to 5 stacks",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 4,
               "effect": {
-                "type": "conditionalDebuff",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "procChance": 50,
-                "procChanceUnit": "percent",
-                "maxStacks": 5,
-                "attackSpeedReductionPerStack": 2.4,
-                "unit": "percent",
-                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 2.4% for up to 5 stacks"
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 2,4% for up to 5 stacks",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 5,
               "effect": {
-                "type": "conditionalDebuff",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "procChance": 50,
-                "procChanceUnit": "percent",
-                "maxStacks": 5,
-                "attackSpeedReductionPerStack": 3,
-                "unit": "percent",
-                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 3% for up to 5 stacks"
+                "description": "Normal Attacks from Water Palmon have 50% Chance to apply Frost Mark on enemies, reducing Attack Speed by 3% for up to 5 stacks",
+                "sourceElement": "Water"
               }
             }
           ]
@@ -700,61 +670,46 @@
             {
               "level": 1,
               "effect": {
-                "type": "conditionalDamageBonus",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "condition": "Target has Frost Mark",
-                "damageBonus": 4,
-                "unit": "percent",
-                "description": "Water Palmon deal 4% extra damage to enemies with Frost Mark"
+                "description": "Water Palmon deal 4% extra damage to enemies with Frost Mark",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 2,
               "effect": {
-                "type": "conditionalDamageBonus",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "condition": "Target has Frost Mark",
-                "damageBonus": 8,
-                "unit": "percent",
-                "description": "Water Palmon deal 8% extra damage to enemies with Frost Mark"
+                "description": "Water Palmon deal 8% extra damage to enemies with Frost Mark",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 3,
               "effect": {
-                "type": "conditionalDamageBonus",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "condition": "Target has Frost Mark",
-                "damageBonus": 12,
-                "unit": "percent",
-                "description": "Water Palmon deal 12% extra damage to enemies with Frost Mark"
+                "description": "Water Palmon deal 12% extra damage to enemies with Frost Mark",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 4,
               "effect": {
-                "type": "conditionalDamageBonus",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "condition": "Target has Frost Mark",
-                "damageBonus": 16,
-                "unit": "percent",
-                "description": "Water Palmon deal 16% extra damage to enemies with Frost Mark"
+                "description": "Water Palmon deal 16% extra damage to enemies with Frost Mark",
+                "sourceElement": "Water"
               }
             },
             {
               "level": 5,
               "effect": {
-                "type": "conditionalDamageBonus",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "sourceElement": "Water",
-                "condition": "Target has Frost Mark",
-                "damageBonus": 20,
-                "unit": "percent",
-                "description": "Water Palmon deal 20% extra damage to enemies with Frost Mark"
+                "description": "Water Palmon deal 20% extra damage to enemies with Frost Mark",
+                "sourceElement": "Water"
               }
             }
           ]
@@ -769,55 +724,40 @@
             {
               "level": 1,
               "effect": {
-                "type": "conditionalEnemyDamageReduction",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "condition": "Enemy has Frost Mark",
-                "enemyDamageReduction": 4,
-                "unit": "percent",
                 "description": "Enemies affected by Frost Mark deal 4% less damage"
               }
             },
             {
               "level": 2,
               "effect": {
-                "type": "conditionalEnemyDamageReduction",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "condition": "Enemy has Frost Mark",
-                "enemyDamageReduction": 8,
-                "unit": "percent",
                 "description": "Enemies affected by Frost Mark deal 8% less damage"
               }
             },
             {
               "level": 3,
               "effect": {
-                "type": "conditionalEnemyDamageReduction",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "condition": "Enemy has Frost Mark",
-                "enemyDamageReduction": 12,
-                "unit": "percent",
                 "description": "Enemies affected by Frost Mark deal 12% less damage"
               }
             },
             {
               "level": 4,
               "effect": {
-                "type": "conditionalEnemyDamageReduction",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "condition": "Enemy has Frost Mark",
-                "enemyDamageReduction": 16,
-                "unit": "percent",
                 "description": "Enemies affected by Frost Mark deal 16% less damage"
               }
             },
             {
               "level": 5,
               "effect": {
-                "type": "conditionalEnemyDamageReduction",
+                "type": "conditionalBattleEffect",
                 "scope": "conditional",
-                "condition": "Enemy has Frost Mark",
-                "enemyDamageReduction": 20,
-                "unit": "percent",
                 "description": "Enemies affected by Frost Mark deal 20% less damage"
               }
             }
@@ -837,7 +777,7 @@
                 "value": 5,
                 "unit": "percent",
                 "scope": "element",
-                "description": "Water Final Damage +5%",
+                "description": "Final Damage +5%",
                 "element": "Water"
               }
             },
@@ -848,7 +788,7 @@
                 "value": 10,
                 "unit": "percent",
                 "scope": "element",
-                "description": "Water Final Damage +10%",
+                "description": "Final Damage +10%",
                 "element": "Water"
               }
             },
@@ -859,7 +799,7 @@
                 "value": 15,
                 "unit": "percent",
                 "scope": "element",
-                "description": "Water Final Damage +15%",
+                "description": "Final Damage +15%",
                 "element": "Water"
               }
             },
@@ -870,7 +810,7 @@
                 "value": 20,
                 "unit": "percent",
                 "scope": "element",
-                "description": "Water Final Damage +20%",
+                "description": "Final Damage +20%",
                 "element": "Water"
               }
             },
@@ -881,8 +821,2392 @@
                 "value": 25,
                 "unit": "percent",
                 "scope": "element",
-                "description": "Water Final Damage +25%",
+                "description": "Final Damage +25%",
                 "element": "Water"
+              }
+            }
+          ]
+        }
+      ],
+      "levelStatScope": "general",
+      "ascensionFlatStatScope": "general",
+      "bossDealsDamage": false
+    },
+    {
+      "id": "oinkohm",
+      "name": "Oinkohm",
+      "element": "Electric",
+      "maxLevel": 300,
+      "levelGrowth": [
+        {
+          "displayedLevelRange": "1-50",
+          "minLevel": 1,
+          "maxLevel": 50,
+          "perLevelIncrease": {
+            "attack": 10,
+            "defense": 1,
+            "hp": 3000
+          }
+        },
+        {
+          "displayedLevelRange": "51-100",
+          "minLevel": 51,
+          "maxLevel": 100,
+          "perLevelIncrease": {
+            "attack": 15,
+            "defense": 1,
+            "hp": 4500
+          }
+        },
+        {
+          "displayedLevelRange": "101-150",
+          "minLevel": 101,
+          "maxLevel": 150,
+          "perLevelIncrease": {
+            "attack": 22,
+            "defense": 1,
+            "hp": 6600
+          }
+        },
+        {
+          "displayedLevelRange": "151-200",
+          "minLevel": 151,
+          "maxLevel": 200,
+          "perLevelIncrease": {
+            "attack": 28,
+            "defense": 3,
+            "hp": 8400
+          }
+        },
+        {
+          "displayedLevelRange": "201-250",
+          "minLevel": 201,
+          "maxLevel": 250,
+          "perLevelIncrease": {
+            "attack": 35,
+            "defense": 4,
+            "hp": 10000
+          }
+        },
+        {
+          "displayedLevelRange": "251-300",
+          "minLevel": 251,
+          "maxLevel": 300,
+          "perLevelIncrease": {
+            "attack": 40,
+            "defense": 7,
+            "hp": 12000
+          }
+        }
+      ],
+      "ascensionTiers": [
+        {
+          "fromStars": 0,
+          "toStars": 1,
+          "perStepFlatStats": {
+            "attack": 100,
+            "defense": 20,
+            "hp": 30000
+          },
+          "titanSealsPerStep": 200
+        },
+        {
+          "fromStars": 1,
+          "toStars": 2,
+          "perStepFlatStats": {
+            "attack": 200,
+            "defense": 40,
+            "hp": 60000
+          },
+          "titanSealsPerStep": 400
+        },
+        {
+          "fromStars": 2,
+          "toStars": 3,
+          "perStepFlatStats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 90000
+          },
+          "titanSealsPerStep": 800
+        },
+        {
+          "fromStars": 3,
+          "toStars": 4,
+          "perStepFlatStats": {
+            "attack": 400,
+            "defense": 80,
+            "hp": 120000
+          },
+          "titanSealsPerStep": 2500
+        },
+        {
+          "fromStars": 4,
+          "toStars": 5,
+          "perStepFlatStats": {
+            "attack": 500,
+            "defense": 100,
+            "hp": 150000
+          },
+          "titanSealsPerStep": 4000
+        }
+      ],
+      "ascensionSteps": [
+        {
+          "progress": 1,
+          "label": "0-1",
+          "starsReached": 0,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Attack +4%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 2,
+          "label": "0-2",
+          "starsReached": 0,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Defense +4%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 3,
+          "label": "0-3",
+          "starsReached": 0,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric HP +4%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 4,
+          "label": "0-4",
+          "starsReached": 0,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 5,
+          "label": "1",
+          "starsReached": 1,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterWater",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Counter Water +15%",
+            "element": "Electric",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "quickshock"
+        },
+        {
+          "progress": 6,
+          "label": "1-1",
+          "starsReached": 1,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Attack +7%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 7,
+          "label": "1-2",
+          "starsReached": 1,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Defense +7%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 8,
+          "label": "1-3",
+          "starsReached": 1,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric HP +7%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 9,
+          "label": "1-4",
+          "starsReached": 1,
+          "subLevel": 4,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 10,
+          "label": "2",
+          "starsReached": 2,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterWater",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Counter Water +15%",
+            "element": "Electric",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "shock_mark"
+        },
+        {
+          "progress": 11,
+          "label": "2-1",
+          "starsReached": 2,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Attack +10%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 12,
+          "label": "2-2",
+          "starsReached": 2,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Defense +10%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 13,
+          "label": "2-3",
+          "starsReached": 2,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric HP +10%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 14,
+          "label": "2-4",
+          "starsReached": 2,
+          "subLevel": 4,
+          "effect": {
+            "stat": "armigoMorale",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Armigo Morale +5%"
+          }
+        },
+        {
+          "progress": 15,
+          "label": "3",
+          "starsReached": 3,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterWater",
+            "value": 20,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Counter Water +20%",
+            "element": "Electric",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "static_resonance"
+        },
+        {
+          "progress": 16,
+          "label": "3-1",
+          "starsReached": 3,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Attack +13%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 17,
+          "label": "3-2",
+          "starsReached": 3,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Defense +13%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 18,
+          "label": "3-3",
+          "starsReached": 3,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric HP +13%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 19,
+          "label": "3-4",
+          "starsReached": 3,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 20,
+          "label": "4",
+          "starsReached": 4,
+          "subLevel": 0,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "voltage_break"
+        },
+        {
+          "progress": 21,
+          "label": "4-1",
+          "starsReached": 4,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Attack +16%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 22,
+          "label": "4-2",
+          "starsReached": 4,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric Defense +16%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 23,
+          "label": "4-3",
+          "starsReached": 4,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Electric HP +16%",
+            "element": "Electric",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 24,
+          "label": "4-4",
+          "starsReached": 4,
+          "subLevel": 4,
+          "effect": {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage +5%"
+          }
+        },
+        {
+          "progress": 25,
+          "label": "5",
+          "starsReached": 5,
+          "subLevel": 0,
+          "effect": {
+            "stat": "finalDamageTaken",
+            "value": -5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage Taken -5%"
+          },
+          "unlocksSkill": "lightning_conduit"
+        }
+      ],
+      "skillUpgradeCosts": {
+        "currency": "Bloomstones",
+        "paidUpgradeCountMax": 20,
+        "costs": [
+          5,
+          10,
+          15,
+          20,
+          30,
+          40,
+          50,
+          60,
+          90,
+          120,
+          150,
+          180,
+          220,
+          260,
+          300,
+          340,
+          400,
+          450,
+          500,
+          550
+        ]
+      },
+      "skills": [
+        {
+          "id": "quickshock",
+          "name": "Quickshock",
+          "requiredStars": 1,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "stat": "critRate",
+                "value": 2,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Electric Crit Rate +2%",
+                "element": "Electric"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "stat": "critRate",
+                "value": 4,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Electric Crit Rate +4%",
+                "element": "Electric"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "stat": "critRate",
+                "value": 6,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Electric Crit Rate +6%",
+                "element": "Electric"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "stat": "critRate",
+                "value": 8,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Electric Crit Rate +8%",
+                "element": "Electric"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "stat": "critRate",
+                "value": 10,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Electric Crit Rate +10%",
+                "element": "Electric"
+              }
+            }
+          ]
+        },
+        {
+          "id": "shock_mark",
+          "name": "Shock Mark",
+          "requiredStars": 2,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Critical Hits from Electric Palmon have 80% Chance to apply Shock Mark on enemies, reducing Attack by 4% for 5 seconds",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Critical Hits from Electric Palmon have 80% Chance to apply Shock Mark on enemies, reducing Attack by 8% for 5 seconds",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Critical Hits from Electric Palmon have 80% Chance to apply Shock Mark on enemies, reducing Attack by 12% for 5 seconds",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Critical Hits from Electric Palmon have 80% Chance to apply Shock Mark on enemies, reducing Attack by 16% for 5 seconds",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Critical Hits from Electric Palmon have 80% Chance to apply Shock Mark on enemies, reducing Attack by 20% for 5 seconds",
+                "sourceElement": "Electric"
+              }
+            }
+          ]
+        },
+        {
+          "id": "static_resonance",
+          "name": "Static Resonance",
+          "requiredStars": 3,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Electric Palmon deal 6% more damage and 8% more Crit Damage to enemies with Shock Mark",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Electric Palmon deal 6% more damage and 16% more Crit Damage to enemies with Shock Mark",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Electric Palmon deal 6% more damage and 24% more Crit Damage to enemies with Shock Mark",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Electric Palmon deal 6% more damage and 32% more Crit Damage to enemies with Shock Mark",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Electric Palmon deal 6% more damage and 40% more Crit Damage to enemies with Shock Mark",
+                "sourceElement": "Electric"
+              }
+            }
+          ]
+        },
+        {
+          "id": "voltage_break",
+          "name": "Voltage Break",
+          "requiredStars": 4,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Attacks on paralyzed enemies have 10% Chance to silence them for 2s. Cooldown: 10s"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Attacks on paralyzed enemies have 20% Chance to silence them for 2s. Cooldown: 10s"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Attacks on paralyzed enemies have 30% Chance to silence them for 2s. Cooldown: 10s"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Attacks on paralyzed enemies have 40% Chance to silence them for 2s. Cooldown: 10s"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Attacks on paralyzed enemies have 50% Chance to silence them for 2s. Cooldown: 10s"
+              }
+            }
+          ]
+        },
+        {
+          "id": "lightning_conduit",
+          "name": "Lightning Conduit",
+          "requiredStars": 5,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "When Electric Palmon deals damage, afflict 2% of that damage to the enemy with the lowest HP (such damage to Water Palmon is doubled)",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "When Electric Palmon deals damage, afflict 4% of that damage to the enemy with the lowest HP (such damage to Water Palmon is doubled)",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "When Electric Palmon deals damage, afflict 6% of that damage to the enemy with the lowest HP (such damage to Water Palmon is doubled)",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "When Electric Palmon deals damage, afflict 8% of that damage to the enemy with the lowest HP (such damage to Water Palmon is doubled)",
+                "sourceElement": "Electric"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "When Electric Palmon deals damage, afflict 10% of that damage to the enemy with the lowest HP (such damage to Water Palmon is doubled)",
+                "sourceElement": "Electric"
+              }
+            }
+          ]
+        }
+      ],
+      "levelStatScope": "general",
+      "ascensionFlatStatScope": "general",
+      "bossDealsDamage": false
+    },
+    {
+      "id": "bogolem",
+      "name": "Bogolem",
+      "element": "Earth",
+      "maxLevel": 300,
+      "levelGrowth": [
+        {
+          "displayedLevelRange": "1-50",
+          "minLevel": 1,
+          "maxLevel": 50,
+          "perLevelIncrease": {
+            "attack": 10,
+            "defense": 1,
+            "hp": 3000
+          }
+        },
+        {
+          "displayedLevelRange": "51-100",
+          "minLevel": 51,
+          "maxLevel": 100,
+          "perLevelIncrease": {
+            "attack": 15,
+            "defense": 1,
+            "hp": 4500
+          }
+        },
+        {
+          "displayedLevelRange": "101-150",
+          "minLevel": 101,
+          "maxLevel": 150,
+          "perLevelIncrease": {
+            "attack": 22,
+            "defense": 1,
+            "hp": 6600
+          }
+        },
+        {
+          "displayedLevelRange": "151-200",
+          "minLevel": 151,
+          "maxLevel": 200,
+          "perLevelIncrease": {
+            "attack": 28,
+            "defense": 3,
+            "hp": 8400
+          }
+        },
+        {
+          "displayedLevelRange": "201-250",
+          "minLevel": 201,
+          "maxLevel": 250,
+          "perLevelIncrease": {
+            "attack": 35,
+            "defense": 4,
+            "hp": 10000
+          }
+        },
+        {
+          "displayedLevelRange": "251-300",
+          "minLevel": 251,
+          "maxLevel": 300,
+          "perLevelIncrease": {
+            "attack": 40,
+            "defense": 7,
+            "hp": 12000
+          }
+        }
+      ],
+      "ascensionTiers": [
+        {
+          "fromStars": 0,
+          "toStars": 1,
+          "perStepFlatStats": {
+            "attack": 100,
+            "defense": 20,
+            "hp": 30000
+          },
+          "titanSealsPerStep": 200
+        },
+        {
+          "fromStars": 1,
+          "toStars": 2,
+          "perStepFlatStats": {
+            "attack": 200,
+            "defense": 40,
+            "hp": 60000
+          },
+          "titanSealsPerStep": 400
+        },
+        {
+          "fromStars": 2,
+          "toStars": 3,
+          "perStepFlatStats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 90000
+          },
+          "titanSealsPerStep": 800
+        },
+        {
+          "fromStars": 3,
+          "toStars": 4,
+          "perStepFlatStats": {
+            "attack": 400,
+            "defense": 80,
+            "hp": 120000
+          },
+          "titanSealsPerStep": 2500
+        },
+        {
+          "fromStars": 4,
+          "toStars": 5,
+          "perStepFlatStats": {
+            "attack": 500,
+            "defense": 100,
+            "hp": 150000
+          },
+          "titanSealsPerStep": 4000
+        }
+      ],
+      "ascensionSteps": [
+        {
+          "progress": 1,
+          "label": "0-1",
+          "starsReached": 0,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Attack +4%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 2,
+          "label": "0-2",
+          "starsReached": 0,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Defense +4%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 3,
+          "label": "0-3",
+          "starsReached": 0,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth HP +4%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 4,
+          "label": "0-4",
+          "starsReached": 0,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 5,
+          "label": "1",
+          "starsReached": 1,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterElectric",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Counter Electric +15%",
+            "element": "Earth",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "mountain_grit"
+        },
+        {
+          "progress": 6,
+          "label": "1-1",
+          "starsReached": 1,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Attack +7%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 7,
+          "label": "1-2",
+          "starsReached": 1,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Defense +7%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 8,
+          "label": "1-3",
+          "starsReached": 1,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth HP +7%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 9,
+          "label": "1-4",
+          "starsReached": 1,
+          "subLevel": 4,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 10,
+          "label": "2",
+          "starsReached": 2,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterElectric",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Counter Electric +15%",
+            "element": "Earth",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "earth_mark"
+        },
+        {
+          "progress": 11,
+          "label": "2-1",
+          "starsReached": 2,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Attack +10%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 12,
+          "label": "2-2",
+          "starsReached": 2,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Defense +10%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 13,
+          "label": "2-3",
+          "starsReached": 2,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth HP +10%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 14,
+          "label": "2-4",
+          "starsReached": 2,
+          "subLevel": 4,
+          "effect": {
+            "stat": "armigoMorale",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Armigo Morale +5%"
+          }
+        },
+        {
+          "progress": 15,
+          "label": "3",
+          "starsReached": 3,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterElectric",
+            "value": 20,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Counter Electric +20%",
+            "element": "Earth",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "rocky_fury"
+        },
+        {
+          "progress": 16,
+          "label": "3-1",
+          "starsReached": 3,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Attack +13%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 17,
+          "label": "3-2",
+          "starsReached": 3,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Defense +13%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 18,
+          "label": "3-3",
+          "starsReached": 3,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth HP +13%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 19,
+          "label": "3-4",
+          "starsReached": 3,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 20,
+          "label": "4",
+          "starsReached": 4,
+          "subLevel": 0,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "cliff_s_wrath"
+        },
+        {
+          "progress": 21,
+          "label": "4-1",
+          "starsReached": 4,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Attack +16%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 22,
+          "label": "4-2",
+          "starsReached": 4,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth Defense +16%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 23,
+          "label": "4-3",
+          "starsReached": 4,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Earth HP +16%",
+            "element": "Earth",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 24,
+          "label": "4-4",
+          "starsReached": 4,
+          "subLevel": 4,
+          "effect": {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage +5%"
+          }
+        },
+        {
+          "progress": 25,
+          "label": "5",
+          "starsReached": 5,
+          "subLevel": 0,
+          "effect": {
+            "stat": "finalDamageTaken",
+            "value": -5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage Taken -5%"
+          },
+          "unlocksSkill": "last_aegis"
+        }
+      ],
+      "skillUpgradeCosts": {
+        "currency": "Bloomstones",
+        "paidUpgradeCountMax": 20,
+        "costs": [
+          5,
+          10,
+          15,
+          20,
+          30,
+          40,
+          50,
+          60,
+          90,
+          120,
+          150,
+          180,
+          220,
+          260,
+          300,
+          340,
+          400,
+          450,
+          500,
+          550
+        ]
+      },
+      "skills": [
+        {
+          "id": "mountain_grit",
+          "name": "Mountain Grit",
+          "requiredStars": 1,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "stat": "hp",
+                "value": 2,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Earth HP +2%",
+                "element": "Earth"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "stat": "hp",
+                "value": 4,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Earth HP +4%",
+                "element": "Earth"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "stat": "hp",
+                "value": 6,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Earth HP +6%",
+                "element": "Earth"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "stat": "hp",
+                "value": 8,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Earth HP +8%",
+                "element": "Earth"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "stat": "hp",
+                "value": 10,
+                "unit": "percent",
+                "scope": "element",
+                "description": "Earth HP +10%",
+                "element": "Earth"
+              }
+            }
+          ]
+        },
+        {
+          "id": "earth_mark",
+          "name": "Earth Mark",
+          "requiredStars": 2,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Earth Palmon gain 1 stack(s) of Earth Mark for every 10%HP lost, increasing Attack by 0.6%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Earth Palmon gain 1 stack(s) of Earth Mark for every 10%HP lost, increasing Attack by 1.2%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Earth Palmon gain 1 stack(s) of Earth Mark for every 10%HP lost, increasing Attack by 1.8%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Earth Palmon gain 1 stack(s) of Earth Mark for every 10%HP lost, increasing Attack by 2.4%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Earth Palmon gain 1 stack(s) of Earth Mark for every 10%HP lost, increasing Attack by 3%",
+                "sourceElement": "Earth"
+              }
+            }
+          ]
+        },
+        {
+          "id": "rocky_fury",
+          "name": "Rocky Fury",
+          "requiredStars": 3,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark reduces damage taken by 0.6%. After hit by critical hit reduces damage taken by 1% (this effect does not stack)",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark reduces damage taken by 1.2%. After hit by critical hit reduces damage taken by 2% (this effect does not stack)",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark reduces damage taken by 1.8%. After hit by critical hit reduces damage taken by 3% (this effect does not stack)",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark reduces damage taken by 2.4%. After hit by critical hit reduces damage taken by 4% (this effect does not stack)",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark reduces damage taken by 3%. After hit by critical hit reduces damage taken by 5% (this effect does not stack)",
+                "sourceElement": "Earth"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cliff_s_wrath",
+          "name": "Cliff's Wrath",
+          "requiredStars": 4,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark increases damage dealt by 0.6%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark increases damage dealt by 1.2%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark increases damage dealt by 1.8%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark increases damage dealt by 2.4%",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Each stack of Earth Mark increases damage dealt by 3%",
+                "sourceElement": "Earth"
+              }
+            }
+          ]
+        },
+        {
+          "id": "last_aegis",
+          "name": "Last Aegis",
+          "requiredStars": 5,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Damage Dealt +8% for 4 Earth Palmon with lowest HP",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Damage Dealt +16% for 4 Earth Palmon with lowest HP",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Damage Dealt +24% for 4 Earth Palmon with lowest HP",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Damage Dealt +32% for 4 Earth Palmon with lowest HP",
+                "sourceElement": "Earth"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Damage Dealt +40% for 4 Earth Palmon with lowest HP",
+                "sourceElement": "Earth"
+              }
+            }
+          ]
+        }
+      ],
+      "levelStatScope": "general",
+      "ascensionFlatStatScope": "general",
+      "bossDealsDamage": false
+    },
+    {
+      "id": "flapnir",
+      "name": "Flapnir",
+      "element": "Fire",
+      "maxLevel": 300,
+      "levelGrowth": [
+        {
+          "displayedLevelRange": "1-50",
+          "minLevel": 1,
+          "maxLevel": 50,
+          "perLevelIncrease": {
+            "attack": 10,
+            "defense": 1,
+            "hp": 3000
+          }
+        },
+        {
+          "displayedLevelRange": "51-100",
+          "minLevel": 51,
+          "maxLevel": 100,
+          "perLevelIncrease": {
+            "attack": 15,
+            "defense": 1,
+            "hp": 4500
+          }
+        },
+        {
+          "displayedLevelRange": "101-150",
+          "minLevel": 101,
+          "maxLevel": 150,
+          "perLevelIncrease": {
+            "attack": 22,
+            "defense": 1,
+            "hp": 6600
+          }
+        },
+        {
+          "displayedLevelRange": "151-200",
+          "minLevel": 151,
+          "maxLevel": 200,
+          "perLevelIncrease": {
+            "attack": 28,
+            "defense": 3,
+            "hp": 8400
+          }
+        },
+        {
+          "displayedLevelRange": "201-250",
+          "minLevel": 201,
+          "maxLevel": 250,
+          "perLevelIncrease": {
+            "attack": 35,
+            "defense": 4,
+            "hp": 10000
+          }
+        },
+        {
+          "displayedLevelRange": "251-300",
+          "minLevel": 251,
+          "maxLevel": 300,
+          "perLevelIncrease": {
+            "attack": 40,
+            "defense": 7,
+            "hp": 12000
+          }
+        }
+      ],
+      "ascensionTiers": [
+        {
+          "fromStars": 0,
+          "toStars": 1,
+          "perStepFlatStats": {
+            "attack": 100,
+            "defense": 20,
+            "hp": 30000
+          },
+          "titanSealsPerStep": 200
+        },
+        {
+          "fromStars": 1,
+          "toStars": 2,
+          "perStepFlatStats": {
+            "attack": 200,
+            "defense": 40,
+            "hp": 60000
+          },
+          "titanSealsPerStep": 400
+        },
+        {
+          "fromStars": 2,
+          "toStars": 3,
+          "perStepFlatStats": {
+            "attack": 300,
+            "defense": 60,
+            "hp": 90000
+          },
+          "titanSealsPerStep": 800
+        },
+        {
+          "fromStars": 3,
+          "toStars": 4,
+          "perStepFlatStats": {
+            "attack": 400,
+            "defense": 80,
+            "hp": 120000
+          },
+          "titanSealsPerStep": 2500
+        },
+        {
+          "fromStars": 4,
+          "toStars": 5,
+          "perStepFlatStats": {
+            "attack": 500,
+            "defense": 100,
+            "hp": 150000
+          },
+          "titanSealsPerStep": 4000
+        }
+      ],
+      "ascensionSteps": [
+        {
+          "progress": 1,
+          "label": "0-1",
+          "starsReached": 0,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Attack +4%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 2,
+          "label": "0-2",
+          "starsReached": 0,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Defense +4%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 3,
+          "label": "0-3",
+          "starsReached": 0,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 4,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire HP +4%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 4,
+          "label": "0-4",
+          "starsReached": 0,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 5,
+          "label": "1",
+          "starsReached": 1,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterEarth",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Counter Earth +15%",
+            "element": "Fire",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "flame_splash"
+        },
+        {
+          "progress": 6,
+          "label": "1-1",
+          "starsReached": 1,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Attack +7%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 7,
+          "label": "1-2",
+          "starsReached": 1,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Defense +7%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 8,
+          "label": "1-3",
+          "starsReached": 1,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 7,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire HP +7%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 9,
+          "label": "1-4",
+          "starsReached": 1,
+          "subLevel": 4,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 10,
+          "label": "2",
+          "starsReached": 2,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterEarth",
+            "value": 15,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Counter Earth +15%",
+            "element": "Fire",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "ember_resonance"
+        },
+        {
+          "progress": 11,
+          "label": "2-1",
+          "starsReached": 2,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Attack +10%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 12,
+          "label": "2-2",
+          "starsReached": 2,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Defense +10%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 13,
+          "label": "2-3",
+          "starsReached": 2,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 10,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire HP +10%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 14,
+          "label": "2-4",
+          "starsReached": 2,
+          "subLevel": 4,
+          "effect": {
+            "stat": "armigoMorale",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Armigo Morale +5%"
+          }
+        },
+        {
+          "progress": 15,
+          "label": "3",
+          "starsReached": 3,
+          "subLevel": 0,
+          "effect": {
+            "stat": "counterEarth",
+            "value": 20,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Counter Earth +20%",
+            "element": "Fire",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "scorch_sensor"
+        },
+        {
+          "progress": 16,
+          "label": "3-1",
+          "starsReached": 3,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Attack +13%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 17,
+          "label": "3-2",
+          "starsReached": 3,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Defense +13%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 18,
+          "label": "3-3",
+          "starsReached": 3,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 13,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire HP +13%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 19,
+          "label": "3-4",
+          "starsReached": 3,
+          "subLevel": 4,
+          "effect": {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Crit Rate +5%",
+            "stacking": "additive"
+          }
+        },
+        {
+          "progress": 20,
+          "label": "4",
+          "starsReached": 4,
+          "subLevel": 0,
+          "effect": {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Tenacity +5%",
+            "stacking": "additive"
+          },
+          "unlocksSkill": "ember_detonation"
+        },
+        {
+          "progress": 21,
+          "label": "4-1",
+          "starsReached": 4,
+          "subLevel": 1,
+          "effect": {
+            "stat": "attack",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Attack +16%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 22,
+          "label": "4-2",
+          "starsReached": 4,
+          "subLevel": 2,
+          "effect": {
+            "stat": "defense",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire Defense +16%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 23,
+          "label": "4-3",
+          "starsReached": 4,
+          "subLevel": 3,
+          "effect": {
+            "stat": "hp",
+            "value": 16,
+            "unit": "percent",
+            "scope": "element",
+            "description": "Fire HP +16%",
+            "element": "Fire",
+            "stacking": "replace"
+          }
+        },
+        {
+          "progress": 24,
+          "label": "4-4",
+          "starsReached": 4,
+          "subLevel": 4,
+          "effect": {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage +5%"
+          }
+        },
+        {
+          "progress": 25,
+          "label": "5",
+          "starsReached": 5,
+          "subLevel": 0,
+          "effect": {
+            "stat": "finalDamageTaken",
+            "value": -5,
+            "unit": "percent",
+            "scope": "general",
+            "description": "General Final Damage Taken -5%"
+          },
+          "unlocksSkill": "dragon_s_breath"
+        }
+      ],
+      "skillUpgradeCosts": {
+        "currency": "Bloomstones",
+        "paidUpgradeCountMax": 20,
+        "costs": [
+          5,
+          10,
+          15,
+          20,
+          30,
+          40,
+          50,
+          60,
+          90,
+          120,
+          150,
+          180,
+          220,
+          260,
+          300,
+          340,
+          400,
+          450,
+          500,
+          550
+        ]
+      },
+      "skills": [
+        {
+          "id": "flame_splash",
+          "name": "Flame Splash",
+          "requiredStars": 1,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Normal Attacks from Fire Palmon can spread to 2 nearby Palmon dealing +4% damage",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Normal Attacks from Fire Palmon can spread to 2 nearby Palmon dealing +8% damage",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Normal Attacks from Fire Palmon can spread to 2 nearby Palmon dealing +12% damage",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Normal Attacks from Fire Palmon can spread to 2 nearby Palmon dealing +16% damage",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Normal Attacks from Fire Palmon can spread to 2 nearby Palmon dealing +20% damage",
+                "sourceElement": "Fire"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ember_resonance",
+          "name": "Ember Resonance",
+          "requiredStars": 2,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burned enemies have their attack reduced by 3%"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burned enemies have their attack reduced by 6%"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burned enemies have their attack reduced by 9%"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burned enemies have their attack reduced by 12%"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burned enemies have their attack reduced by 15%"
+              }
+            }
+          ]
+        },
+        {
+          "id": "scorch_sensor",
+          "name": "Scorch Sensor",
+          "requiredStars": 3,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +0.5% for every 1 burned enemies",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +1% for every 1 burned enemies",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +1.5% for every 1 burned enemies",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +2% for every 1 burned enemies",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +2.5% for every 1 burned enemies",
+                "sourceElement": "Fire"
+              }
+            }
+          ]
+        },
+        {
+          "id": "ember_detonation",
+          "name": "Ember Detonation",
+          "requiredStars": 4,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +0.6% damage for every defeated Fire Palmon",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +1.2% damage for every defeated Fire Palmon",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +1.8% damage for every defeated Fire Palmon",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +2.4% damage for every defeated Fire Palmon",
+                "sourceElement": "Fire"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Fire Palmon deal +3% damage for every defeated Fire Palmon",
+                "sourceElement": "Fire"
+              }
+            }
+          ]
+        },
+        {
+          "id": "dragon_s_breath",
+          "name": "Dragon's Breath",
+          "requiredStars": 5,
+          "minLevelWhenUnlocked": 1,
+          "maxLevel": 5,
+          "levels": [
+            {
+              "level": 1,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burn Damage +40%"
+              }
+            },
+            {
+              "level": 2,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burn Damage +80%"
+              }
+            },
+            {
+              "level": 3,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burn Damage +120%"
+              }
+            },
+            {
+              "level": 4,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burn Damage +160%"
+              }
+            },
+            {
+              "level": 5,
+              "effect": {
+                "type": "conditionalBattleEffect",
+                "scope": "conditional",
+                "description": "Burn Damage +200%"
               }
             }
           ]
