@@ -1563,3 +1563,63 @@ select {
     flex-direction: column;
   }
 }
+
+.achievement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 5px;
+}
+
+.achievement-scope {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.achievement-scope.general {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.achievement-scope.water {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.achievement-scope.fire {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.achievement-scope.earth {
+  background: #f3e8d3;
+  color: #92400e;
+}
+
+.achievement-scope.electric {
+  background: #fef3c7;
+  color: #a16207;
+}
+
+.achievement-prerequisite {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.achievement-stat-group {
+  margin-bottom: 18px;
+}
+
+.achievement-stat-group:last-child {
+  margin-bottom: 0;
+}
+
+.achievement-stat-group h3 {
+  margin: 0 0 10px;
+  font-size: 13px;
+}
