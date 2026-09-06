@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "achievements": [
     {
       "name": "Child of the Sea",
@@ -12,7 +12,7 @@
           "stats": {
             "attack": 400,
             "defense": 60,
-            "hp": 72000
+            "hp": 7200
           }
         },
         {
@@ -60,11 +60,12 @@
             "hp": 1620000
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Super Voltaic Trio",
-      "element": "Electro",
+      "element": "Electric",
       "prerequisite": null,
       "levels": [
         {
@@ -73,7 +74,7 @@
           "stats": {
             "attack": 400,
             "defense": 60,
-            "hp": 72000
+            "hp": 7200
           }
         },
         {
@@ -121,7 +122,8 @@
             "hp": 1620000
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Surface Blitz Squad",
@@ -134,7 +136,7 @@
           "stats": {
             "attack": 400,
             "defense": 60,
-            "hp": 72000
+            "hp": 7200
           }
         },
         {
@@ -182,7 +184,8 @@
             "hp": 1620000
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Burn! My Cosmos!",
@@ -195,7 +198,7 @@
           "stats": {
             "attack": 400,
             "defense": 60,
-            "hp": 72000
+            "hp": 7200
           }
         },
         {
@@ -243,11 +246,11 @@
             "hp": 1620000
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Critical Hit",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -304,11 +307,11 @@
             "accuracy": "30%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Unmovable Mountain",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -365,11 +368,11 @@
             "critDamageReduction": "30%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "It's over 9000!",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -426,11 +429,11 @@
             "hp": 1350000
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Meow Mashup",
-      "element": null,
       "prerequisite": "It's over 9000!",
       "levels": [
         {
@@ -438,7 +441,7 @@
           "cost": 0,
           "stats": {
             "attack": 300,
-            "hp": 54000,
+            "defense": 54000,
             "rage": 4
           }
         },
@@ -447,7 +450,7 @@
           "cost": 150,
           "stats": {
             "attack": 700,
-            "hp": 126000,
+            "defense": 126000,
             "rage": 6
           }
         },
@@ -456,7 +459,7 @@
           "cost": 300,
           "stats": {
             "attack": 1500,
-            "hp": 270000,
+            "defense": 270000,
             "rage": 8
           }
         },
@@ -465,7 +468,7 @@
           "cost": 750,
           "stats": {
             "attack": 3000,
-            "hp": 540000,
+            "defense": 540000,
             "rage": 10
           }
         },
@@ -474,7 +477,7 @@
           "cost": 1500,
           "stats": {
             "attack": 4800,
-            "hp": 864000,
+            "defense": 864000,
             "rage": 15
           }
         },
@@ -483,15 +486,15 @@
           "cost": 2500,
           "stats": {
             "attack": 8000,
-            "hp": 1440000,
+            "defense": 1440000,
             "rage": 20
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Fitness Icons",
-      "element": null,
       "prerequisite": "It's over 9000!",
       "levels": [
         {
@@ -499,8 +502,8 @@
           "cost": 0,
           "stats": {
             "allPalmonArmigoCapacity": 8,
-            "armigoAttack": "1.5%",
-            "armigoHP": "1.5%"
+            "armigoAttack": "1,5%",
+            "armigoHP": "1,5%"
           }
         },
         {
@@ -548,11 +551,11 @@
             "armigoHP": "15%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Elemental Guardian",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -609,11 +612,11 @@
             "hp": 450000
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Protection Detail",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -670,11 +673,11 @@
             "tenacity": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "How to Collect Your Dragons",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -725,11 +728,11 @@
             "critChance": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Ball is Life",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -786,11 +789,11 @@
             "hp": 1440000
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Bipedal Buddies",
-      "element": null,
       "prerequisite": "Ball is Life",
       "levels": [
         {
@@ -835,11 +838,11 @@
             "allPalmonArmigoCapacity": 80
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Prehistoric Party",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -854,7 +857,7 @@
           "level": 2,
           "cost": 150,
           "stats": {
-            "attack": 700,
+            "attack": "700",
             "rageSkillDamageTakenReduction": "4%"
           }
         },
@@ -862,7 +865,7 @@
           "level": 3,
           "cost": 300,
           "stats": {
-            "attack": 1500,
+            "attack": "1500",
             "rageSkillDamageTakenReduction": "7%"
           }
         },
@@ -870,7 +873,7 @@
           "level": 4,
           "cost": 750,
           "stats": {
-            "attack": 3000,
+            "attack": "3000",
             "rageSkillDamageTakenReduction": "12%"
           }
         },
@@ -878,7 +881,7 @@
           "level": 5,
           "cost": 1500,
           "stats": {
-            "attack": 4800,
+            "attack": "4800",
             "rageSkillDamageTakenReduction": "15%"
           }
         },
@@ -886,15 +889,15 @@
           "level": 6,
           "cost": 2500,
           "stats": {
-            "attack": 8000,
+            "attack": "8000",
             "rageSkillDamageTakenReduction": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "A Mon of Ice and Fire",
-      "element": null,
       "prerequisite": "Prehistoric Party",
       "levels": [
         {
@@ -945,7 +948,8 @@
             "rageSkillDamageBonus": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Tempest Breaker",
@@ -1006,11 +1010,12 @@
             "hp": "30%"
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Million Volts",
-      "element": "Electro",
+      "element": "Electric",
       "prerequisite": "Super Voltaic Trio",
       "levels": [
         {
@@ -1067,7 +1072,8 @@
             "hp": "30%"
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Call of the Earth",
@@ -1128,7 +1134,8 @@
             "hp": "30%"
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Ultimate Blaze",
@@ -1189,11 +1196,11 @@
             "hp": "30%"
           }
         }
-      ]
+      ],
+      "scope": "element"
     },
     {
       "name": "Child of Twilight",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -1250,11 +1257,11 @@
             "hp": 2400000
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "High Energy Assault",
-      "element": null,
       "prerequisite": "Child of Twilight",
       "levels": [
         {
@@ -1263,7 +1270,7 @@
           "stats": {
             "attack": 300,
             "critChance": "2%",
-            "critDamage": "3%"
+            "critDamage": 0.03
           }
         },
         {
@@ -1272,7 +1279,7 @@
           "stats": {
             "attack": 700,
             "critChance": "4%",
-            "critDamage": "7%"
+            "critDamage": 0.07
           }
         },
         {
@@ -1281,7 +1288,7 @@
           "stats": {
             "attack": 1500,
             "critChance": "7%",
-            "critDamage": "10%"
+            "critDamage": 0.1
           }
         },
         {
@@ -1290,7 +1297,7 @@
           "stats": {
             "attack": 3000,
             "critChance": "12%",
-            "critDamage": "15%"
+            "critDamage": 0.15
           }
         },
         {
@@ -1299,7 +1306,7 @@
           "stats": {
             "attack": 4800,
             "critChance": "15%",
-            "critDamage": "22%"
+            "critDamage": 0.22
           }
         },
         {
@@ -1308,14 +1315,14 @@
           "stats": {
             "attack": 8000,
             "critChance": "20%",
-            "critDamage": "30%"
+            "critDamage": 0.3
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Iron Resolve",
-      "element": null,
       "prerequisite": null,
       "levels": [
         {
@@ -1372,11 +1379,11 @@
             "tenacity": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     },
     {
       "name": "Mythbearer",
-      "element": null,
       "prerequisite": "Iron Resolve",
       "levels": [
         {
@@ -1384,45 +1391,29 @@
           "cost": 0,
           "stats": {
             "allPalmonArmigoCapacity": 10,
-            "armigoAttack": "1.5%",
-            "armigoHP": "1.5%"
+            "armigoAttack": "1,5%",
+            "armigoHP": "1,5%"
           }
         },
         {
           "level": 2,
           "cost": 200,
-          "stats": {
-            "allPalmonArmigoCapacity": 15,
-            "armigoAttack": "4%",
-            "armigoHP": "4%"
-          }
+          "stats": {}
         },
         {
           "level": 3,
           "cost": 400,
-          "stats": {
-            "allPalmonArmigoCapacity": 20,
-            "armigoAttack": "7%",
-            "armigoHP": "7%"
-          }
+          "stats": {}
         },
         {
           "level": 4,
           "cost": 1000,
-          "stats": {
-            "allPalmonArmigoCapacity": 25,
-            "armigoAttack": "10%",
-            "armigoHP": "10%"
-          }
+          "stats": {}
         },
         {
           "level": 5,
           "cost": 2000,
-          "stats": {
-            "allPalmonArmigoCapacity": 35,
-            "armigoAttack": "15%",
-            "armigoHP": "15%"
-          }
+          "stats": {}
         },
         {
           "level": 6,
@@ -1433,8 +1424,8 @@
             "armigoHP": "20%"
           }
         }
-      ]
+      ],
+      "scope": "general"
     }
   ]
 }
-
