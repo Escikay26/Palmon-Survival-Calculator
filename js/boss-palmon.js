@@ -385,6 +385,60 @@ function getBloomstoneCost(
     );
 }
 
+function getNextTitanSealCost(
+  boss,
+  state
+) {
+  const nextProgress =
+    state.ascensionProgress + 1;
+
+  if (
+    nextProgress >
+    boss.ascensionSteps.length
+  ) {
+    return null;
+  }
+
+  const tierIndex =
+    Math.floor(
+      (nextProgress - 1) / 5
+    );
+
+  const tier =
+    boss.ascensionTiers[tierIndex];
+
+  if (!tier) {
+    return null;
+  }
+
+  return (
+    tier.titanSealsPerStep || 0
+  );
+}
+
+function getNextBloomstoneCost(
+  boss,
+  state
+) {
+  const paidUpgrades =
+    getPaidSkillUpgradeCount(
+      boss,
+      state
+    );
+
+  const costs =
+    boss.skillUpgradeCosts
+      ?.costs || [];
+
+  if (
+    paidUpgrades >= costs.length
+  ) {
+    return null;
+  }
+
+  return costs[paidUpgrades];
+}
+
 function normalizeUnlockedSkills() {
   const boss = getCurrentBoss();
   const state = getCurrentState();
@@ -592,6 +646,18 @@ function renderResourceSummary(
   boss,
   state
 ) {
+  const nextTitanSealCost =
+    getNextTitanSealCost(
+      boss,
+      state
+    );
+
+  const nextBloomstoneCost =
+    getNextBloomstoneCost(
+      boss,
+      state
+    );
+
   const paidUpgrades =
     getPaidSkillUpgradeCount(
       boss,
@@ -601,36 +667,42 @@ function renderResourceSummary(
   return `
     <section class="boss-resource-grid">
       <div class="boss-resource-card">
-        <span>Titan Seals</span>
+        <span>
+          Next Ascension Upgrade
+        </span>
 
         <strong>
-          ${formatNumber(
-            getTitanSealCost(
-              boss,
-              state.ascensionProgress
-            )
-          )}
+          ${
+            nextTitanSealCost === null
+              ? "MAX"
+              : `${formatNumber(
+                  nextTitanSealCost
+                )} Titan Seals`
+          }
         </strong>
 
         <small>
-          for current Ascension
+          Cost of the next Ascension step
         </small>
       </div>
 
       <div class="boss-resource-card">
-        <span>Bloomstones</span>
+        <span>
+          Next Skill Upgrade
+        </span>
 
         <strong>
-          ${formatNumber(
-            getBloomstoneCost(
-              boss,
-              state
-            )
-          )}
+          ${
+            nextBloomstoneCost === null
+              ? "MAX"
+              : `${formatNumber(
+                  nextBloomstoneCost
+                )} Bloomstones`
+          }
         </strong>
 
         <small>
-          for Skill upgrades
+          Cost of the next paid Skill upgrade
         </small>
       </div>
 
@@ -987,19 +1059,23 @@ function render() {
 
   root.innerHTML = `
     ${renderBossSelector()}
+
+    ${renderBonuses(
+      boss,
+      state
+    )}
+
     ${renderProgressControls(
       boss,
       state
     )}
+
     ${renderResourceSummary(
       boss,
       state
     )}
+
     ${renderSkills(
-      boss,
-      state
-    )}
-    ${renderBonuses(
       boss,
       state
     )}
