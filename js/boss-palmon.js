@@ -14,7 +14,12 @@ const STAT_LABELS = {
   critRate: "Crit Rate",
   tenacity: "Tenacity",
   armigoMorale: "Armigo Morale",
+
   counterFire: "Counter Fire",
+  counterWater: "Counter Water",
+  counterElectric: "Counter Electric",
+  counterEarth: "Counter Earth",
+
   finalDamage: "Final Damage",
   finalDamageTaken: "Final Damage Taken"
 };
@@ -943,35 +948,50 @@ function renderBonuses(
         effect.scope === "general"
     )
     .forEach(effect => {
+      const value =
+        effect.value > 0
+          ? `+${formatPercent(
+              effect.value
+            )}`
+          : formatPercent(
+              effect.value
+            );
+
       generalItems.push({
         label:
           STAT_LABELS[effect.stat] ||
           effect.stat,
 
-        value:
-          `+${formatPercent(
-            effect.value
-          )}`
+        value
       });
     });
 
-  const waterItems =
+  const elementItems =
     percentEffects
       .filter(
         effect =>
           effect.scope === "element" &&
-          effect.element === "Water"
+          effect.element ===
+            boss.element
       )
-      .map(effect => ({
-        label:
-          STAT_LABELS[effect.stat] ||
-          effect.stat,
+      .map(effect => {
+        const value =
+          effect.value > 0
+            ? `+${formatPercent(
+                effect.value
+              )}`
+            : formatPercent(
+                effect.value
+              );
 
-        value:
-          `+${formatPercent(
-            effect.value
-          )}`
-      }));
+        return {
+          label:
+            STAT_LABELS[effect.stat] ||
+            effect.stat,
+
+          value
+        };
+      });
 
   return `
     <section class="boss-card">
@@ -981,8 +1001,9 @@ function renderBonuses(
 
           <p>
             General bonuses apply to all Palmon
-            in the Squad. Water bonuses apply only
-            to Water Palmon.
+            in the Squad.
+            ${boss.element} bonuses apply only
+            to ${boss.element} Palmon.
           </p>
         </div>
       </div>
@@ -995,9 +1016,9 @@ function renderBonuses(
         )}
 
         ${renderBonusList(
-          "Water Palmon",
-          waterItems,
-          "No Water-specific bonuses."
+          `${boss.element} Palmon`,
+          elementItems,
+          `No ${boss.element}-specific bonuses.`
         )}
       </div>
 
@@ -1036,7 +1057,6 @@ function renderBonuses(
     </section>
   `;
 }
-
 function render() {
   const root =
     document.getElementById(
