@@ -707,24 +707,17 @@ function renderSkills(
             <div
               class="
                 boss-skill
-                ${
-                  unlocked
-                    ? ""
-                    : "locked"
-                }
+                ${unlocked ? "" : "locked"}
               "
             >
-              <div
-                class="boss-skill-info"
-              >
+              <div class="boss-skill-info">
                 <div>
                   <h4>
                     ${skill.name}
                   </h4>
 
                   <span>
-                    Requires
-                    ${skill.requiredStars}★
+                    Requires ${skill.requiredStars}★
                   </span>
                 </div>
 
@@ -737,45 +730,25 @@ function renderSkills(
                 </strong>
               </div>
 
-              <div
-                class="boss-skill-levels"
-              >
-                ${[
-                  1, 2, 3, 4, 5
-                ].map(level => `
+              <div class="boss-skill-levels">
+                ${[1, 2, 3, 4, 5].map(level => `
                   <button
                     type="button"
-                    class="
-                      boss-skill-level
-                      ${
-                        currentLevel ===
-                        level
-                          ? "active"
-                          : ""
-                      }
-                    "
-                    data-skill-id="
-                      ${skill.id}
-                    "
-                    data-skill-level="
-                      ${level}
-                    "
-                    ${
-                      unlocked
-                        ? ""
-                        : "disabled"
-                    }
+                    class="boss-skill-level ${
+                      currentLevel === level
+                        ? "active"
+                        : ""
+                    }"
+                    data-skill-id="${skill.id}"
+                    data-skill-level="${level}"
+                    ${unlocked ? "" : "disabled"}
                   >
                     ${level}
                   </button>
                 `).join("")}
               </div>
 
-              <p
-                class="
-                  boss-skill-description
-                "
-              >
+              <p class="boss-skill-description">
                 ${
                   unlocked
                     ? currentData
@@ -1099,8 +1072,7 @@ function addBossListeners() {
         () => {
           changeLevel(
             Number(
-              button.dataset
-                .levelChange
+              button.dataset.levelChange
             )
           );
         }
@@ -1174,14 +1146,28 @@ function addBossListeners() {
 
           if (!boss) return;
 
+          const skillId =
+            button.dataset.skillId?.trim();
+
+          const targetLevel =
+            Number(
+              button.dataset.skillLevel
+            );
+
           const skill =
             boss.skills.find(
               item =>
-                item.id ===
-                button.dataset.skillId
+                item.id === skillId
             );
 
-          if (!skill) return;
+          if (!skill) {
+            console.error(
+              "Skill not found:",
+              skillId
+            );
+
+            return;
+          }
 
           const stars =
             getStars(
@@ -1198,10 +1184,7 @@ function addBossListeners() {
           state.skillLevels[
             skill.id
           ] = clamp(
-            Number(
-              button.dataset
-                .skillLevel
-            ),
+            targetLevel,
             1,
             skill.maxLevel
           );
