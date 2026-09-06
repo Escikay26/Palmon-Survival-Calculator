@@ -10,9 +10,6 @@ import {
 
 let achievements = [];
 
-let selectedElement =
-  "Water";
-
 let selectedLevels = {};
 
 let unlockedAchievements = {};
@@ -52,7 +49,10 @@ const statNames = {
     "HP",
 
   critChance:
-    "Crit Chance",
+    "Crit Rate",
+
+  critRate:
+    "Crit Rate",
 
   critDamage:
     "Crit Damage",
@@ -122,8 +122,6 @@ initAchievementSystem() {
 
     loadSavedState();
 
-    addElementListener();
-
     addResetListener();
 
     addFilterListeners();
@@ -155,9 +153,6 @@ function saveState() {
 
   saveAchievementState({
 
-    element:
-      selectedElement,
-
     levels:
       selectedLevels,
 
@@ -185,10 +180,6 @@ function loadSavedState() {
 
   const data =
     loadAchievementState();
-
-
-  selectedElement =
-    data.element;
 
   selectedLevels =
     data.levels;
@@ -231,21 +222,6 @@ function loadSavedState() {
 
   updatePrerequisiteStates();
 
-
-  const elementSelect =
-    document.getElementById(
-      "element"
-    );
-
-
-  if (elementSelect) {
-
-    elementSelect.value =
-      selectedElement;
-
-  }
-
-
   saveState();
 
 }
@@ -257,46 +233,24 @@ function loadSavedState() {
 function isAvailable(
   achievement
 ) {
-
-  const elementOK =
-    !achievement.element ||
-    achievement.element ===
-      selectedElement;
-
-
   const unlocked =
     unlockedAchievements[
       achievement.name
     ] === true;
 
-
   if (!unlocked) {
-
     return false;
-
   }
 
-
-  if (
-    !achievement.prerequisite
-  ) {
-
-    return elementOK;
-
+  if (!achievement.prerequisite) {
+    return true;
   }
-
-
-  const prerequisiteOK =
-    getLevel(
-      achievement.prerequisite
-    ) === 6;
-
 
   return (
-    elementOK &&
-    prerequisiteOK
+    getLevel(
+      achievement.prerequisite
+    ) === 6
   );
-
 }
 
 
@@ -413,20 +367,6 @@ function unlockAchievement(
     return;
 
   }
-
-
-  const elementOK =
-    !achievement.element ||
-    achievement.element ===
-      selectedElement;
-
-
-  if (!elementOK) {
-
-    return;
-
-  }
-
 
   if (
     unlockedAchievements[
@@ -808,7 +748,18 @@ function calculateNextCosts() {
 export function
 calculateAchievementStats() {
 
-  const totals = {};
+  const totals = {
+
+    general: {},
+
+    elements: {
+      Water: {},
+      Fire: {},
+      Earth: {},
+      Electric: {}
+    }
+
+  };
 
 
   achievements.forEach(
@@ -857,14 +808,45 @@ calculateAchievementStats() {
       }
 
 
+      let target =
+        totals.general;
+
+
+      if (
+        achievement.scope ===
+          "element" &&
+        achievement.element
+      ) {
+
+        if (
+          !totals.elements[
+            achievement.element
+          ]
+        ) {
+
+          totals.elements[
+            achievement.element
+          ] = {};
+
+        }
+
+
+        target =
+          totals.elements[
+            achievement.element
+          ];
+
+      }
+
+
       Object.entries(
-        levelData.stats
+        levelData.stats || {}
       ).forEach(
         ([stat, value]) => {
 
-          if (!totals[stat]) {
+          if (!target[stat]) {
 
-            totals[stat] = {
+            target[stat] = {
               flat: 0,
               percent: 0
             };
@@ -878,7 +860,7 @@ calculateAchievementStats() {
             value.includes("%")
           ) {
 
-            totals[stat]
+            target[stat]
               .percent +=
               parseFloat(
                 value
@@ -891,7 +873,7 @@ calculateAchievementStats() {
             "number"
           ) {
 
-            totals[stat]
+            target[stat]
               .flat +=
               value;
 
@@ -930,6 +912,117 @@ function formatNumber(
 // RENDER STATS
 // =============================
 
+function renderStatGroup(
+  title,
+  stats
+) {
+
+  const entries =
+    Object.entries(
+      stats
+    ).filter(
+      ([, value]) => {
+
+        return (
+          value.flat !== 0 ||
+          value.percent !== 0
+        );
+
+      }
+    );
+
+
+  if (
+    entries.length === 0
+  ) {
+
+    return "";
+
+  }
+
+
+  let cards = "";
+
+
+  entries.forEach(
+    ([key, stat]) => {
+
+      let valueHTML = "";
+
+
+      if (
+        stat.flat !== 0
+      ) {
+
+        valueHTML += `
+          <span class="stat-value">
+            ${
+              stat.flat > 0
+                ? "+"
+                : ""
+            }${
+              formatNumber(
+                stat.flat
+              )
+            }
+          </span>
+        `;
+
+      }
+
+
+      if (
+        stat.percent !== 0
+      ) {
+
+        valueHTML += `
+          <span class="stat-percent">
+            ${
+              stat.percent > 0
+                ? "+"
+                : ""
+            }${stat.percent}%
+          </span>
+        `;
+
+      }
+
+
+      cards += `
+        <div class="stat-card">
+
+          <span class="stat-name">
+            ${
+              statNames[key] ||
+              key
+            }
+          </span>
+
+          ${valueHTML}
+
+        </div>
+      `;
+
+    }
+  );
+
+
+  return `
+    <div class="achievement-stat-group">
+
+      <h3>
+        ${title}
+      </h3>
+
+      <div class="stats-grid">
+        ${cards}
+      </div>
+
+    </div>
+  `;
+
+}
+
 function renderStats() {
 
   const container =
@@ -949,99 +1042,38 @@ function renderStats() {
     calculateAchievementStats();
 
 
-  container.innerHTML =
-    "";
+  const html = `
 
+    ${renderStatGroup(
+      "General · All Palmon",
+      stats.general
+    )}
 
-  Object.keys(
-    statNames
-  ).forEach(
-    key => {
+    ${renderStatGroup(
+      "Water Palmon",
+      stats.elements.Water
+    )}
 
-      const stat =
-        stats[key];
+    ${renderStatGroup(
+      "Fire Palmon",
+      stats.elements.Fire
+    )}
 
+    ${renderStatGroup(
+      "Earth Palmon",
+      stats.elements.Earth
+    )}
 
-      if (!stat) {
+    ${renderStatGroup(
+      "Electric Palmon",
+      stats.elements.Electric
+    )}
 
-        return;
-
-      }
-
-
-      if (
-        stat.flat === 0 &&
-        stat.percent === 0
-      ) {
-
-        return;
-
-      }
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "stat-card";
-
-
-      let valueHTML = "";
-
-
-      if (
-        stat.flat !== 0
-      ) {
-
-        valueHTML += `
-          <span class="stat-value">
-            ${
-              formatNumber(
-                stat.flat
-              )
-            }
-          </span>
-        `;
-
-      }
-
-
-      if (
-        stat.percent !== 0
-      ) {
-
-        valueHTML += `
-          <span class="stat-percent">
-            +${stat.percent}%
-          </span>
-        `;
-
-      }
-
-
-      card.innerHTML = `
-        <span class="stat-name">
-          ${statNames[key]}
-        </span>
-
-        ${valueHTML}
-      `;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
-  );
+  `;
 
 
   if (
-    container.children.length ===
-    0
+    html.trim() === ""
   ) {
 
     container.innerHTML = `
@@ -1054,7 +1086,13 @@ function renderStats() {
       </div>
     `;
 
+    return;
+
   }
+
+
+  container.innerHTML =
+    html;
 
 }
 
@@ -1189,12 +1227,6 @@ function renderAchievements() {
         ] === true;
 
 
-      const elementOK =
-        !achievement.element ||
-        achievement.element ===
-          selectedElement;
-
-
       const prerequisiteMet =
         !achievement.prerequisite ||
         getLevel(
@@ -1220,7 +1252,6 @@ function renderAchievements() {
 
       const canMarkAsUnlocked =
         !unlocked &&
-        elementOK &&
         prerequisiteMet &&
         levelOneAffordable;
 
@@ -1277,6 +1308,8 @@ function renderAchievements() {
 
 
       if (
+        achievement.scope ===
+          "element" &&
         achievement.element
       ) {
 
@@ -1306,32 +1339,43 @@ function renderAchievements() {
 
 
       // -------------------------
-      // META
+      // SCOPE / META
       // -------------------------
 
-      let meta = "";
+      let scopeText =
+        "All Palmon";
+
+
+      let scopeClass =
+        "general";
 
 
       if (
+        achievement.scope ===
+          "element" &&
         achievement.element
       ) {
 
-        meta =
-          achievement.element;
+        scopeText =
+          `${achievement.element} Palmon`;
+
+
+        scopeClass =
+          achievement.element
+            .toLowerCase();
 
       }
+
+
+      let prerequisiteText =
+        "";
 
 
       if (
         achievement.prerequisite
       ) {
 
-        meta +=
-          `${
-            meta
-              ? " · "
-              : ""
-          }` +
+        prerequisiteText =
           `Requires ${
             achievement.prerequisite
           } Lv. 6`;
@@ -1462,14 +1506,7 @@ function renderAchievements() {
       let lockMessage = "";
 
 
-      if (!elementOK) {
-
-        lockMessage =
-          `Not available for ${selectedElement} T1`;
-
-      }
-
-      else if (!unlocked) {
+      if (!unlocked) {
 
         if (
           achievement.prerequisite &&
@@ -1552,7 +1589,30 @@ function renderAchievements() {
           </div>
 
           <div class="achievement-meta">
-            ${meta || "Universal"}
+
+            <span
+              class="
+                achievement-scope
+                ${scopeClass}
+              "
+            >
+              ${scopeText}
+            </span>
+
+            ${
+              prerequisiteText
+                ? `
+                  <span
+                    class="
+                      achievement-prerequisite
+                    "
+                  >
+                    ${prerequisiteText}
+                  </span>
+                `
+                : ""
+            }
+
           </div>
 
           ${
@@ -1719,43 +1779,6 @@ function addUnlockListeners() {
 
       }
     );
-
-}
-
-
-// =============================
-// ELEMENT
-// =============================
-
-function addElementListener() {
-
-  const elementSelect =
-    document.getElementById(
-      "element"
-    );
-
-
-  if (!elementSelect) {
-
-    return;
-
-  }
-
-
-  elementSelect.addEventListener(
-    "change",
-    event => {
-
-      selectedElement =
-        event.target.value;
-
-
-      saveState();
-
-      render();
-
-    }
-  );
 
 }
 
