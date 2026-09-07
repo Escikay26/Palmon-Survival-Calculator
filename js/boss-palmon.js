@@ -1293,16 +1293,88 @@ function addBossListeners() {
 }
 
 export function getBossPalmonBonuses() {
-  const boss = getCurrentBoss();
-  const state = getCurrentState();
 
-  if (!boss) {
-    return {
-      general: {},
-      element: {},
-      battleEffects: []
-    };
+  const boss =
+    getCurrentBoss();
+
+  const state =
+    getCurrentState();
+
+
+  const createResult = () => ({
+    general: {},
+    elements: {},
+    battleEffects: []
+  });
+
+
+  const result =
+    createResult();
+
+
+  if (
+    !boss ||
+    !state
+  ) {
+
+    return result;
+
   }
+
+
+  const addBonus = (
+    target,
+    stat,
+    value,
+    unit
+  ) => {
+
+    const numericValue =
+      Number(value) || 0;
+
+
+    if (
+      !stat ||
+      numericValue === 0
+    ) {
+
+      return;
+
+    }
+
+
+    if (!target[stat]) {
+
+      target[stat] = {
+        flat: 0,
+        percent: 0
+      };
+
+    }
+
+
+    if (
+      unit === "flat"
+    ) {
+
+      target[stat].flat +=
+        numericValue;
+
+    }
+
+    else {
+
+      target[stat].percent +=
+        numericValue;
+
+    }
+
+  };
+
+
+  // =============================
+  // FLAT STATS
+  // =============================
 
   const levelStats =
     getLevelFlatStats(
@@ -1310,11 +1382,44 @@ export function getBossPalmonBonuses() {
       state.level
     );
 
+
   const ascensionStats =
     getAscensionFlatStats(
       boss,
       state.ascensionProgress
     );
+
+
+  [
+    "attack",
+    "defense",
+    "hp"
+  ].forEach(
+    stat => {
+
+      addBonus(
+        result.general,
+        stat,
+        (
+          Number(
+            levelStats[stat]
+          ) || 0
+        ) +
+        (
+          Number(
+            ascensionStats[stat]
+          ) || 0
+        ),
+        "flat"
+      );
+
+    }
+  );
+
+
+  // =============================
+  // PERCENT EFFECTS
+  // =============================
 
   const ascensionEffects =
     getAscensionPercentBonuses(
@@ -1322,11 +1427,13 @@ export function getBossPalmonBonuses() {
       state.ascensionProgress
     );
 
+
   const skillData =
     getActiveSkillEffects(
       boss,
       state
     );
+
 
   const percentEffects =
     combinePercentBonuses(
@@ -1334,61 +1441,79 @@ export function getBossPalmonBonuses() {
       skillData.effects
     );
 
-  const result = {
-    general: {
-      attack:
-        levelStats.attack +
-        ascensionStats.attack,
 
-      defense:
-        levelStats.defense +
-        ascensionStats.defense,
+  percentEffects.forEach(
+    effect => {
 
-      hp:
-        levelStats.hp +
-        ascensionStats.hp
-    },
-
-    element: {},
-
-    battleEffects:
-      skillData.battleEffects
-  };
-
-  percentEffects.forEach(effect => {
-    if (
-      effect.scope === "general"
-    ) {
-      result.general[
-        effect.stat
-      ] = effect.value;
-
-      return;
-    }
-
-    if (
-      effect.scope === "element"
-    ) {
       if (
-        !result.element[
-          effect.element
-        ]
+        !effect?.stat
       ) {
-        result.element[
-          effect.element
-        ] = {};
+
+        return;
+
       }
 
-      result.element[
+
+      if (
+        effect.scope ===
+        "general"
+      ) {
+
+        addBonus(
+          result.general,
+          effect.stat,
+          effect.value,
+          effect.unit ||
+            "percent"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        effect.scope ===
+          "element" &&
         effect.element
-      ][effect.stat] =
-        effect.value;
+      ) {
+
+        if (
+          !result.elements[
+            effect.element
+          ]
+        ) {
+
+          result.elements[
+            effect.element
+          ] = {};
+
+        }
+
+
+        addBonus(
+          result.elements[
+            effect.element
+          ],
+          effect.stat,
+          effect.value,
+          effect.unit ||
+            "percent"
+        );
+
+      }
+
     }
-  });
+  );
+
+
+  result.battleEffects =
+    skillData.battleEffects;
+
 
   return result;
-}
 
+}
 export async function initBossPalmonSystem() {
   try {
     const response =
