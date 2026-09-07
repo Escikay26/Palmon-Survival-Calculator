@@ -2750,7 +2750,7 @@ function getResearchStatsContexts() {
   return [
     {
       key: "global",
-      title: "Global / All Palmon",
+      title: "All Palmon",
       context: {}
     },
 
@@ -2816,24 +2816,6 @@ function getResearchStatsContexts() {
       context: {
         element: "Electric"
       }
-    },
-
-    {
-      key: "attacking",
-      title: "Attacking Camps",
-      context: {
-        condition:
-          "attackingCamps"
-      }
-    },
-
-    {
-      key: "defending",
-      title: "Defending Camps",
-      context: {
-        condition:
-          "defendingCamps"
-      }
     }
   ];
 
@@ -2844,6 +2826,42 @@ function getResearchStatsContexts() {
 // UNIQUE EFFECT FILTER
 // =============================
 
+const RESEARCH_STATS_VISIBLE_STATS =
+  new Set([
+    "attack",
+    "defense",
+    "hp",
+
+    "finalDamage",
+    "finalDamageTaken",
+    "finalDamageTakenReduction",
+
+    "critChance",
+    "critRate",
+    "critDamage",
+    "critDamageReduction",
+
+    "accuracy",
+    "tenacity",
+    "rage",
+
+    "rageSkillDamageBonus",
+    "rageSkillDamageTakenReduction",
+
+    "allPalmonArmigoCapacity",
+
+    "armigoAttack",
+    "armigoDefense",
+    "armigoHP",
+
+    "armigoLoad",
+    "squadLoad",
+    "load",
+
+    "morale",
+    "opponentDeathRate"
+  ]);
+
 function filterResearchStatsEffects(
   effects,
   contextKey
@@ -2852,8 +2870,32 @@ function filterResearchStatsEffects(
   return effects.filter(
     effect => {
 
+      if (
+        !RESEARCH_STATS_VISIBLE_STATS.has(
+          effect.stat
+        )
+      ) {
+
+        return false;
+
+      }
+
+
+      // Conditional Research effects
+      // are intentionally not shown
+      // in the general Research Stats
+      // overview.
+      if (
+        effect.condition
+      ) {
+
+        return false;
+
+      }
+
+
       // -------------------------
-      // GLOBAL
+      // ALL PALMON / GENERAL
       // -------------------------
 
       if (
@@ -2865,8 +2907,7 @@ function filterResearchStatsEffects(
           effect.scope !==
             "squad" &&
           effect.scope !==
-            "element" &&
-          !effect.condition
+            "element"
         );
 
       }
@@ -2908,24 +2949,6 @@ function filterResearchStatsEffects(
         return (
           effect.scope ===
           "element"
-        );
-
-      }
-
-
-      // -------------------------
-      // CONDITIONS
-      // -------------------------
-
-      if (
-        contextKey ===
-          "attacking" ||
-        contextKey ===
-          "defending"
-      ) {
-
-        return Boolean(
-          effect.condition
         );
 
       }
