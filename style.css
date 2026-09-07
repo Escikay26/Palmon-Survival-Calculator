@@ -2798,3 +2798,80 @@ select {
   }
 
 }
+
+/* ============================= */
+/* SITE FOOTER / DISCLAIMER */
+/* ============================= */
+
+.site-footer {
+  margin-top: 48px;
+
+  padding:
+    24px
+    20px;
+
+  border-top:
+    1px solid var(--border);
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.45
+    );
+
+  color:
+    var(--muted);
+
+  text-align:
+    center;
+}
+
+
+.site-footer-inner {
+  max-width:
+    760px;
+
+  margin:
+    0 auto;
+}
+
+
+.site-footer strong {
+  display:
+    block;
+
+  margin-bottom:
+    8px;
+
+  color:
+    var(--text);
+
+  font-size:
+    13px;
+
+  font-weight:
+    700;
+}
+
+
+.site-footer p {
+  margin:
+    0;
+
+  font-size:
+    11px;
+
+  line-height:
+    1.6;
+}
+
+
+.site-footer-legal {
+  margin-top:
+    5px !important;
+
+  opacity:
+    0.8;
+}
