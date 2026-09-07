@@ -2641,3 +2641,160 @@ select {
   }
 
 }
+
+/* ============================= */
+/* CROSS-TREE REQUIREMENTS */
+/* ============================= */
+
+.research-cross-tree-requirement {
+  width: 100%;
+
+  padding:
+    6px 7px;
+
+  border: 0;
+
+  border-radius:
+    6px;
+
+  cursor:
+    pointer;
+
+  font:
+    inherit;
+
+  text-align:
+    left;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+.research-cross-tree-requirement:hover {
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 2px 6px
+    rgba(
+      15,
+      23,
+      42,
+      0.12
+    );
+}
+
+
+.research-requirement-main {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    8px;
+}
+
+
+.research-requirement-arrow {
+  flex-shrink:
+    0;
+
+  font-size:
+    13px;
+
+  font-weight:
+    800;
+}
+
+
+.research-requirement-tree {
+  display:
+    inline-flex;
+
+  width:
+    max-content;
+
+  margin-top:
+    4px;
+
+  padding:
+    2px 5px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.7
+    );
+
+  border-radius:
+    4px;
+
+  font-size:
+    8px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.03em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ============================= */
+/* JUMP HIGHLIGHT */
+/* ============================= */
+
+.research-tree-node.research-node-highlight {
+  animation:
+    research-node-highlight
+    1.8s ease;
+}
+
+
+@keyframes research-node-highlight {
+
+  0%,
+  100% {
+    box-shadow:
+      0 2px 6px
+      rgba(
+        15,
+        23,
+        42,
+        0.05
+      );
+  }
+
+
+  20%,
+  55% {
+    box-shadow:
+      0 0 0 5px
+      rgba(
+        37,
+        99,
+        235,
+        0.22
+      ),
+      0 8px 24px
+      rgba(
+        37,
+        99,
+        235,
+        0.18
+      );
+  }
+
+}
