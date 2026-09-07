@@ -3300,3 +3300,321 @@ getResearchProgress() {
   return trees;
 
 }
+
+// =============================
+// RESEARCH BONUS API
+// =============================
+
+function createResearchBonusResult() {
+
+  return {
+    percent: {},
+    flat: {},
+    effects: []
+  };
+
+}
+
+
+function addResearchBonus(
+  result,
+  effect,
+  value,
+  source
+) {
+
+  if (
+    !effect?.stat ||
+    !Number.isFinite(value) ||
+    value === 0
+  ) {
+
+    return;
+
+  }
+
+
+  const bucket =
+    effect.unit === "flat"
+      ? result.flat
+      : result.percent;
+
+
+  bucket[effect.stat] =
+    (
+      bucket[effect.stat] || 0
+    ) + value;
+
+
+  result.effects.push({
+
+    stat:
+      effect.stat,
+
+    value,
+
+    unit:
+      effect.unit || "percent",
+
+    scope:
+      effect.scope || null,
+
+    element:
+      effect.element || null,
+
+    squad:
+      effect.squad || null,
+
+    condition:
+      effect.condition || null,
+
+    source
+
+  });
+
+}
+
+
+// =============================
+// EFFECT FILTERING
+// =============================
+
+function researchEffectApplies(
+  effect,
+  context
+) {
+
+  if (!effect) {
+
+    return false;
+
+  }
+
+
+  // -------------------------
+  // SQUAD-SPECIFIC
+  // -------------------------
+
+  if (
+    effect.scope === "squad"
+  ) {
+
+    if (
+      Number(effect.squad) !==
+      Number(context.squadNumber)
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+
+  // -------------------------
+  // ELEMENT-SPECIFIC
+  // -------------------------
+
+  if (
+    effect.scope === "element"
+  ) {
+
+    if (
+      !context.element ||
+      effect.element !==
+        context.element
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+
+  // -------------------------
+  // CONDITIONAL EFFECTS
+  // -------------------------
+  //
+  // Ohne passenden Combat Context
+  // werden attacking/defending Boni
+  // NICHT in normale Stats eingerechnet.
+
+  if (effect.condition) {
+
+    if (
+      effect.condition !==
+      context.condition
+    ) {
+
+      return false;
+
+    }
+
+  }
+
+
+  return true;
+
+}
+
+
+// =============================
+// TREE COMPLETION
+// =============================
+
+function isResearchTreeComplete(
+  tree
+) {
+
+  return tree.nodes.every(
+    node =>
+      getLevel(
+        node.key
+      ) >= node.maxLevel
+  );
+
+}
+
+
+// =============================
+// GET RESEARCH BONUSES
+// =============================
+
+export function getResearchBonuses({
+  squadNumber = null,
+  element = null,
+  condition = null
+} = {}) {
+
+  const result =
+    createResearchBonusResult();
+
+
+  const context = {
+    squadNumber,
+    element,
+    condition
+  };
+
+
+  researchTrees.forEach(
+    tree => {
+
+      // -------------------------
+      // NODE EFFECTS
+      // -------------------------
+
+      tree.nodes.forEach(
+        node => {
+
+          const level =
+            getLevel(
+              node.key
+            );
+
+
+          if (level <= 0) {
+
+            return;
+
+          }
+
+
+          (
+            node.effects || []
+          ).forEach(
+            effect => {
+
+              if (
+                !researchEffectApplies(
+                  effect,
+                  context
+                )
+              ) {
+
+                return;
+
+              }
+
+
+              const value =
+                (
+                  Number(
+                    effect.valuePerLevel
+                  ) || 0
+                ) * level;
+
+
+              addResearchBonus(
+                result,
+                effect,
+                value,
+                {
+                  type: "node",
+                  treeKey: tree.key,
+                  treeName: tree.name,
+                  nodeKey: node.key,
+                  nodeName: node.name,
+                  level
+                }
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+      // -------------------------
+      // TREE COMPLETION EFFECT
+      // -------------------------
+
+      if (
+        tree.completionEffect &&
+        isResearchTreeComplete(
+          tree
+        ) &&
+        researchEffectApplies(
+          tree.completionEffect,
+          context
+        )
+      ) {
+
+        const effect =
+          tree.completionEffect;
+
+
+        const value =
+          Number(
+            effect.value ??
+            effect.valuePerLevel
+          ) || 0;
+
+
+        addResearchBonus(
+          result,
+          effect,
+          value,
+          {
+            type:
+              "treeCompletion",
+
+            treeKey:
+              tree.key,
+
+            treeName:
+              tree.name
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  return result;
+
+}
