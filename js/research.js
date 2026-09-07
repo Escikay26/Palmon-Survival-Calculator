@@ -1683,6 +1683,165 @@ function getGraphRequirements(
 
 
 // =============================
+// VISUAL TREE CONNECTIONS
+// =============================
+
+// Die echten Research-Voraussetzungen
+// bleiben vollständig erhalten.
+//
+// Für die sichtbaren Ingame-Linien gilt
+// normalerweise:
+//
+// Nur Voraussetzungen aus dem direkt
+// vorherigen Layer werden angezeigt.
+//
+// Super Armigo besitzt zusätzlich
+// eigene visuelle Ausnahmen.
+
+const VISUAL_CHILD_OVERRIDES = {
+
+  "Super Armigo": {
+
+    "Breakthrough II":
+      [],
+
+    "Escort II": [
+      "Expanded Training VI"
+    ],
+
+    "Lifesong II": [
+      "Quick Instructors VI"
+    ]
+
+  }
+
+};
+
+
+// =============================
+// VISUAL GRAPH REQUIREMENTS
+// =============================
+
+function getVisualGraphRequirements(
+  node,
+  tree
+) {
+
+  const childLayer =
+    Number(
+      node.layer
+    ) || 0;
+
+
+  return getGraphRequirements(
+    node,
+    tree
+  ).filter(
+    requirement => {
+
+      const parentEntry =
+        nodeMap.get(
+          requirement.key
+        );
+
+
+      if (!parentEntry) {
+
+        return false;
+
+      }
+
+
+      const parentNode =
+        parentEntry.node;
+
+
+      const parentLayer =
+        Number(
+          parentNode.layer
+        ) || 0;
+
+
+      // -------------------------
+      // GENERAL INGAME RULE
+      // -------------------------
+      //
+      // Sichtbare Linien existieren
+      // nur zwischen direkt
+      // aufeinanderfolgenden Layern.
+      //
+      // Beispiel:
+      //
+      // Layer 4 -> Layer 5
+      // = sichtbare Linie
+      //
+      // Layer 3 -> Layer 5
+      // = keine sichtbare Linie
+      //
+      // Die echte Voraussetzung bleibt
+      // trotzdem weiterhin aktiv.
+
+      if (
+        parentLayer !==
+        childLayer - 1
+      ) {
+
+        return false;
+
+      }
+
+
+      // -------------------------
+      // SPECIAL VISUAL OVERRIDES
+      // -------------------------
+
+      const treeOverrides =
+        VISUAL_CHILD_OVERRIDES[
+          tree.name
+        ];
+
+
+      // Für normale Trees reicht
+      // die Layer-Regel.
+      if (!treeOverrides) {
+
+        return true;
+
+      }
+
+
+      const allowedChildren =
+        treeOverrides[
+          parentNode.name
+        ];
+
+
+      // Kein Override für diesen Node:
+      // normale Verbindung anzeigen.
+      if (
+        allowedChildren ===
+        undefined
+      ) {
+
+        return true;
+
+      }
+
+
+      // Für Nodes mit Override werden
+      // ausschließlich die hier genannten
+      // Folge-Nodes verbunden.
+      return allowedChildren.includes(
+        node.name
+      );
+
+    }
+  );
+
+}
+
+
+// =============================
 // GROUP NODES BY LAYER
 // =============================
 
@@ -1762,14 +1921,14 @@ function getTreeLayers(
           ) => {
 
             const aParents =
-              getGraphRequirements(
+              getVisualGraphRequirements(
                 a.node,
                 tree
               );
 
 
             const bParents =
-              getGraphRequirements(
+              getVisualGraphRequirements(
                 b.node,
                 tree
               );
@@ -2286,7 +2445,7 @@ function drawResearchConnections() {
 
 
       const requirements =
-        getGraphRequirements(
+        getVisualGraphRequirements(
           childNode,
           tree
         );
