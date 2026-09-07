@@ -1603,147 +1603,872 @@ function renderSummary(
 
 
 // =============================
-// NODE LIST
+// RESEARCH TREE
+// =============================
+
+function getGraphRequirements(
+  node,
+  tree
+) {
+
+  const requirements =
+    new Map();
+
+
+  node.levels.forEach(
+    levelData => {
+
+      const techRequirements =
+        levelData
+          ?.requirements
+          ?.techs ||
+        [];
+
+
+      techRequirements.forEach(
+        requirement => {
+
+          const entry =
+            nodeMap.get(
+              requirement.key
+            );
+
+
+          if (
+            !entry ||
+            entry.tree.key !==
+              tree.key
+          ) {
+
+            return;
+
+          }
+
+
+          const existing =
+            requirements.get(
+              requirement.key
+            );
+
+
+          requirements.set(
+            requirement.key,
+            {
+              key:
+                requirement.key,
+
+              name:
+                requirement.name,
+
+              level:
+                Math.max(
+                  existing?.level || 0,
+                  requirement.level || 0
+                )
+            }
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  return [
+    ...requirements.values()
+  ];
+
+}
+
+
+// =============================
+// GROUP NODES BY LAYER
+// =============================
+
+function getTreeLayers(
+  tree
+) {
+
+  const layerMap =
+    new Map();
+
+
+  tree.nodes.forEach(
+    (
+      node,
+      sourceIndex
+    ) => {
+
+      const layer =
+        Number(
+          node.layer
+        ) || 0;
+
+
+      if (
+        !layerMap.has(
+          layer
+        )
+      ) {
+
+        layerMap.set(
+          layer,
+          []
+        );
+
+      }
+
+
+      layerMap.get(
+        layer
+      ).push({
+        node,
+        sourceIndex
+      });
+
+    }
+  );
+
+
+  const sortedLayers =
+    [
+      ...layerMap.keys()
+    ]
+      .sort(
+        (a, b) =>
+          a - b
+      );
+
+
+  const positionMap =
+    new Map();
+
+
+  const result =
+    sortedLayers.map(
+      layerNumber => {
+
+        const entries =
+          layerMap.get(
+            layerNumber
+          );
+
+
+        entries.sort(
+          (
+            a,
+            b
+          ) => {
+
+            const aParents =
+              getGraphRequirements(
+                a.node,
+                tree
+              );
+
+
+            const bParents =
+              getGraphRequirements(
+                b.node,
+                tree
+              );
+
+
+            const getAveragePosition =
+              parents => {
+
+                const positions =
+                  parents
+                    .map(
+                      parent =>
+                        positionMap.get(
+                          parent.key
+                        )
+                    )
+                    .filter(
+                      value =>
+                        value !==
+                        undefined
+                    );
+
+
+                if (
+                  positions.length ===
+                  0
+                ) {
+
+                  return null;
+
+                }
+
+
+                return (
+                  positions.reduce(
+                    (
+                      total,
+                      value
+                    ) =>
+                      total +
+                      value,
+                    0
+                  ) /
+                  positions.length
+                );
+
+              };
+
+
+            const aPosition =
+              getAveragePosition(
+                aParents
+              );
+
+
+            const bPosition =
+              getAveragePosition(
+                bParents
+              );
+
+
+            if (
+              aPosition !== null &&
+              bPosition !== null &&
+              aPosition !==
+                bPosition
+            ) {
+
+              return (
+                aPosition -
+                bPosition
+              );
+
+            }
+
+
+            if (
+              aPosition !== null &&
+              bPosition === null
+            ) {
+
+              return -1;
+
+            }
+
+
+            if (
+              aPosition === null &&
+              bPosition !== null
+            ) {
+
+              return 1;
+
+            }
+
+
+            return (
+              a.sourceIndex -
+              b.sourceIndex
+            );
+
+          }
+        );
+
+
+        entries.forEach(
+          (
+            entry,
+            index
+          ) => {
+
+            positionMap.set(
+              entry.node.key,
+              index
+            );
+
+          }
+        );
+
+
+        return {
+          layer:
+            layerNumber,
+
+          nodes:
+            entries.map(
+              entry =>
+                entry.node
+            )
+        };
+
+      }
+    );
+
+
+  return result;
+
+}
+
+
+// =============================
+// TREE NODE
+// =============================
+
+function renderTreeNode(
+  node
+) {
+
+  const current =
+    getLevel(
+      node.key
+    );
+
+
+  const complete =
+    current >=
+    node.maxLevel;
+
+
+  const levelOneAvailable =
+    areTechRequirementsMet(
+      node,
+      1
+    );
+
+
+  return `
+    <article
+      class="
+        research-tree-node
+        ${
+          current > 0
+            ? "selected"
+            : ""
+        }
+        ${
+          complete
+            ? "complete"
+            : ""
+        }
+        ${
+          current === 0 &&
+          !levelOneAvailable
+            ? "locked"
+            : ""
+        }
+      "
+      data-research-tree-node="${
+        escapeHTML(
+          node.key
+        )
+      }"
+    >
+
+      <div class="research-tree-node-header">
+
+        <span class="research-tree-node-layer">
+          Layer ${node.layer}
+        </span>
+
+        ${
+          complete
+            ? `
+              <span
+                class="
+                  research-max-badge
+                "
+              >
+                MAX
+              </span>
+            `
+            : ""
+        }
+
+      </div>
+
+
+      <h3>
+        ${escapeHTML(
+          node.name
+        )}
+      </h3>
+
+
+      ${renderNodeInfo(
+        node
+      )}
+
+
+      <div class="research-tree-node-controls">
+
+        ${renderLevelSelect(
+          node
+        )}
+
+      </div>
+
+
+      ${renderNodeRequirements(
+        node,
+        current
+      )}
+
+    </article>
+  `;
+
+}
+
+
+// =============================
+// TREE LAYOUT
 // =============================
 
 function renderNodes(
   tree
 ) {
 
-  const nodes =
-    [...tree.nodes]
-      .sort(
-        (a, b) => {
+  const layers =
+    getTreeLayers(
+      tree
+    );
 
-          const layerDifference =
-            (
-              Number(a.layer) || 0
-            ) -
-            (
-              Number(b.layer) || 0
+
+  const maxNodesInLayer =
+    Math.max(
+      1,
+      ...layers.map(
+        layer =>
+          layer.nodes.length
+      )
+    );
+
+
+  const nodeWidth =
+    240;
+
+
+  const horizontalGap =
+    80;
+
+
+  const sidePadding =
+    80;
+
+
+  const minimumTreeWidth =
+    Math.max(
+      700,
+
+      (
+        maxNodesInLayer *
+        nodeWidth
+      ) +
+
+      (
+        Math.max(
+          0,
+          maxNodesInLayer - 1
+        ) *
+        horizontalGap
+      ) +
+
+      (
+        sidePadding *
+        2
+      )
+    );
+
+
+  return `
+    <div
+      class="
+        research-tree-scroll
+      "
+    >
+
+      <div
+        class="
+          research-tree-canvas
+        "
+        style="
+          min-width:
+            ${minimumTreeWidth}px;
+        "
+      >
+
+        <svg
+          class="
+            research-tree-connections
+          "
+          aria-hidden="true"
+        ></svg>
+
+
+        <div
+          class="
+            research-tree-layers
+          "
+        >
+
+          ${
+            layers.map(
+              layer => {
+
+                return `
+                  <section
+                    class="
+                      research-tree-layer
+                    "
+                    data-research-layer="${
+                      layer.layer
+                    }"
+                  >
+
+                    <div
+                      class="
+                        research-tree-layer-label
+                      "
+                    >
+                      Layer ${
+                        layer.layer
+                      }
+                    </div>
+
+
+                    <div
+                      class="
+                        research-tree-layer-nodes
+                      "
+                    >
+
+                      ${
+                        layer.nodes
+                          .map(
+                            node =>
+                              renderTreeNode(
+                                node
+                              )
+                          )
+                          .join("")
+                      }
+
+                    </div>
+
+                  </section>
+                `;
+
+              }
+            ).join("")
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+// =============================
+// DRAW CONNECTIONS
+// =============================
+
+function drawResearchConnections() {
+
+  const tree =
+    getSelectedTree();
+
+
+  const canvas =
+    document.querySelector(
+      ".research-tree-canvas"
+    );
+
+
+  const svg =
+    document.querySelector(
+      ".research-tree-connections"
+    );
+
+
+  if (
+    !tree ||
+    !canvas ||
+    !svg
+  ) {
+
+    return;
+
+  }
+
+
+  const width =
+    canvas.offsetWidth;
+
+
+  const height =
+    canvas.offsetHeight;
+
+
+  if (
+    width <= 0 ||
+    height <= 0
+  ) {
+
+    return;
+
+  }
+
+
+  svg.setAttribute(
+    "width",
+    width
+  );
+
+
+  svg.setAttribute(
+    "height",
+    height
+  );
+
+
+  svg.setAttribute(
+    "viewBox",
+    `0 0 ${width} ${height}`
+  );
+
+
+  svg.innerHTML =
+    "";
+
+
+  const canvasRect =
+    canvas.getBoundingClientRect();
+
+
+  const elementMap =
+    new Map();
+
+
+  canvas
+    .querySelectorAll(
+      "[data-research-tree-node]"
+    )
+    .forEach(
+      element => {
+
+        elementMap.set(
+          element.dataset
+            .researchTreeNode,
+          element
+        );
+
+      }
+    );
+
+
+  tree.nodes.forEach(
+    childNode => {
+
+      const childElement =
+        elementMap.get(
+          childNode.key
+        );
+
+
+      if (!childElement) {
+
+        return;
+
+      }
+
+
+      const requirements =
+        getGraphRequirements(
+          childNode,
+          tree
+        );
+
+
+      requirements.forEach(
+        requirement => {
+
+          const parentElement =
+            elementMap.get(
+              requirement.key
             );
 
 
-          if (
-            layerDifference !== 0
-          ) {
+          if (!parentElement) {
 
-            return layerDifference;
+            return;
 
           }
 
 
-          return a.name.localeCompare(
-            b.name
+          const parentRect =
+            parentElement
+              .getBoundingClientRect();
+
+
+          const childRect =
+            childElement
+              .getBoundingClientRect();
+
+
+          const startX =
+            (
+              parentRect.left -
+              canvasRect.left
+            ) +
+            (
+              parentRect.width /
+              2
+            );
+
+
+          const startY =
+            (
+              parentRect.bottom -
+              canvasRect.top
+            );
+
+
+          const endX =
+            (
+              childRect.left -
+              canvasRect.left
+            ) +
+            (
+              childRect.width /
+              2
+            );
+
+
+          const endY =
+            (
+              childRect.top -
+              canvasRect.top
+            );
+
+
+          const verticalDistance =
+            Math.max(
+              30,
+              endY -
+              startY
+            );
+
+
+          const curveOffset =
+            verticalDistance *
+            0.5;
+
+
+          const path =
+            document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "path"
+            );
+
+
+          path.setAttribute(
+            "d",
+            `
+              M
+              ${startX}
+              ${startY}
+
+              C
+              ${startX}
+              ${startY + curveOffset},
+
+              ${endX}
+              ${endY - curveOffset},
+
+              ${endX}
+              ${endY}
+            `
+          );
+
+
+          path.classList.add(
+            "research-tree-connection"
+          );
+
+
+          const childLevel =
+            getLevel(
+              childNode.key
+            );
+
+
+          if (
+            childLevel > 0
+          ) {
+
+            path.classList.add(
+              "active"
+            );
+
+          }
+
+          else if (
+            areTechRequirementsMet(
+              childNode,
+              1
+            )
+          ) {
+
+            path.classList.add(
+              "available"
+            );
+
+          }
+
+          else {
+
+            path.classList.add(
+              "locked"
+            );
+
+          }
+
+
+          svg.appendChild(
+            path
           );
 
         }
       );
 
+    }
+  );
 
-  return `
-    <div class="research-node-list">
-
-      ${
-        nodes.map(
-          node => {
-
-            const current =
-              getLevel(
-                node.key
-              );
+}
 
 
-            const complete =
-              current >=
-              node.maxLevel;
+// =============================
+// SCHEDULE CONNECTION DRAW
+// =============================
 
+function scheduleConnectionDraw() {
 
-            return `
-              <article
-                class="
-                  research-node
-                  ${
-                    current > 0
-                      ? "selected"
-                      : ""
-                  }
-                  ${
-                    complete
-                      ? "complete"
-                      : ""
-                  }
-                "
-              >
+  requestAnimationFrame(
+    () => {
 
-                <div class="research-node-main">
+      requestAnimationFrame(
+        () => {
 
-                  <div class="research-node-heading">
+          drawResearchConnections();
 
-                    <div>
+        }
+      );
 
-                      <span class="research-layer">
-                        Layer ${
-                          node.layer
-                        }
-                      </span>
-
-                      <h3>
-                        ${escapeHTML(
-                          node.name
-                        )}
-                      </h3>
-
-                    </div>
-
-
-                    ${
-                      complete
-                        ? `
-                          <span
-                            class="
-                              research-max-badge
-                            "
-                          >
-                            MAX
-                          </span>
-                        `
-                        : ""
-                    }
-
-                  </div>
-
-
-                  ${renderNodeInfo(
-                    node
-                  )}
-
-
-                  ${renderNodeRequirements(
-                    node,
-                    current
-                  )}
-
-                </div>
-
-
-                <div class="research-node-level">
-
-                  ${renderLevelSelect(
-                    node
-                  )}
-
-                </div>
-
-              </article>
-            `;
-
-          }
-        ).join("")
-      }
-
-    </div>
-  `;
+    }
+  );
 
 }
 
@@ -1865,6 +2590,8 @@ function render() {
 
 
   addRenderedListeners();
+
+  scheduleConnectionDraw();
 
 }
 
@@ -1989,10 +2716,34 @@ function resetCurrentTree() {
 
 function addResearchListeners() {
 
-  // Currently no static controls outside
-  // the rendered Research root.
-  // Kept as its own function so global
-  // Research controls can be added later.
+  window.addEventListener(
+    "resize",
+    () => {
+
+      scheduleConnectionDraw();
+
+    }
+  );
+
+
+  const researchNavButton =
+    document.querySelector(
+      '.nav-button[data-page="research"]'
+    );
+
+
+  if (researchNavButton) {
+
+    researchNavButton.addEventListener(
+      "click",
+      () => {
+
+        scheduleConnectionDraw();
+
+      }
+    );
+
+  }
 
 }
 
