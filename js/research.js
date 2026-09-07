@@ -1137,6 +1137,114 @@ function renderNodeRequirements(
         requirement.level;
 
 
+      const requirementEntry =
+        nodeMap.get(
+          requirement.key
+        );
+
+
+      const requirementTree =
+        requirementEntry
+          ?.tree ||
+        null;
+
+
+      const selectedTree =
+        getSelectedTree();
+
+
+      const crossTree =
+        Boolean(
+          requirementTree &&
+          selectedTree &&
+          requirementTree.key !==
+            selectedTree.key
+        );
+
+
+      if (crossTree) {
+
+        parts.push(`
+          <button
+            type="button"
+            class="
+              research-requirement
+              research-cross-tree-requirement
+              ${
+                met
+                  ? "met"
+                  : "missing"
+              }
+            "
+            data-research-jump-tree="${
+              escapeHTML(
+                requirementTree.key
+              )
+            }"
+            data-research-jump-node="${
+              escapeHTML(
+                requirement.key
+              )
+            }"
+            title="Open ${
+              escapeHTML(
+                requirementTree.name
+              )
+            } and show ${
+              escapeHTML(
+                requirement.name
+              )
+            }"
+          >
+
+            <span
+              class="
+                research-requirement-main
+              "
+            >
+              <span>
+                ${
+                  met
+                    ? "✓"
+                    : "✕"
+                }
+                ${escapeHTML(
+                  requirement.name
+                )}
+                Lv. ${
+                  requirement.level
+                }
+              </span>
+
+              <span
+                class="
+                  research-requirement-arrow
+                "
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </span>
+
+
+            <span
+              class="
+                research-requirement-tree
+              "
+            >
+              ${escapeHTML(
+                requirementTree.name
+              )}
+            </span>
+
+          </button>
+        `);
+
+        return;
+
+      }
+
+
       parts.push(`
         <span
           class="
@@ -2908,6 +3016,106 @@ function addResearchListeners() {
 
 
 // =============================
+// CROSS-TREE NAVIGATION
+// =============================
+
+function jumpToResearchNode(
+  treeKey,
+  nodeKey
+) {
+
+  const targetTree =
+    researchTrees.find(
+      tree =>
+        tree.key ===
+        treeKey
+    );
+
+
+  const targetEntry =
+    nodeMap.get(
+      nodeKey
+    );
+
+
+  if (
+    !targetTree ||
+    !targetEntry
+  ) {
+
+    return;
+
+  }
+
+
+  selectedTreeKey =
+    targetTree.key;
+
+
+  saveState();
+
+  render();
+
+
+  requestAnimationFrame(
+    () => {
+
+      requestAnimationFrame(
+        () => {
+
+          const targetNode =
+            document.querySelector(
+              `[data-research-tree-node="${CSS.escape(
+                nodeKey
+              )}"]`
+            );
+
+
+          if (!targetNode) {
+
+            return;
+
+          }
+
+
+          targetNode.scrollIntoView({
+            behavior:
+              "smooth",
+
+            block:
+              "center",
+
+            inline:
+              "center"
+          });
+
+
+          targetNode.classList.add(
+            "research-node-highlight"
+          );
+
+
+          window.setTimeout(
+            () => {
+
+              targetNode.classList.remove(
+                "research-node-highlight"
+              );
+
+            },
+            1800
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+// =============================
 // RENDERED LISTENERS
 // =============================
 
@@ -3020,6 +3228,48 @@ function addRenderedListeners() {
 
   }
 
+  document
+    .querySelectorAll(
+      "[data-research-jump-tree]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const treeKey =
+              button.dataset
+                .researchJumpTree;
+
+
+            const nodeKey =
+              button.dataset
+                .researchJumpNode;
+
+
+            if (
+              !treeKey ||
+              !nodeKey
+            ) {
+
+              return;
+
+            }
+
+
+            jumpToResearchNode(
+              treeKey,
+              nodeKey
+            );
+
+          }
+        );
+
+      }
+    );
+  
 }
 
 
