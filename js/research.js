@@ -3987,12 +3987,15 @@ function researchEffectApplies(
   // -------------------------
 
   if (
-    effect.scope === "squad"
+    effect.scope ===
+    "squad"
   ) {
 
     if (
       Number(effect.squad) !==
-      Number(context.squadNumber)
+      Number(
+        context.squadNumber
+      )
     ) {
 
       return false;
@@ -4007,7 +4010,8 @@ function researchEffectApplies(
   // -------------------------
 
   if (
-    effect.scope === "element"
+    effect.scope ===
+    "element"
   ) {
 
     if (
@@ -4026,16 +4030,21 @@ function researchEffectApplies(
   // -------------------------
   // CONDITIONAL EFFECTS
   // -------------------------
-  //
-  // Ohne passenden Combat Context
-  // werden attacking/defending Boni
-  // NICHT in normale Stats eingerechnet.
 
-  if (effect.condition) {
+  if (
+    effect.condition
+  ) {
+
+    const activeConditions =
+      new Set(
+        context.conditions || []
+      );
+
 
     if (
-      effect.condition !==
-      context.condition
+      !activeConditions.has(
+        effect.condition
+      )
     ) {
 
       return false;
@@ -4075,12 +4084,53 @@ function isResearchTreeComplete(
 export function getResearchBonuses({
   squadNumber = null,
   element = null,
+  conditions = [],
   condition = null
 } = {}) {
 
   const result =
     createResearchBonusResult();
 
+  // -------------------------
+  // NORMALIZE CONDITIONS
+  // -------------------------
+  //
+  // "conditions" ist die neue API.
+  //
+  // "condition" bleibt vorerst
+  // als Rückwärtskompatibilität
+  // bestehen.
+
+  const normalizedConditions =
+    Array.isArray(
+      conditions
+    )
+      ? [
+          ...conditions
+        ]
+      : [];
+
+
+  if (
+    condition &&
+    !normalizedConditions.includes(
+      condition
+    )
+  ) {
+
+    normalizedConditions.push(
+      condition
+    );
+
+  }
+
+
+  const context = {
+    squadNumber,
+    element,
+    conditions:
+      normalizedConditions
+  };
 
   const context = {
     squadNumber,
