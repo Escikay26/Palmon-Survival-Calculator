@@ -16,6 +16,7 @@ let selectedLevels = {};
 
 let nodeMap = new Map();
 
+let researchStatsExpanded = false;
 
 // =============================
 // LABELS
@@ -2741,6 +2742,475 @@ function scheduleConnectionDraw() {
 
 
 // =============================
+// RESEARCH STATS OVERVIEW
+// =============================
+
+function getResearchStatsContexts() {
+
+  return [
+    {
+      key: "global",
+      title: "Global / All Palmon",
+      context: {}
+    },
+
+    {
+      key: "squad1",
+      title: "Squad 1",
+      context: {
+        squadNumber: 1
+      }
+    },
+
+    {
+      key: "squad2",
+      title: "Squad 2",
+      context: {
+        squadNumber: 2
+      }
+    },
+
+    {
+      key: "squad3",
+      title: "Squad 3",
+      context: {
+        squadNumber: 3
+      }
+    },
+
+    {
+      key: "squad4",
+      title: "Squad 4",
+      context: {
+        squadNumber: 4
+      }
+    },
+
+    {
+      key: "water",
+      title: "Water Palmon",
+      context: {
+        element: "Water"
+      }
+    },
+
+    {
+      key: "fire",
+      title: "Fire Palmon",
+      context: {
+        element: "Fire"
+      }
+    },
+
+    {
+      key: "earth",
+      title: "Earth Palmon",
+      context: {
+        element: "Earth"
+      }
+    },
+
+    {
+      key: "electric",
+      title: "Electric Palmon",
+      context: {
+        element: "Electric"
+      }
+    },
+
+    {
+      key: "attacking",
+      title: "Attacking Camps",
+      context: {
+        condition:
+          "attackingCamps"
+      }
+    },
+
+    {
+      key: "defending",
+      title: "Defending Camps",
+      context: {
+        condition:
+          "defendingCamps"
+      }
+    }
+  ];
+
+}
+
+
+// =============================
+// UNIQUE EFFECT FILTER
+// =============================
+
+function filterResearchStatsEffects(
+  effects,
+  contextKey
+) {
+
+  return effects.filter(
+    effect => {
+
+      // -------------------------
+      // GLOBAL
+      // -------------------------
+
+      if (
+        contextKey ===
+        "global"
+      ) {
+
+        return (
+          effect.scope !==
+            "squad" &&
+          effect.scope !==
+            "element" &&
+          !effect.condition
+        );
+
+      }
+
+
+      // -------------------------
+      // SQUADS
+      // -------------------------
+
+      if (
+        contextKey.startsWith(
+          "squad"
+        )
+      ) {
+
+        return (
+          effect.scope ===
+          "squad"
+        );
+
+      }
+
+
+      // -------------------------
+      // ELEMENTS
+      // -------------------------
+
+      if (
+        [
+          "water",
+          "fire",
+          "earth",
+          "electric"
+        ].includes(
+          contextKey
+        )
+      ) {
+
+        return (
+          effect.scope ===
+          "element"
+        );
+
+      }
+
+
+      // -------------------------
+      // CONDITIONS
+      // -------------------------
+
+      if (
+        contextKey ===
+          "attacking" ||
+        contextKey ===
+          "defending"
+      ) {
+
+        return Boolean(
+          effect.condition
+        );
+
+      }
+
+
+      return false;
+
+    }
+  );
+
+}
+
+
+// =============================
+// COMBINE DISPLAY EFFECTS
+// =============================
+
+function combineResearchStatsEffects(
+  effects
+) {
+
+  const totals =
+    new Map();
+
+
+  effects.forEach(
+    effect => {
+
+      const key = [
+        effect.stat,
+        effect.unit
+      ].join(":");
+
+
+      const existing =
+        totals.get(
+          key
+        );
+
+
+      if (existing) {
+
+        existing.value +=
+          effect.value;
+
+        return;
+
+      }
+
+
+      totals.set(
+        key,
+        {
+          stat:
+            effect.stat,
+
+          unit:
+            effect.unit,
+
+          value:
+            effect.value
+        }
+      );
+
+    }
+  );
+
+
+  return [
+    ...totals.values()
+  ];
+
+}
+
+
+// =============================
+// STAT GROUP
+// =============================
+
+function renderResearchStatsGroup(
+  title,
+  effects
+) {
+
+  const combined =
+    combineResearchStatsEffects(
+      effects
+    );
+
+
+  if (
+    combined.length === 0
+  ) {
+
+    return "";
+
+  }
+
+
+  return `
+    <div class="research-stats-group">
+
+      <h4>
+        ${escapeHTML(
+          title
+        )}
+      </h4>
+
+
+      <div class="research-stats-list">
+
+        ${
+          combined.map(
+            effect => {
+
+              return `
+                <div
+                  class="
+                    research-stat-row
+                  "
+                >
+
+                  <span>
+                    ${escapeHTML(
+                      getStatLabel(
+                        effect.stat
+                      )
+                    )}
+                  </span>
+
+
+                  <strong>
+                    ${escapeHTML(
+                      formatValue(
+                        effect.value,
+                        effect.unit
+                      )
+                    )}
+                  </strong>
+
+                </div>
+              `;
+
+            }
+          ).join("")
+        }
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+// =============================
+// RESEARCH STATS PANEL
+// =============================
+
+function renderResearchStats() {
+
+  const contexts =
+    getResearchStatsContexts();
+
+
+  const groups = [];
+
+
+  contexts.forEach(
+    item => {
+
+      const bonuses =
+        getResearchBonuses(
+          item.context
+        );
+
+
+      const effects =
+        filterResearchStatsEffects(
+          bonuses.effects,
+          item.key
+        );
+
+
+      const html =
+        renderResearchStatsGroup(
+          item.title,
+          effects
+        );
+
+
+      if (html) {
+
+        groups.push(
+          html
+        );
+
+      }
+
+    }
+  );
+
+
+  const content =
+    groups.length > 0
+      ? groups.join("")
+      : `
+        <p class="research-stats-empty">
+          No active Research bonuses yet.
+        </p>
+      `;
+
+
+  return `
+    <section
+      class="
+        research-stats-panel
+        ${
+          researchStatsExpanded
+            ? "expanded"
+            : ""
+        }
+      "
+    >
+
+      <button
+        id="research-stats-toggle"
+        class="research-stats-toggle"
+        type="button"
+        aria-expanded="${
+          researchStatsExpanded
+        }"
+      >
+
+        <div>
+
+          <strong>
+            Research Stats
+          </strong>
+
+          <span>
+            Current bonuses from all
+            Research Trees
+          </span>
+
+        </div>
+
+
+        <span
+          class="
+            research-stats-toggle-icon
+          "
+          aria-hidden="true"
+        >
+          ${
+            researchStatsExpanded
+              ? "−"
+              : "+"
+          }
+        </span>
+
+      </button>
+
+
+      ${
+        researchStatsExpanded
+          ? `
+            <div
+              class="
+                research-stats-content
+              "
+            >
+              ${content}
+            </div>
+          `
+          : ""
+      }
+
+    </section>
+  `;
+
+}
+
+
+// =============================
 // RENDER
 // =============================
 
@@ -2809,13 +3279,32 @@ function render() {
       </div>
 
 
-      <button
-        id="research-reset-tree"
-        class="reset-button"
-        type="button"
+      <div
+        class="
+          research-tree-actions
+        "
       >
-        Reset Tree
-      </button>
+
+        <button
+          id="research-max-tree"
+          class="
+            research-max-tree-button
+          "
+          type="button"
+        >
+          Max Tree
+        </button>
+
+
+        <button
+          id="research-reset-tree"
+          class="reset-button"
+          type="button"
+        >
+          Reset Tree
+        </button>
+
+      </div>
 
     </section>
 
@@ -2828,6 +3317,9 @@ function render() {
     ${renderSummary(
       tree
     )}
+
+
+    ${renderResearchStats()}
 
 
     <section class="section">
@@ -2915,6 +3407,44 @@ function changeNodeLevel(
   setLevel(
     nodeKey,
     target
+  );
+
+
+  normalizeAllLevels();
+
+  saveState();
+
+  render();
+
+}
+
+
+// =============================
+// MAX CURRENT TREE
+// =============================
+
+function maxCurrentTree() {
+
+  const tree =
+    getSelectedTree();
+
+
+  if (!tree) {
+
+    return;
+
+  }
+
+
+  tree.nodes.forEach(
+    node => {
+
+      selectedLevels[
+        node.key
+      ] =
+        node.maxLevel;
+
+    }
   );
 
 
@@ -3212,7 +3742,45 @@ function addRenderedListeners() {
       }
     );
 
+    const maxTreeButton =
+    document.getElementById(
+      "research-max-tree"
+    );
 
+
+  if (maxTreeButton) {
+
+    maxTreeButton.addEventListener(
+      "click",
+      maxCurrentTree
+    );
+
+  }
+
+
+  const statsToggle =
+    document.getElementById(
+      "research-stats-toggle"
+    );
+
+
+  if (statsToggle) {
+
+    statsToggle.addEventListener(
+      "click",
+      () => {
+
+        researchStatsExpanded =
+          !researchStatsExpanded;
+
+
+        render();
+
+      }
+    );
+
+  }
+  
   const resetTreeButton =
     document.getElementById(
       "research-reset-tree"
