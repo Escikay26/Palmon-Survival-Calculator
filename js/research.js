@@ -4132,13 +4132,7 @@ export function getResearchBonuses({
       normalizedConditions
   };
 
-  const context = {
-    squadNumber,
-    element,
-    condition
-  };
-
-
+  
   researchTrees.forEach(
     tree => {
 
