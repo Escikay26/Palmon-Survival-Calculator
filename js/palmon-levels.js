@@ -19,17 +19,69 @@
 export const PALMON_MIN_LEVEL = 1;
 export const PALMON_MAX_LEVEL = 350;
 
-export const PALMON_ROLE_FACTORS = {
+// ========================================
+// ROLE STAT BONUSES
+// ========================================
+//
+// Durch Lucidina experimentell bestätigt:
+//
+// Die Rolle verändert NICHT die RAW-Levelkurve.
+//
+// Stattdessen ist die Rolle Teil des additiven
+// Prozentpools:
+//
+// Attacker:
+//   Attack +20%
+//
+// Defender:
+//   Defense +20%
+//   HP +20%
+//
+// Diese Boni werden später gemeinsam mit anderen
+// %-Boni auf die RAW-Stats angewendet.
+// ========================================
+
+export const PALMON_ROLE_PERCENT_BONUSES = {
   Attacker: {
-    attack: 1.2,
-    defense: 1,
-    hp: 1
+    attack: 20,
+    defense: 0,
+    hp: 0
   },
+
   Defender: {
-    attack: 1,
-    defense: 1.2,
-    hp: 1.2
+    attack: 0,
+    defense: 20,
+    hp: 20
   }
+};
+
+
+// ========================================
+// RARITY TRAIT
+// ========================================
+//
+// Wird beim tatsächlichen Erreichen von 4★
+// sofort aktiv.
+//
+// Wichtig:
+//
+// Die Ascension-Vorschau zeigt diesen Bonus
+// offenbar NICHT im 4-0-Vorschauwert an.
+//
+// Tatsächlicher Stat-Screen:
+//
+// UR  = +20% ATK / DEF / HP
+// SSR = +10% ATK / DEF / HP
+// SR  =  +5% ATK / DEF / HP
+//
+// Auch dieser Bonus geht additiv in denselben
+// %-Pool wie der Rollenbonus.
+// ========================================
+
+export const PALMON_RARITY_TRAIT_PERCENT = {
+  UR: 20,
+  SSR: 10,
+  SR: 5
 };
 
 // Raritätsfaktoren auf die neutrale UR-Levelkurve.
@@ -202,8 +254,10 @@ function normalizeLevel(level) {
 }
 
 function assertRole(role) {
-  if (!PALMON_ROLE_FACTORS[role]) {
-    throw new Error(`Unknown Palmon role: ${role}`);
+  if (!PALMON_ROLE_PERCENT_BONUSES[role]) {
+    throw new Error(
+      `Unknown Palmon role: ${role}`
+    );
   }
 }
 
@@ -213,118 +267,266 @@ function assertRarity(rarity) {
   }
 }
 
-// Liefert den kumulativen RAW-Levelzuwachs relativ zu Lv1.
+// ========================================
+// RAW LEVEL GROWTH
+// ========================================
 //
-// Beispiel:
-// Lv1 => { attack: 0, defense: 0, hp: 0 }
+// Liefert ausschließlich den kumulativen
+// RAW-Levelzuwachs relativ zu Lv1.
 //
-// Die Referenzkurve wurde als UR Attacker gemessen.
-// Für die neutrale Kurve wird deshalb bei Attack zuerst
-// der Attacker-Rollenfaktor 1.2 entfernt.
+// Die RAW-Levelkurve ist unabhängig von:
+// - Attacker / Defender
+// - Role +20%
+// - Rarity 4★ Trait
+// - Bloodmoon
+// - Achievements
+// - Research
+// - Boss Palmon
+// - etc.
+//
+// Die Mantleray-Referenzkurve stammt von einem
+// UR Attacker.
+//
+// Da dessen sichtbare ATK-Levelkurve bereits den
+// Attacker-Effekt repräsentierte, wird die
+// gespeicherte Attack-Referenz hier durch 1.20
+// normalisiert.
+//
+// DEF und HP benötigen bei einem Attacker keine
+// solche Rollenkorrektur.
+// ========================================
+
 export function getRawLevelGrowth({
   level,
-  rarity,
-  role
+  rarity
 }) {
-  const normalizedLevel = normalizeLevel(level);
+  const normalizedLevel =
+    normalizeLevel(level);
 
   assertRarity(rarity);
-  assertRole(role);
 
-  const index = normalizedLevel - 1;
+  const index =
+    normalizedLevel - 1;
 
-  const reference = {
-    attack: UR_ATTACKER_RAW_LEVEL_GROWTH.attack[index],
-    defense: UR_ATTACKER_RAW_LEVEL_GROWTH.defense[index],
-    hp: UR_ATTACKER_RAW_LEVEL_GROWTH.hp[index]
-  };
+
+  // --------------------------------------
+  // NEUTRALE UR-RAW-KURVE
+  // --------------------------------------
 
   const neutralUrGrowth = {
-    attack: reference.attack / PALMON_ROLE_FACTORS.Attacker.attack,
-    defense: reference.defense,
-    hp: reference.hp
+    attack:
+      UR_ATTACKER_RAW_LEVEL_GROWTH
+        .attack[index] / 1.2,
+
+    defense:
+      UR_ATTACKER_RAW_LEVEL_GROWTH
+        .defense[index],
+
+    hp:
+      UR_ATTACKER_RAW_LEVEL_GROWTH
+        .hp[index]
   };
 
-  const rarityFactors = PALMON_RARITY_LEVEL_FACTORS[rarity];
-  const roleFactors = PALMON_ROLE_FACTORS[role];
+
+  // --------------------------------------
+  // RARITY LEVEL FACTORS
+  // --------------------------------------
+
+  const rarityFactors =
+    PALMON_RARITY_LEVEL_FACTORS[
+      rarity
+    ];
+
 
   return {
     attack:
       neutralUrGrowth.attack *
-      rarityFactors.attack *
-      roleFactors.attack,
+      rarityFactors.attack,
 
     defense:
       neutralUrGrowth.defense *
-      rarityFactors.defense *
-      roleFactors.defense,
+      rarityFactors.defense,
 
     hp:
       neutralUrGrowth.hp *
-      rarityFactors.hp *
-      roleFactors.hp
+      rarityFactors.hp
   };
 }
 
-// Berechnet RAW-Stats auf einem Ziellevel,
-// wenn die RAW-Lv1-Stats bekannt sind.
+// ========================================
+// RAW STATS AT LEVEL
+// ========================================
+//
+// Berechnet die RAW-Stats eines Palmons,
+// bevor irgendwelche Prozentboni angewendet
+// werden.
+//
+// level1Stats müssen ebenfalls RAW-Stats sein.
+// ========================================
+
 export function getRawStatsAtLevel({
   level,
   rarity,
-  role,
   level1Stats
 }) {
-  const growth = getRawLevelGrowth({
-    level,
-    rarity,
-    role
-  });
+  const growth =
+    getRawLevelGrowth({
+      level,
+      rarity
+    });
 
   return {
     attack:
-      (Number(level1Stats?.attack) || 0) +
+      (
+        Number(
+          level1Stats?.attack
+        ) || 0
+      ) +
       growth.attack,
 
     defense:
-      (Number(level1Stats?.defense) || 0) +
+      (
+        Number(
+          level1Stats?.defense
+        ) || 0
+      ) +
       growth.defense,
 
     hp:
-      (Number(level1Stats?.hp) || 0) +
+      (
+        Number(
+          level1Stats?.hp
+        ) || 0
+      ) +
       growth.hp
   };
 }
 
-// Rückrechnung eines bekannten RAW-Zielwertes
-// auf RAW Lv1.
+// ========================================
+// RAW LEVEL 1 STATS
+// ========================================
 //
-// WICHTIG:
-// Der übergebene targetStats-Wert muss bereits von
-// Account-%-Boni, Bloodmoon und Ascension bereinigt sein.
+// Rechnet einen bereits vollständig von
+// %-Boni / Flat-Boni / Ascension bereinigten
+// RAW-Wert auf Lv1 zurück.
+// ========================================
+
 export function getRawLevel1Stats({
   level,
   rarity,
-  role,
   targetStats
 }) {
-  const growth = getRawLevelGrowth({
-    level,
-    rarity,
-    role
-  });
+  const growth =
+    getRawLevelGrowth({
+      level,
+      rarity
+    });
 
   return {
     attack:
-      (Number(targetStats?.attack) || 0) -
+      (
+        Number(
+          targetStats?.attack
+        ) || 0
+      ) -
       growth.attack,
 
     defense:
-      (Number(targetStats?.defense) || 0) -
+      (
+        Number(
+          targetStats?.defense
+        ) || 0
+      ) -
       growth.defense,
 
     hp:
-      (Number(targetStats?.hp) || 0) -
+      (
+        Number(
+          targetStats?.hp
+        ) || 0
+      ) -
       growth.hp
+  };
+}
+
+// ========================================
+// INTRINSIC PALMON PERCENT BONUSES
+// ========================================
+//
+// Enthält ausschließlich Boni, die direkt
+// zum Palmon selbst gehören:
+//
+// - Attacker / Defender Rolle
+// - Rarity Trait ab 4★
+//
+// Beispiel:
+//
+// UR Attacker 3★:
+// ATK +20%
+//
+// UR Attacker 4★:
+// ATK +40%
+// DEF +20%
+// HP  +20%
+//
+// UR Defender 4★:
+// ATK +20%
+// DEF +40%
+// HP  +40%
+//
+// includeRarityTrait=false kann später für
+// den Ascension-Vorschau-Screen benutzt werden,
+// da dieser den 4★-Trait offenbar nicht anzeigt.
+// ========================================
+
+export function getIntrinsicPalmonPercentBonuses({
+  rarity,
+  role,
+  stars = 0,
+  includeRarityTrait = true
+}) {
+  assertRarity(rarity);
+  assertRole(role);
+
+  const roleBonus =
+    PALMON_ROLE_PERCENT_BONUSES[
+      role
+    ];
+
+  const normalizedStars =
+    Math.max(
+      0,
+      Math.floor(
+        Number(stars) || 0
+      )
+    );
+
+
+  const rarityTraitActive =
+    includeRarityTrait &&
+    normalizedStars >= 4;
+
+
+  const rarityTraitValue =
+    rarityTraitActive
+      ? PALMON_RARITY_TRAIT_PERCENT[
+          rarity
+        ]
+      : 0;
+
+
+  return {
+    attack:
+      roleBonus.attack +
+      rarityTraitValue,
+
+    defense:
+      roleBonus.defense +
+      rarityTraitValue,
+
+    hp:
+      roleBonus.hp +
+      rarityTraitValue
   };
 }
 
