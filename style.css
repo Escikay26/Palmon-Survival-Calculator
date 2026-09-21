@@ -2718,341 +2718,1278 @@ select {
 
 }
 
+/* ============================= */
+/* BOSS PALMON */
+/* ============================= */
+
+
+/* ============================= */
+/* BOSS SELECTOR */
+/* ============================= */
+
 .boss-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 18px;
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 10px;
+
+  margin-bottom: 24px;
+
+  padding: 6px;
+
+  background:
+    var(--background-deep);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    14px;
 }
+
 
 .boss-selector-button {
-  padding: 9px 14px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 46px;
+
+  padding:
+    10px 14px;
+
+  background:
+    transparent;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius:
+    9px;
+
+  color:
+    var(--muted);
+
+  cursor:
+    pointer;
+
+  font-size:
+    13px;
+
+  font-weight:
+    750;
+
+  text-align:
+    center;
 }
+
 
 .boss-selector-button:hover {
-  color: var(--text);
-  border-color: #9ca3af;
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.65
+    );
+
+  border-color:
+    var(--border);
+
+  color:
+    var(--text);
 }
+
 
 .boss-selector-button.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
+  background:
+    white;
+
+  border-color:
+    #cfe0ff;
+
+  color:
+    var(--primary-dark);
+
+  box-shadow:
+    0 3px 10px
+    rgba(
+      39,
+      73,
+      125,
+      0.10
+    );
 }
+
+
+.boss-selector-button.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+
+  height: 3px;
+
+  background:
+    var(--primary);
+
+  border-radius:
+    999px 999px 0 0;
+}
+
+
+/* ============================= */
+/* MAIN BOSS CARDS */
+/* ============================= */
 
 .boss-card {
-  margin-bottom: 18px;
-  padding: 18px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  position: relative;
+
+  overflow: hidden;
+
+  margin-bottom:
+    18px;
+
+  padding:
+    20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff 0%,
+      #fbfdff 100%
+    );
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    var(--radius-large);
+
+  box-shadow:
+    var(--shadow-card);
 }
+
 
 .boss-card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    16px;
+
+  margin-bottom:
+    18px;
 }
+
 
 .boss-card-header h3 {
-  margin: 6px 0 0;
-  font-size: 18px;
+  margin:
+    7px 0 0;
+
+  color:
+    var(--text);
+
+  font-size:
+    20px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -0.02em;
 }
+
 
 .boss-card-header p {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
+  max-width:
+    650px;
+
+  margin:
+    5px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    12px;
+
+  line-height:
+    1.6;
 }
+
+
+/* ============================= */
+/* ELEMENT BADGES */
+/* ============================= */
 
 .boss-element-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    5px;
+
+  padding:
+    5px 9px;
+
+  border:
+    1px solid
+    transparent;
+
+  border-radius:
+    999px;
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
 }
+
 
 .boss-element-badge.water {
-  background: #dbeafe;
-  color: #1d4ed8;
+  background:
+    #eaf3ff;
+
+  border-color:
+    #cfe3ff;
+
+  color:
+    #2869c7;
 }
+
+
+.boss-element-badge.fire {
+  background:
+    #fff0ec;
+
+  border-color:
+    #ffd9cf;
+
+  color:
+    #c64d34;
+}
+
+
+.boss-element-badge.earth {
+  background:
+    #edf8f0;
+
+  border-color:
+    #d1ead8;
+
+  color:
+    #428154;
+}
+
+
+.boss-element-badge.electric {
+  background:
+    #fff8dc;
+
+  border-color:
+    #f6e8a8;
+
+  color:
+    #a77a00;
+}
+
+
+/* ============================= */
+/* PROGRESS CARD */
+/* ============================= */
+
+.boss-progress-card {
+  border-top:
+    4px solid
+    var(--primary);
+}
+
 
 .boss-progress-grid {
-  display: grid;
+  display:
+    grid;
+
   grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-  gap: 14px;
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    14px;
 }
+
 
 .boss-control-group {
-  padding: 14px;
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  position:
+    relative;
+
+  padding:
+    16px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    12px;
 }
+
 
 .boss-control-label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 600;
+  display:
+    block;
+
+  margin-bottom:
+    10px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
 }
 
-.boss-stepper {
-  display: grid;
-  grid-template-columns:
-    38px minmax(90px, 1fr) 38px;
-  align-items: center;
-  gap: 8px;
-}
-
-.boss-stepper button {
-  width: 38px;
-  height: 38px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  color: var(--text);
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.boss-stepper button:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.boss-stepper input {
-  width: 100%;
-  box-sizing: border-box;
-  height: 38px;
-  padding: 0 10px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  color: var(--text);
-  font: inherit;
-  font-weight: 700;
-  text-align: center;
-}
-
-.boss-ascension-stepper strong {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 38px;
-  font-size: 16px;
-}
 
 .boss-control-hint {
-  display: block;
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 11px;
+  display:
+    block;
+
+  margin-top:
+    8px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+  text-align:
+    center;
 }
+
+
+/* ============================= */
+/* LEVEL / ASCENSION STEPPERS */
+/* ============================= */
+
+.boss-stepper {
+  display:
+    grid;
+
+  grid-template-columns:
+    40px
+    minmax(
+      90px,
+      1fr
+    )
+    40px;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+}
+
+
+.boss-stepper button {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    40px;
+
+  height:
+    40px;
+
+  padding:
+    0;
+
+  background:
+    white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text-soft);
+
+  cursor:
+    pointer;
+
+  font-size:
+    19px;
+
+  font-weight:
+    800;
+
+  box-shadow:
+    var(--shadow-small);
+}
+
+
+.boss-stepper button:hover {
+  background:
+    var(--primary-soft);
+
+  border-color:
+    var(--primary);
+
+  color:
+    var(--primary);
+
+  transform:
+    translateY(-1px);
+}
+
+
+.boss-stepper input {
+  width:
+    100%;
+
+  height:
+    40px;
+
+  padding:
+    0 10px;
+
+  background:
+    white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text);
+
+  font:
+    inherit;
+
+  font-size:
+    15px;
+
+  font-weight:
+    800;
+
+  text-align:
+    center;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+
+.boss-stepper input:focus {
+  outline:
+    none;
+
+  border-color:
+    var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      57,
+      118,
+      232,
+      0.10
+    );
+}
+
+
+.boss-ascension-stepper strong {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  min-height:
+    40px;
+
+  padding:
+    0 10px;
+
+  background:
+    white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text);
+
+  font-size:
+    16px;
+
+  font-weight:
+    800;
+
+  text-align:
+    center;
+}
+
+
+/* ============================= */
+/* RESOURCE SUMMARY */
+/* ============================= */
 
 .boss-resource-grid {
-  display: grid;
+  display:
+    grid;
+
   grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 18px;
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    12px;
+
+  margin-bottom:
+    18px;
 }
+
 
 .boss-resource-card {
-  padding: 14px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 9px;
+  position:
+    relative;
+
+  min-width:
+    0;
+
+  overflow:
+    hidden;
+
+  padding:
+    16px;
+
+  background:
+    white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    12px;
+
+  box-shadow:
+    var(--shadow-small);
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.boss-resource-card span,
-.boss-resource-card small {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
+
+.boss-resource-card::before {
+  content:
+    "";
+
+  position:
+    absolute;
+
+  top:
+    0;
+
+  left:
+    0;
+
+  width:
+    100%;
+
+  height:
+    3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--primary),
+      #74a7ff
+    );
 }
+
+
+.boss-resource-card:hover {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    var(--border-strong);
+
+  box-shadow:
+    var(--shadow-card);
+}
+
+
+.boss-resource-card span {
+  display:
+    block;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.035em;
+
+  text-transform:
+    uppercase;
+}
+
 
 .boss-resource-card strong {
-  display: block;
-  margin: 5px 0 3px;
-  font-size: 20px;
+  display:
+    block;
+
+  margin:
+    7px 0 4px;
+
+  color:
+    var(--text);
+
+  font-size:
+    19px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    -0.02em;
 }
 
-.boss-skills {
-  display: grid;
-  gap: 12px;
+
+.boss-resource-card small {
+  display:
+    block;
+
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+
+  line-height:
+    1.45;
 }
 
-.boss-skill {
-  padding: 14px;
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
 
-.boss-skill.locked {
-  opacity: 0.55;
-}
-
-.boss-skill-info {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.boss-skill-info h4 {
-  margin: 0 0 3px;
-  font-size: 14px;
-}
-
-.boss-skill-info span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.boss-skill-levels {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-}
-
-.boss-skill-level {
-  width: 34px;
-  height: 34px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  color: var(--muted);
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.boss-skill-level:hover:not(:disabled) {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.boss-skill-level.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-.boss-skill-level:disabled {
-  cursor: not-allowed;
-}
-
-.boss-skill-description {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.55;
-}
+/* ============================= */
+/* BONUSES */
+/* ============================= */
 
 .boss-bonus-grid {
-  display: grid;
+  display:
+    grid;
+
   grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-  gap: 14px;
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap:
+    14px;
 }
 
+
 .boss-bonus-column {
-  padding: 14px;
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  padding:
+    16px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    12px;
 }
+
 
 .boss-bonus-column h4,
 .boss-battle-effects h4 {
-  margin: 0 0 10px;
-  font-size: 13px;
+  margin:
+    0 0 12px;
+
+  color:
+    var(--text);
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    0.015em;
 }
+
 
 .boss-bonus-list {
-  display: grid;
-  gap: 7px;
+  display:
+    grid;
+
+  gap:
+    0;
 }
+
 
 .boss-bonus-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  gap:
+    14px;
+
+  padding:
+    9px 0;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+  color:
+    var(--text-soft);
+
+  font-size:
+    12px;
 }
+
+
+.boss-bonus-row:first-child {
+  padding-top:
+    0;
+}
+
 
 .boss-bonus-row:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
+  padding-bottom:
+    0;
+
+  border-bottom:
+    0;
 }
+
 
 .boss-bonus-row strong {
-  white-space: nowrap;
+  flex-shrink:
+    0;
+
+  color:
+    var(--primary-dark);
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+
+  white-space:
+    nowrap;
 }
+
+
+/* ============================= */
+/* BATTLE EFFECTS */
+/* ============================= */
 
 .boss-battle-effects {
-  margin-top: 14px;
-  padding: 14px;
-  background: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  margin-top:
+    14px;
+
+  padding:
+    16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--surface-soft),
+      #ffffff
+    );
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    12px;
 }
+
 
 .boss-battle-effect {
-  display: grid;
-  gap: 3px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--border);
+  display:
+    grid;
+
+  gap:
+    4px;
+
+  padding:
+    10px 0;
+
+  border-bottom:
+    1px solid
+    var(--border);
 }
+
+
+.boss-battle-effect:first-of-type {
+  padding-top:
+    0;
+}
+
 
 .boss-battle-effect:last-child {
-  border-bottom: 0;
+  padding-bottom:
+    0;
+
+  border-bottom:
+    0;
 }
 
+
 .boss-battle-effect strong {
-  font-size: 12px;
+  color:
+    var(--text);
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
 }
+
 
 .boss-battle-effect span,
 .boss-empty-text {
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.5;
+  margin:
+    0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+  line-height:
+    1.55;
 }
 
-@media (max-width: 750px) {
+
+/* ============================= */
+/* SKILLS */
+/* ============================= */
+
+.boss-skills {
+  display:
+    grid;
+
+  gap:
+    10px;
+}
+
+
+.boss-skill {
+  position:
+    relative;
+
+  padding:
+    16px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-left:
+    4px solid
+    var(--primary);
+
+  border-radius:
+    11px;
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+
+.boss-skill:hover:not(.locked) {
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    var(--shadow-small);
+}
+
+
+.boss-skill.locked {
+  opacity:
+    0.52;
+
+  border-left-color:
+    #aeb8c5;
+}
+
+
+.boss-skill-info {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  justify-content:
+    space-between;
+
+  gap:
+    12px;
+}
+
+
+.boss-skill-info h4 {
+  margin:
+    0 0 4px;
+
+  color:
+    var(--text);
+
+  font-size:
+    14px;
+
+  font-weight:
+    800;
+}
+
+
+.boss-skill-info span {
+  color:
+    var(--muted);
+
+  font-size:
+    10px;
+}
+
+
+.boss-skill-info > strong {
+  flex-shrink:
+    0;
+
+  padding:
+    5px 9px;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #d2e2ff;
+
+  border-radius:
+    999px;
+
+  color:
+    var(--primary-dark);
+
+  font-size:
+    10px;
+
+  font-weight:
+    800;
+}
+
+
+.boss-skill.locked
+.boss-skill-info > strong {
+  background:
+    #eef1f5;
+
+  border-color:
+    #dfe4ea;
+
+  color:
+    var(--muted);
+}
+
+
+/* ============================= */
+/* SKILL LEVEL BUTTONS */
+/* ============================= */
+
+.boss-skill-levels {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    6px;
+
+  margin-top:
+    13px;
+}
+
+
+.boss-skill-level {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    35px;
+
+  height:
+    35px;
+
+  padding:
+    0;
+
+  background:
+    white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor:
+    pointer;
+
+  font-size:
+    12px;
+
+  font-weight:
+    800;
+}
+
+
+.boss-skill-level:hover:not(:disabled) {
+  border-color:
+    var(--primary);
+
+  color:
+    var(--primary);
+
+  box-shadow:
+    0 3px 9px
+    rgba(
+      57,
+      118,
+      232,
+      0.12
+    );
+
+  transform:
+    translateY(-1px);
+}
+
+
+.boss-skill-level.active {
+  background:
+    linear-gradient(
+      145deg,
+      #4d88ee,
+      var(--primary)
+    );
+
+  border-color:
+    var(--primary);
+
+  color:
+    white;
+
+  box-shadow:
+    0 4px 10px
+    rgba(
+      57,
+      118,
+      232,
+      0.22
+    );
+}
+
+
+.boss-skill-level:disabled {
+  cursor:
+    not-allowed;
+}
+
+
+.boss-skill-description {
+  margin:
+    11px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    11px;
+
+  line-height:
+    1.6;
+}
+
+
+/* ============================= */
+/* BOSS MOBILE */
+/* ============================= */
+
+@media (
+  max-width: 750px
+) {
+
+  .boss-selector {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
   .boss-progress-grid,
   .boss-resource-grid,
   .boss-bonus-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
   }
+
+
+  .boss-card {
+    padding:
+      17px;
+  }
+
 
   .boss-skill-info {
-    flex-direction: column;
+    flex-direction:
+      column;
   }
+
+
+  .boss-skill-info > strong {
+    align-self:
+      flex-start;
+  }
+
 }
 
+
+@media (
+  max-width: 420px
+) {
+
+  .boss-selector {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .boss-stepper {
+    grid-template-columns:
+      38px
+      minmax(
+        70px,
+        1fr
+      )
+      38px;
+  }
+
+}
 .achievement-meta {
   display: flex;
   flex-wrap: wrap;
