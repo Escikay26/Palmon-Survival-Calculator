@@ -316,7 +316,7 @@ export function getRawLevelGrowth({
   const neutralUrGrowth = {
     attack:
       UR_ATTACKER_RAW_LEVEL_GROWTH
-        .attack[index] / 1.2,
+        .attack[index],
 
     defense:
       UR_ATTACKER_RAW_LEVEL_GROWTH
