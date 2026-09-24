@@ -41,26 +41,6 @@ The goal is to distinguish:
 
 ---
 
-### Ascension – absolute scaling
-**Status:** Partially confirmed
-
-**Known**
-- The UR Ascension progression shape from `0-0★` through `5-0★` is strongly supported by the Escarffier and Lucidina measurements.
-- Mantleray follows the same full-star progression pattern.
-- Ascension and the Palmon skill unlocked at 4★ are separate mechanics.
-
-**Unknown**
-- What determines the absolute RAW magnitude of Ascension gains.
-- Candidate dependencies include:
-  - Palmon level,
-  - underlying RAW/base stats,
-  - rarity,
-  - or a combination of these.
-
-**Best validation test**
-- Measure the same Palmon and the same Ascension step (for example `0-0★ -> 0-1★`) at two different Palmon levels.
-
----
 
 ### SSR / SR Ascension scaling
 **Status:** Open
@@ -116,6 +96,44 @@ The goal is to distinguish:
 ---
 
 ## Resolved / Confirmed
+
+### Ascension – Level dependency
+
+Confirmed:
+- Ascension RAW growth is effectively independent of Palmon level.
+- Same Escarffier UR Defender, same account state:
+
+0-0 -> 0-1
+
+Lv1:
+ATK +651
+DEF +161
+HP +31,200
+
+Lv100:
+ATK +652
+DEF +161
+HP +31,201
+
+Lv200:
+ATK +652
+DEF +161
+HP +31,201
+
+Lv300:
+ATK +657
+DEF +162
+HP +31,399
+
+Explanation for Lv300:
+- Bloodmoon Lv270 adds +2 percentage points to ATK / DEF / HP.
+- Ascension RAW growth is applied before percentage bonuses.
+- Therefore the same RAW Ascension increase appears slightly larger on the visible stat screen.
+
+Conclusion:
+Ascension does not need a level-dependent scaling function.
+
+---
 
 ### ATK / DEF / HP percent bonuses are additive
 **Status:** Confirmed experimentally
