@@ -2185,9 +2185,6 @@ select {
 /* ============================= */
 
 .achievement.locked {
-  opacity:
-    0.58;
-
   background:
     #f9fbfd;
 }
@@ -2222,6 +2219,9 @@ select {
 .level-button {
   cursor:
     not-allowed;
+
+  opacity:
+    0.45;
 }
 
 
