@@ -1,3 +1,7 @@
+// =============================
+// STORAGE KEYS
+// =============================
+
 const ACHIEVEMENT_STORAGE_KEY =
   "achievementPlanner";
 
@@ -7,6 +11,46 @@ const BOSS_PALMON_STORAGE_KEY =
 const RESEARCH_STORAGE_KEY =
   "researchPlanner";
 
+
+const PLANNER_STORAGE_KEYS = [
+  ACHIEVEMENT_STORAGE_KEY,
+  BOSS_PALMON_STORAGE_KEY,
+  RESEARCH_STORAGE_KEY
+];
+
+
+// =============================
+// RESET / CLEAR STORAGE
+// =============================
+
+export function clearAchievementState() {
+  localStorage.removeItem(
+    ACHIEVEMENT_STORAGE_KEY
+  );
+}
+
+
+export function clearBossPalmonState() {
+  localStorage.removeItem(
+    BOSS_PALMON_STORAGE_KEY
+  );
+}
+
+
+export function clearResearchState() {
+  localStorage.removeItem(
+    RESEARCH_STORAGE_KEY
+  );
+}
+
+
+export function clearAllPlannerState() {
+  PLANNER_STORAGE_KEYS.forEach(
+    key => {
+      localStorage.removeItem(key);
+    }
+  );
+}
 
 // =============================
 // ACHIEVEMENTS
