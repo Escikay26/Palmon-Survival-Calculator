@@ -135,6 +135,28 @@ Ascension does not need a level-dependent scaling function.
 
 ---
 
+### UR Ascension curve shape
+Status: Resolved
+
+Confirmed:
+- UR Attacker and UR Defender use the same normalized Ascension progression.
+- Lucidina (UR Attacker) and Escarffier (UR Defender) produce nearly identical
+  normalized step ratios for ATK, DEF and HP.
+- Different account bonus states do not affect the normalized curve shape because
+  the constant percentage multiplier cancels when steps are normalized.
+
+Conclusion:
+UR Ascension can be modeled as:
+
+stat-specific Palmon Ascension scale
+×
+universal UR stat-specific Ascension curve
+
+Remaining question:
+How the Palmon-specific ATK / DEF / HP Ascension scale is derived from its base stats.
+
+---
+
 ### ATK / DEF / HP percent bonuses are additive
 **Status:** Confirmed experimentally
 
