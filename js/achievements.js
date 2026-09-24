@@ -1825,8 +1825,10 @@ function renderAchievements() {
           !prerequisiteMet
         ) {
 
+          // Die konkrete Voraussetzung steht
+          // bereits oben im Meta-Bereich.
           lockMessage =
-            `🔒 Locked · Requires ${achievement.prerequisite} Level 6`;
+            "🔒 Locked";
 
         }
 
@@ -1853,8 +1855,10 @@ function renderAchievements() {
         !prerequisiteMet
       ) {
 
+        // Die konkrete Voraussetzung steht
+        // bereits oben im Meta-Bereich.
         lockMessage =
-          `✓ Unlocked · Requires ${achievement.prerequisite} Level 6 to upgrade`;
+          "✓ Unlocked · Upgrade locked";
 
       }
 
@@ -1935,8 +1939,6 @@ function renderAchievements() {
             )
           }
 
-          ${lockMessage}
-          
           ${
             lockMessage
               ? `
