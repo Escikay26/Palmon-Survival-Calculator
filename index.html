@@ -22,10 +22,11 @@
       </div>
 
       <button
-        id="reset-button"
-        class="reset-button"
+        id="reset-all-button"
+        class="reset-button reset-button-danger"
+        type="button"
       >
-        Reset
+        Reset All
       </button>
 
     </div>
@@ -149,13 +150,26 @@
         </div>
 
 
-        <button
-          id="achievements-help-button"
-          class="help-button"
-          type="button"
-        >
-          ? How to Use
-        </button>
+        <div class="page-header-actions">
+
+          <button
+            id="achievements-reset-button"
+            class="reset-button"
+            type="button"
+          >
+            Reset Achievements
+          </button>
+
+
+          <button
+            id="achievements-help-button"
+            class="help-button"
+            type="button"
+          >
+            ? How to Use
+          </button>
+
+        </div>
 
       </div>
       
@@ -322,13 +336,34 @@
       id="page-boss-palmon"
       class="app-page"
     >
-      <div class="page-header">
-        <h2>Boss Palmon</h2>
+      <div class="page-header page-header-with-action">
 
-        <p>
-          Configure your Boss Palmon level,
-          ascension and skills.
-        </p>
+        <div>
+
+          <h2>
+            Boss Palmon
+          </h2>
+
+          <p>
+            Configure your Boss Palmon level,
+            ascension and skills.
+          </p>
+
+        </div>
+
+
+        <div class="page-header-actions">
+
+          <button
+            id="boss-palmon-reset-button"
+            class="reset-button"
+            type="button"
+          >
+            Reset Boss Palmon
+          </button>
+
+        </div>
+
       </div>
 
       <div id="boss-palmon-root"></div>
@@ -345,17 +380,33 @@
   class="app-page"
 >
 
-  <div class="page-header">
+  <div class="page-header page-header-with-action">
 
-    <h2>
-      Research
-    </h2>
+    <div>
 
-    <p>
-      Recreate your current Tech Tree
-      progression and manage Research levels.
-      Tech prerequisites are tracked automatically.
-    </p>
+      <h2>
+        Research
+      </h2>
+
+      <p>
+        Configure your Research progression
+        and permanent Palmon bonuses.
+      </p>
+
+    </div>
+
+
+    <div class="page-header-actions">
+
+      <button
+        id="research-reset-all-button"
+        class="reset-button"
+        type="button"
+      >
+        Reset Research
+      </button>
+
+    </div>
 
   </div>
 
