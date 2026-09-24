@@ -122,8 +122,6 @@ initAchievementSystem() {
 
     loadSavedState();
 
-    addResetListener();
-
     addFilterListeners();
 
     addBuildModeListeners();
@@ -742,6 +740,122 @@ function calculateNextCosts() {
 
 
 // =============================
+// STAT VALUE PARSER
+// =============================
+
+function parseAchievementStatValue(
+  value
+) {
+
+  // ---------------------------
+  // NORMAL NUMBER = FLAT
+  // ---------------------------
+
+  if (
+    typeof value === "number" &&
+    Number.isFinite(value)
+  ) {
+
+    return {
+      flat: value,
+      percent: 0
+    };
+
+  }
+
+
+  // ---------------------------
+  // STRING
+  // ---------------------------
+
+  if (
+    typeof value !== "string"
+  ) {
+
+    return null;
+
+  }
+
+
+  const normalized =
+    value
+      .trim()
+      .replace(
+        ",",
+        "."
+      );
+
+
+  if (!normalized) {
+    return null;
+  }
+
+
+  // ---------------------------
+  // PERCENT
+  // ---------------------------
+
+  if (
+    normalized.endsWith("%")
+  ) {
+
+    const parsed =
+      Number(
+        normalized.slice(
+          0,
+          -1
+        )
+      );
+
+
+    if (
+      !Number.isFinite(
+        parsed
+      )
+    ) {
+
+      return null;
+
+    }
+
+
+    return {
+      flat: 0,
+      percent: parsed
+    };
+
+  }
+
+
+  // ---------------------------
+  // NUMERIC STRING = FLAT
+  // ---------------------------
+
+  const parsed =
+    Number(
+      normalized
+    );
+
+
+  if (
+    !Number.isFinite(
+      parsed
+    )
+  ) {
+
+    return null;
+
+  }
+
+
+  return {
+    flat: parsed,
+    percent: 0
+  };
+}
+
+
+// =============================
 // STATS
 // =============================
 
@@ -772,9 +886,7 @@ calculateAchievementStats() {
 
 
       if (!unlocked) {
-
         return;
-
       }
 
 
@@ -787,9 +899,7 @@ calculateAchievementStats() {
       if (
         currentLevel < 1
       ) {
-
         return;
-
       }
 
 
@@ -802,9 +912,7 @@ calculateAchievementStats() {
 
 
       if (!levelData) {
-
         return;
-
       }
 
 
@@ -842,7 +950,25 @@ calculateAchievementStats() {
       Object.entries(
         levelData.stats || {}
       ).forEach(
-        ([stat, value]) => {
+        ([stat, rawValue]) => {
+
+          const parsed =
+            parseAchievementStatValue(
+              rawValue
+            );
+
+
+          if (!parsed) {
+
+            console.warn(
+              `Invalid achievement stat value: ${achievement.name} Lv${currentLevel} ${stat}`,
+              rawValue
+            );
+
+            return;
+
+          }
+
 
           if (!target[stat]) {
 
@@ -854,30 +980,16 @@ calculateAchievementStats() {
           }
 
 
-          if (
-            typeof value ===
-              "string" &&
-            value.includes("%")
-          ) {
+          target[
+            stat
+          ].flat +=
+            parsed.flat;
 
-            target[stat]
-              .percent +=
-              parseFloat(
-                value
-              );
 
-          }
-
-          else if (
-            typeof value ===
-            "number"
-          ) {
-
-            target[stat]
-              .flat +=
-              value;
-
-          }
+          target[
+            stat
+          ].percent +=
+            parsed.percent;
 
         }
       );
@@ -887,9 +999,7 @@ calculateAchievementStats() {
 
 
   return totals;
-
 }
-
 
 // =============================
 // FORMAT NUMBER
@@ -905,6 +1015,208 @@ function formatNumber(
     number
   );
 
+}
+
+
+// =============================
+// FORMAT ACHIEVEMENT STAT VALUE
+// =============================
+
+function formatAchievementStatValue(
+  rawValue
+) {
+
+  const parsed =
+    parseAchievementStatValue(
+      rawValue
+    );
+
+
+  if (!parsed) {
+    return "—";
+  }
+
+
+  if (
+    parsed.percent !== 0
+  ) {
+
+    return `${
+      parsed.percent > 0
+        ? "+"
+        : ""
+    }${
+      formatNumber(
+        parsed.percent
+      )
+    }%`;
+
+  }
+
+
+  return `${
+    parsed.flat > 0
+      ? "+"
+      : ""
+  }${
+    formatNumber(
+      parsed.flat
+    )
+  }`;
+}
+
+
+// =============================
+// GET ALL ACHIEVEMENT STAT KEYS
+// =============================
+
+function getAchievementStatKeys(
+  achievement
+) {
+
+  const keys =
+    new Set();
+
+
+  (
+    achievement.levels ||
+    []
+  )
+    .forEach(
+      level => {
+
+        Object.keys(
+          level.stats ||
+          {}
+        )
+          .forEach(
+            key => {
+              keys.add(key);
+            }
+          );
+
+      }
+    );
+
+
+  return [
+    ...keys
+  ];
+}
+
+
+// =============================
+// RENDER ACHIEVEMENT BOOSTS
+// =============================
+
+function renderAchievementBoosts(
+  achievement,
+  currentLevel,
+  unlocked
+) {
+
+  const statKeys =
+    getAchievementStatKeys(
+      achievement
+    );
+
+
+  if (
+    statKeys.length === 0
+  ) {
+    return "";
+  }
+
+
+  // Gesperrte Achievements zeigen
+  // eine Level-1-Vorschau.
+  const displayLevel =
+    unlocked &&
+    currentLevel >= 1
+      ? currentLevel
+      : 1;
+
+
+  const levelData =
+    achievement.levels.find(
+      level =>
+        level.level ===
+        displayLevel
+    );
+
+
+  const stats =
+    levelData?.stats ||
+    {};
+
+
+  const chips =
+    statKeys
+      .map(
+        stat => {
+
+          const hasValue =
+            Object.prototype
+              .hasOwnProperty
+              .call(
+                stats,
+                stat
+              );
+
+
+          const displayName =
+            statNames[
+              stat
+            ] ||
+            stat;
+
+
+          const displayValue =
+            hasValue
+              ? formatAchievementStatValue(
+                  stats[
+                    stat
+                  ]
+                )
+              : "—";
+
+
+          return `
+            <span
+              class="achievement-boost-chip"
+            >
+              <span>
+                ${displayName}
+              </span>
+
+              <strong>
+                ${displayValue}
+              </strong>
+            </span>
+          `;
+
+        }
+      )
+      .join("");
+
+
+  return `
+    <div class="achievement-boosts">
+
+      <span class="achievement-boosts-label">
+        ${
+          unlocked
+            ? `Level ${displayLevel} Boost`
+            : "Level 1 Preview"
+        }
+      </span>
+
+      <div class="achievement-boost-list">
+        ${chips}
+      </div>
+
+    </div>
+  `;
 }
 
 
@@ -1616,6 +1928,16 @@ function renderAchievements() {
           </div>
 
           ${
+            renderAchievementBoosts(
+              achievement,
+              currentLevel,
+              unlocked
+            )
+          }
+
+          ${lockMessage}
+          
+          ${
             lockMessage
               ? `
                 <div class="locked-text">
@@ -1779,57 +2101,6 @@ function addUnlockListeners() {
 
       }
     );
-
-}
-
-
-// =============================
-// RESET
-// =============================
-
-function addResetListener() {
-
-  const resetButton =
-    document.getElementById(
-      "reset-button"
-    );
-
-
-  if (!resetButton) {
-
-    return;
-
-  }
-
-
-  resetButton.addEventListener(
-    "click",
-    () => {
-
-      const confirmed =
-        confirm(
-          "Reset all achievements?"
-        );
-
-
-      if (!confirmed) {
-
-        return;
-
-      }
-
-
-      selectedLevels = {};
-
-      unlockedAchievements = {};
-
-
-      saveState();
-
-      render();
-
-    }
-  );
 
 }
 
