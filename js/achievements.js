@@ -1587,10 +1587,15 @@ function renderAchievements() {
       }
 
 
+      const filterAvailable =
+        available ||
+        canMarkAsUnlocked;
+
+
       if (
         selectedFilter ===
           "available" &&
-        !available
+        !filterAvailable
       ) {
 
         return;
@@ -1795,11 +1800,19 @@ function renderAchievements() {
         );
 
 
+      let costLabelText =
+        "Status";
+
+
       let costText =
-        "LOCKED";
+        "Locked";
 
 
       if (unlocked) {
+
+        costLabelText =
+          "Next Upgrade";
+
 
         costText =
           nextCost === null
@@ -1962,7 +1975,7 @@ function renderAchievements() {
         <div class="achievement-cost">
 
           <span class="cost-label">
-            Next Upgrade
+            ${costLabelText}
           </span>
 
           <span class="cost-value">
