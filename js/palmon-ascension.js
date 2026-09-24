@@ -2,39 +2,48 @@
 // PALMON ASCENSION MODEL
 // ========================================
 //
-// Dieses Modul beschreibt die bestätigte
-// FORM der Ascension-Kurve.
+// Ascension:
+// 0-0 -> 0-1 -> ... -> 4-4 -> 5-0
 //
-// Noch NICHT endgültig bestätigt:
-// - wie stark die Ascension absolut mit Level,
-//   Palmon-Basiswert oder einem anderen Faktor skaliert
+// Insgesamt 26 Zustände.
 //
-// Deshalb:
-// - Kurvenform = fest
-// - absolute Scale = separat
+// BESTÄTIGT / STARK BESTÄTIGT:
 //
-// Palmon-Skills wie der +20%-Skill ab 4★
-// gehören NICHT hierher.
+// - Ascension Growth ist nicht vom
+//   Palmon-Level abhängig.
+//
+// - Die UR-Ascension-Kurvenform ist bei
+//   verschiedenen UR-Palmons praktisch gleich.
+//
+// - ATK, DEF und HP besitzen unterschiedliche
+//   Kurvenformen.
+//
+// - Der Palmon-Skill ab 4★ gehört NICHT
+//   zur Ascension.
+//
+// - Account-%, Traits, Squad-Boni,
+//   Bloodmoon usw. gehören NICHT hierher.
+//
+// AKTUELLER MODELLSTAND:
+//
+// Für UR wird ein universeller RAW-Scale
+// verwendet.
+//
+// Dieser Scale ist durch mehrere Messreihen
+// stark gestützt, aber noch nicht direkt
+// aus Game Data bestätigt.
+//
+// Deshalb kann der Scale weiterhin optional
+// überschrieben werden.
+//
+// SSR / SR Ascension ist noch nicht bestätigt
+// und wird deshalb bewusst NICHT geraten.
+//
 // ========================================
 
 
 // ========================================
 // ASCENSION STATES
-// ========================================
-//
-// Reihenfolge:
-//
-// 0-0
-// 0-1
-// 0-2
-// 0-3
-// 0-4
-// 1-0
-// ...
-// 4-4
-// 5-0
-//
-// Insgesamt 26 Zustände.
 // ========================================
 
 export const ASCENSION_STATES = [
@@ -73,135 +82,214 @@ export const ASCENSION_STATES = [
 
 
 // ========================================
-// UNIVERSAL ASCENSION CURVE
+// UR ASCENSION CURVE
 // ========================================
 //
-// Diese Werte beschreiben NICHT direkt Stats.
+// Die Werte sind KUMULATIV relativ zu 0-0.
 //
-// Sie beschreiben die relative Form der Kurve.
+// Beispiel:
 //
-// Referenz:
 // 0-0 = 0
+// 0-1 = 1
 //
-// Die Werte basieren auf der vollständigen
-// UR-Messreihe.
+// Der erste Ascension-Schritt entspricht
+// also exakt einer RAW-Scale-Einheit.
 //
-// Für ATK/DEF ist die Kurve innerhalb eines
-// Sternblocks fast linear.
+// Die Kurven wurden aus den gemessenen
+// Lucidina- und Escarffier-Reihen
+// normalisiert.
 //
-// HP steigt innerhalb höherer Sternblöcke
-// deutlich progressiver.
+// Bis einschließlich 4-0:
+// Mittel aus beiden Messreihen.
 //
-// Deshalb gibt es getrennte Kurven je Stat.
+// Ab 4-1:
+// Lucidina wurde um den ab 4★ aktiven
+// +20%-Skill bereinigt.
+//
+// WICHTIG:
+// Genau 26 Werte pro Stat.
 // ========================================
 
 export const UR_ASCENSION_CURVE = {
   attack: [
     0,
-
     1,
-    2,
-    3,
-    4,
-    5,
+    1.999751,
+    2.999751,
+    3.999751,
+    4.999503,
 
-    6.537,
-    8.074,
-    9.611,
-    11.148,
-    12.685,
+    6.536077,
+    8.072900,
+    9.609474,
+    11.146049,
+    12.682084,
 
-    14.689,
-    16.693,
-    18.697,
-    20.701,
-    22.705,
+    14.687140,
+    16.691948,
+    18.696217,
+    20.700485,
+    22.704754,
 
-    25.455,
-    28.205,
-    30.955,
-    33.705,
-    36.455,
+    25.456961,
+    28.209168,
+    30.961914,
+    33.713333,
+    36.465540,
 
-    39.205,
-    43.943,
-    48.681,
-    53.419,
-    58.157,
+    40.412279,
+    44.359018,
+    48.305757,
+    52.252496,
 
-    62.895
+    56.199235
   ],
 
   defense: [
     0,
-
     1,
-    2,
-    3,
-    4,
-    5,
+    2.000022,
+    3.003333,
+    4.003355,
+    5.003377,
 
-    6.533,
-    8.066,
-    9.599,
-    11.132,
-    12.665,
+    6.534746,
+    8.072717,
+    9.607398,
+    11.142079,
+    12.673449,
 
-    14.665,
-    16.665,
-    18.665,
-    20.665,
-    22.665,
+    14.676782,
+    16.676826,
+    18.676847,
+    20.680180,
+    22.680202,
 
-    25.375,
-    28.085,
-    30.795,
-    33.505,
-    36.215,
+    25.393125,
+    28.109337,
+    30.818948,
+    33.531871,
+    36.244772,
 
-    38.925,
-    43.405,
-    47.885,
-    52.365,
-    56.845,
+    40.071542,
+    43.903794,
+    47.730564,
+    51.562816,
 
-    61.325
+    55.389586
   ],
 
   hp: [
     0,
-
     1,
-    2.897,
-    5.010,
-    7.359,
-    9.968,
+    3.843180,
+    7.007361,
+    10.528503,
+    14.441858,
 
-    12.727,
-    15.747,
-    19.045,
-    22.646,
-    26.574,
+    18.581518,
+    23.109382,
+    28.054827,
+    33.452708,
+    39.339883,
 
-    31.144,
-    36.213,
-    41.767,
-    47.843,
-    54.497,
+    46.742153,
+    54.860488,
+    63.759379,
+    73.506980,
+    84.178755,
 
-    61.775,
-    70.737,
-    80.588,
-    91.391,
-    103.242,
+    97.327503,
+    111.771677,
+    127.622441,
+    145.001969,
+    164.041884,
 
-    116.235,
-    135.550,
-    156.525,
-    179.435,
-    204.432,
+    187.742265,
+    213.738599,
+    242.221944,
+    273.400244,
 
-    231.738
+    307.498587
+  ]
+};
+
+
+// ========================================
+// UR RAW ASCENSION SCALE
+// ========================================
+//
+// Bedeutet:
+//
+// Wie viel RAW-Stat entspricht
+// einer Kurveneinheit?
+//
+// Da:
+//
+// 0-0 = 0
+// 0-1 = 1
+//
+// entspricht dieser Wert gleichzeitig
+// dem RAW-Zuwachs von:
+//
+// 0-0 -> 0-1
+//
+// Aktuelle Kalibrierung:
+//
+// Escarffier UR Defender
+// gleiche Account-Boni
+// Lv1 / Lv100
+//
+// Account-Multiplikator wurde über die
+// bekannte RAW-Levelkurve herausgerechnet.
+//
+// Unabhängige ältere Mantleray-Messungen
+// liegen sehr nahe an denselben Werten.
+//
+// Die Werte sind deshalb aktuell unser
+// bester UR-Default.
+//
+// Noch nicht direkt aus Game Data bestätigt.
+// ========================================
+
+export const UR_ASCENSION_RAW_SCALE = {
+  attack: 261.46,
+  defense: 45.134,
+  hp: 8250.97
+};
+
+
+// ========================================
+// MODEL INFO
+// ========================================
+
+export const PALMON_ASCENSION_MODEL_INFO = {
+  supportedRarities: [
+    "UR"
+  ],
+
+  referenceRarity:
+    "UR",
+
+  curveStateCount:
+    ASCENSION_STATES.length,
+
+  scaleStatus:
+    "provisional-but-strongly-supported",
+
+  levelDependent:
+    false,
+
+  fourStarSkillIncluded:
+    false,
+
+  notes: [
+    "UR Ascension verwendet eine universelle stat-spezifische Kurvenform.",
+    "Ascension RAW Growth ist nicht vom Palmon-Level abhängig.",
+    "Der +20%-Palmon-Skill ab 4★ ist nicht Teil der Ascension.",
+    "Der UR RAW Scale ist experimentell stark gestützt, aber noch nicht direkt aus Game Data bestätigt.",
+    "Der Scale kann zu Testzwecken weiterhin überschrieben werden.",
+    "SSR- und SR-Ascension werden noch nicht geraten."
   ]
 };
 
@@ -256,16 +344,141 @@ function normalizeSubLevel(
 }
 
 
+function normalizeRarity(
+  rarity
+) {
+  return String(
+    rarity || "UR"
+  )
+    .trim()
+    .toUpperCase();
+}
+
+
+function isFiniteNumber(
+  value
+) {
+  return Number.isFinite(
+    Number(value)
+  );
+}
+
+
+// ========================================
+// SUPPORTED RARITY
+// ========================================
+
+export function isAscensionRaritySupported(
+  rarity
+) {
+  const normalizedRarity =
+    normalizeRarity(
+      rarity
+    );
+
+  return (
+    normalizedRarity === "UR"
+  );
+}
+
+
+function assertSupportedRarity(
+  rarity
+) {
+  const normalizedRarity =
+    normalizeRarity(
+      rarity
+    );
+
+  if (
+    !isAscensionRaritySupported(
+      normalizedRarity
+    )
+  ) {
+    throw new Error(
+      `Ascension model for rarity "${normalizedRarity}" is not confirmed yet.`
+    );
+  }
+
+  return normalizedRarity;
+}
+
+
+// ========================================
+// MODEL VALIDATION
+// ========================================
+//
+// Verhindert, dass Kurven und States später
+// unbemerkt unterschiedliche Längen haben.
+// ========================================
+
+export function validateAscensionModel() {
+  const expectedLength =
+    ASCENSION_STATES.length;
+
+  [
+    "attack",
+    "defense",
+    "hp"
+  ]
+    .forEach(
+      stat => {
+
+        const curve =
+          UR_ASCENSION_CURVE[
+            stat
+          ];
+
+        if (
+          !Array.isArray(
+            curve
+          )
+        ) {
+          throw new Error(
+            `Ascension curve "${stat}" is missing.`
+          );
+        }
+
+        if (
+          curve.length !==
+          expectedLength
+        ) {
+          throw new Error(
+            `Ascension curve "${stat}" contains ${curve.length} values, but ${expectedLength} states exist.`
+          );
+        }
+
+      }
+    );
+
+  return true;
+}
+
+
+// Direkt beim Laden prüfen.
+
+validateAscensionModel();
+
+
 // ========================================
 // ASCENSION STATE INDEX
+// ========================================
+//
+// 0-0 = 0
+// 0-1 = 1
+// ...
+// 4-4 = 24
+// 5-0 = 25
 // ========================================
 
 export function getAscensionStateIndex({
   stars,
   subLevel = 0
-}) {
+} = {}) {
   const normalizedStars =
-    normalizeStars(stars);
+    normalizeStars(
+      stars
+    );
 
   const normalizedSubLevel =
     normalizeSubLevel(
@@ -274,15 +487,42 @@ export function getAscensionStateIndex({
     );
 
 
-  if (normalizedStars >= 5) {
+  if (
+    normalizedStars >= 5
+  ) {
     return 25;
   }
 
 
   return (
     normalizedStars * 5
-    + normalizedSubLevel
+    +
+    normalizedSubLevel
   );
+}
+
+
+// ========================================
+// GET STATE BY INDEX
+// ========================================
+
+export function getAscensionStateByIndex(
+  index
+) {
+  const normalizedIndex =
+    clamp(
+      Math.floor(
+        Number(index) || 0
+      ),
+      0,
+      ASCENSION_STATES.length - 1
+    );
+
+  return {
+    ...ASCENSION_STATES[
+      normalizedIndex
+    ]
+  };
 }
 
 
@@ -292,21 +532,25 @@ export function getAscensionStateIndex({
 //
 // Liefert nur die relative Kurvenposition.
 //
-// Beispiel:
-// 0-0 => 0
-// 0-1 => erster Ascension-Schritt
-// 5-0 => maximale gemessene Kurvenposition
+// Noch KEIN RAW-Stat.
 // ========================================
 
 export function getAscensionCurveValue({
   stat,
   stars,
-  subLevel = 0
-}) {
+  subLevel = 0,
+  rarity = "UR"
+} = {}) {
+  assertSupportedRarity(
+    rarity
+  );
+
+
   const curve =
     UR_ASCENSION_CURVE[
       stat
     ];
+
 
   if (!curve) {
     throw new Error(
@@ -322,72 +566,241 @@ export function getAscensionCurveValue({
     });
 
 
-  return curve[index];
+  return curve[
+    index
+  ];
 }
 
 
 // ========================================
-// ASCENSION SCALE
+// GET ASCENSION SCALE
 // ========================================
 //
-// Noch nicht endgültig geklärt.
+// Standard:
 //
-// Die Scale beschreibt:
-// Wie viel RAW-Stat entspricht
-// einer Kurveneinheit?
+// UR_ASCENSION_RAW_SCALE
 //
-// Deshalb wird sie aktuell von außen
-// übergeben.
+// Optional:
 //
-// Später kann diese Funktion intern
-// durch eine bestätigte Formel ersetzt werden.
+// scale kann zum Testen überschrieben werden.
+//
+// Beispiel:
+//
+// scale: {
+//   attack: 260,
+//   defense: 45,
+//   hp: 8250
+// }
+//
+// Fehlende Werte im Override fallen auf
+// den UR-Default zurück.
+// ========================================
+
+export function getAscensionScale({
+  rarity = "UR",
+  scale = null
+} = {}) {
+  const normalizedRarity =
+    assertSupportedRarity(
+      rarity
+    );
+
+
+  if (
+    normalizedRarity !== "UR"
+  ) {
+    throw new Error(
+      `No ascension scale available for rarity "${normalizedRarity}".`
+    );
+  }
+
+
+  const fallback =
+    UR_ASCENSION_RAW_SCALE;
+
+
+  return {
+    attack:
+      isFiniteNumber(
+        scale?.attack
+      )
+        ? Number(
+            scale.attack
+          )
+        : fallback.attack,
+
+    defense:
+      isFiniteNumber(
+        scale?.defense
+      )
+        ? Number(
+            scale.defense
+          )
+        : fallback.defense,
+
+    hp:
+      isFiniteNumber(
+        scale?.hp
+      )
+        ? Number(
+            scale.hp
+          )
+        : fallback.hp
+  };
+}
+
+
+// ========================================
+// RAW ASCENSION GROWTH
+// ========================================
+//
+// Liefert ausschließlich:
+//
+// RAW Ascension Growth
+//
+// NICHT enthalten:
+//
+// - RAW Lv1
+// - Level Growth
+// - Evolution
+// - Flat Bonuses
+// - Rollen-%
+// - Traits
+// - Skills
+// - Bloodmoon
+// - Research
+// - Achievements
+// - Boss
+// - Squad-Boni
+//
+// Beispiel:
+//
+// getRawAscensionGrowth({
+//   rarity: "UR",
+//   stars: 1,
+//   subLevel: 0
+// });
+//
 // ========================================
 
 export function getRawAscensionGrowth({
   stars,
   subLevel = 0,
-  scale
-}) {
-  const attackScale =
-    Number(
-      scale?.attack
-    ) || 0;
-
-  const defenseScale =
-    Number(
-      scale?.defense
-    ) || 0;
-
-  const hpScale =
-    Number(
-      scale?.hp
-    ) || 0;
+  rarity = "UR",
+  scale = null
+} = {}) {
+  const ascensionScale =
+    getAscensionScale({
+      rarity,
+      scale
+    });
 
 
   return {
     attack:
       getAscensionCurveValue({
-        stat: "attack",
+        stat:
+          "attack",
+
         stars,
-        subLevel
-      }) *
-      attackScale,
+        subLevel,
+        rarity
+      })
+      *
+      ascensionScale.attack,
+
 
     defense:
       getAscensionCurveValue({
-        stat: "defense",
+        stat:
+          "defense",
+
         stars,
-        subLevel
-      }) *
-      defenseScale,
+        subLevel,
+        rarity
+      })
+      *
+      ascensionScale.defense,
+
 
     hp:
       getAscensionCurveValue({
-        stat: "hp",
+        stat:
+          "hp",
+
         stars,
-        subLevel
-      }) *
-      hpScale
+        subLevel,
+        rarity
+      })
+      *
+      ascensionScale.hp
+  };
+}
+
+
+// ========================================
+// RAW ASCENSION STEP GROWTH
+// ========================================
+//
+// Praktisch für Tests.
+//
+// Beispiel:
+//
+// 0-0 -> 0-1
+//
+// oder
+//
+// 3-4 -> 4-0
+//
+// ========================================
+
+export function getRawAscensionStepGrowth({
+  from,
+  to,
+  rarity = "UR",
+  scale = null
+} = {}) {
+  const fromGrowth =
+    getRawAscensionGrowth({
+      stars:
+        from?.stars ?? 0,
+
+      subLevel:
+        from?.subLevel ?? 0,
+
+      rarity,
+      scale
+    });
+
+
+  const toGrowth =
+    getRawAscensionGrowth({
+      stars:
+        to?.stars ?? 0,
+
+      subLevel:
+        to?.subLevel ?? 0,
+
+      rarity,
+      scale
+    });
+
+
+  return {
+    attack:
+      toGrowth.attack
+      -
+      fromGrowth.attack,
+
+    defense:
+      toGrowth.defense
+      -
+      fromGrowth.defense,
+
+    hp:
+      toGrowth.hp
+      -
+      fromGrowth.hp
   };
 }
 
@@ -396,38 +809,55 @@ export function getRawAscensionGrowth({
 // CALIBRATE SCALE
 // ========================================
 //
-// Falls wir für einen Palmon kennen:
+// Diagnose-/Testfunktion.
 //
-// 0-0 Stats
-// und
-// 0-1 Stats
-//
-// können wir daraus eine temporäre
-// Ascension-Scale ableiten.
+// Falls zwei RAW-Stat-Zustände bekannt sind,
+// kann daraus der beobachtete Scale
+// zurückgerechnet werden.
 //
 // WICHTIG:
-// Die übergebenen Werte müssen RAW sein,
-// also vorher von Prozentboni bereinigt.
+//
+// rawStatsA / rawStatsB müssen wirklich RAW
+// sein.
+//
+// Also OHNE:
+//
+// - Rollen-%
+// - Traits
+// - Skills
+// - Account-%
+// - Squad-Boni
+// - Bloodmoon-%
+// usw.
+//
 // ========================================
 
 export function calibrateAscensionScale({
   stateA,
   stateB,
   rawStatsA,
-  rawStatsB
-}) {
+  rawStatsB,
+  rarity = "UR"
+} = {}) {
+  assertSupportedRarity(
+    rarity
+  );
+
+
   const indexA =
     getAscensionStateIndex(
-      stateA
+      stateA || {}
     );
 
   const indexB =
     getAscensionStateIndex(
-      stateB
+      stateB || {}
     );
 
 
-  if (indexA === indexB) {
+  if (
+    indexA === indexB
+  ) {
     throw new Error(
       "Ascension calibration states must be different."
     );
@@ -441,39 +871,121 @@ export function calibrateAscensionScale({
     "attack",
     "defense",
     "hp"
-  ].forEach(
-    stat => {
+  ]
+    .forEach(
+      stat => {
 
-      const curve =
-        UR_ASCENSION_CURVE[
+        const curve =
+          UR_ASCENSION_CURVE[
+            stat
+          ];
+
+
+        const curveDelta =
+          curve[indexB]
+          -
+          curve[indexA];
+
+
+        const statDelta =
+          (
+            Number(
+              rawStatsB?.[
+                stat
+              ]
+            ) || 0
+          )
+          -
+          (
+            Number(
+              rawStatsA?.[
+                stat
+              ]
+            ) || 0
+          );
+
+
+        result[
           stat
-        ];
+        ] =
+          curveDelta !== 0
+            ? statDelta /
+              curveDelta
+            : 0;
 
-      const curveDelta =
-        curve[indexB] -
-        curve[indexA];
+      }
+    );
 
-      const statDelta =
-        (
+
+  return result;
+}
+
+
+// ========================================
+// COMPARE CALIBRATED SCALE TO DEFAULT
+// ========================================
+//
+// Praktisch für zukünftige Tests.
+//
+// Gibt die Abweichung zum aktuell verwendeten
+// UR-Default zurück.
+// ========================================
+
+export function compareAscensionScaleToDefault(
+  calibratedScale
+) {
+  const result = {};
+
+
+  [
+    "attack",
+    "defense",
+    "hp"
+  ]
+    .forEach(
+      stat => {
+
+        const expected =
+          UR_ASCENSION_RAW_SCALE[
+            stat
+          ];
+
+
+        const actual =
           Number(
-            rawStatsB?.[stat]
-          ) || 0
-        ) -
-        (
-          Number(
-            rawStatsA?.[stat]
-          ) || 0
-        );
+            calibratedScale?.[
+              stat
+            ]
+          ) || 0;
 
 
-      result[stat] =
-        curveDelta !== 0
-          ? statDelta /
-            curveDelta
-          : 0;
+        result[
+          stat
+        ] = {
+          expected,
+          actual,
 
-    }
-  );
+          difference:
+            actual -
+            expected,
+
+          differencePercent:
+            expected !== 0
+              ? (
+                  (
+                    actual -
+                    expected
+                  )
+                  /
+                  expected
+                )
+                *
+                100
+              : 0
+        };
+
+      }
+    );
 
 
   return result;
@@ -483,17 +995,36 @@ export function calibrateAscensionScale({
 // ========================================
 // APPLY ASCENSION TO RAW STATS
 // ========================================
+//
+// rawStats sollte bereits enthalten:
+//
+// RAW Lv1
+// +
+// RAW Level Growth
+//
+// Danach wird Ascension addiert.
+//
+// Beispiel:
+//
+// RAW Lv1
+// + Level Growth
+// + Ascension Growth
+//
+// Noch KEINE %-Multiplikatoren.
+// ========================================
 
 export function applyAscensionToRawStats({
   rawStats,
   stars,
   subLevel = 0,
-  scale
-}) {
+  rarity = "UR",
+  scale = null
+} = {}) {
   const growth =
     getRawAscensionGrowth({
       stars,
       subLevel,
+      rarity,
       scale
     });
 
@@ -504,23 +1035,28 @@ export function applyAscensionToRawStats({
         Number(
           rawStats?.attack
         ) || 0
-      ) +
+      )
+      +
       growth.attack,
+
 
     defense:
       (
         Number(
           rawStats?.defense
         ) || 0
-      ) +
+      )
+      +
       growth.defense,
+
 
     hp:
       (
         Number(
           rawStats?.hp
         ) || 0
-      ) +
+      )
+      +
       growth.hp
   };
 }
