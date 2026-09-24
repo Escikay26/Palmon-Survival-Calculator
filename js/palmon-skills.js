@@ -2,23 +2,45 @@
 // PALMON SKILLS
 // ========================================
 //
+// Dieses Modul wertet die Skills eines
+// einzelnen Palmons aus.
+//
 // Unterstützt:
 //
-// - Skill Slots 1 bis 6
-// - Skill 1–3 immer vorhanden
-// - Skill 4 ab 4★
-// - Skill 5 ab Evo 3
-// - Skill 6 ab Mega Evolution
-// - Skill-Verstärkung durch ganze Sterne
-// - Evo8 Bonus für Skill 6
-// - permanente Stat-Effekte
-// - Battle-Effekte
-// - Bedingungen wie attackingCamps,
-//   defendingCamps, afterRageSkill usw.
+// Skill 1:
+// - Normal Attack
+// - immer vorhanden
+// - wird durch volle Sterne verstärkt
 //
-// WICHTIG:
+// Skill 2:
+// - Rage Skill
+// - immer vorhanden
+// - wird durch volle Sterne verstärkt
 //
-// Dieses Modul berechnet NICHT:
+// Skill 3:
+// - individueller Skill
+// - immer vorhanden
+// - wird durch volle Sterne verstärkt
+//
+// Skill 4:
+// - wird ab 4★ freigeschaltet
+//
+// Skill 5:
+// - wird durch Evolution freigeschaltet
+// - Evolution ist die einzige Source of Truth
+// - aktuelle Evo3-Verstärkung wird übernommen
+//
+// Skill 6:
+// - wird durch Mega Evolution freigeschaltet
+// - Evo8 kann einen zusätzlichen Bonus-Effekt
+//   freischalten
+//
+// Zusätzlich:
+// - permanent vs. battle
+// - Conditions
+// - Flat / Percent
+//
+// NICHT zuständig für:
 // - Level Growth
 // - Ascension Stats
 // - Evolution Stats
@@ -46,13 +68,13 @@ export const PALMON_SKILL_TYPES = {
   RAGE_SKILL: "rageSkill",
   UNIQUE: "unique",
   STAR_UNLOCK: "starUnlock",
-  EVOLUTION_UNLOCK: "evolutionUnlock",
-  MEGA_UNLOCK: "megaEvolutionUnlock"
+  EVOLUTION_SKILL: "evolutionSkill",
+  MEGA_SKILL: "megaSkill"
 };
 
 
 // ========================================
-// NORMALIZE HELPERS
+// HELPERS
 // ========================================
 
 function clamp(
@@ -101,21 +123,31 @@ function normalizeSubLevel(
 }
 
 
-function normalizeEvolutionStage(
-  evolutionStage
+function normalizeSkillSlot(
+  slot
 ) {
   return clamp(
     Math.floor(
-      Number(evolutionStage) || 0
+      Number(slot) || 0
     ),
     0,
-    8
+    6
   );
 }
 
 
 // ========================================
 // ASCENSION PROGRESS
+// ========================================
+//
+// 0-0 = 0
+// 0-1 = 1
+// ...
+// 1-0 = 5
+// ...
+// 4-0 = 20
+// ...
+// 5-0 = 25
 // ========================================
 
 export function getPalmonAscensionProgress({
@@ -132,7 +164,9 @@ export function getPalmonAscensionProgress({
     );
 
 
-  if (normalizedStars >= 5) {
+  if (
+    normalizedStars >= 5
+  ) {
     return 25;
   }
 
@@ -145,134 +179,219 @@ export function getPalmonAscensionProgress({
 
 
 // ========================================
+// EVOLUTION RESULT HELPERS
+// ========================================
+//
+// Erwartet das Ergebnis von:
+//
+// getPalmonEvolutionBonuses(...)
+//
+// Beispiel:
+//
+// {
+//   unlocks: {
+//     skill5: true,
+//     skill6: true,
+//     skill6Bonus: false,
+//     megaEvolution: true
+//   },
+//
+//   skillEnhancements: {
+//     5: 7
+//   }
+// }
+//
+// ========================================
+
+function getEvolutionUnlocks(
+  evolution
+) {
+  return {
+    skill5:
+      Boolean(
+        evolution?.unlocks?.skill5
+      ),
+
+    skill6:
+      Boolean(
+        evolution?.unlocks?.skill6
+      ),
+
+    skill6Bonus:
+      Boolean(
+        evolution
+          ?.unlocks
+          ?.skill6Bonus
+      ),
+
+    megaEvolution:
+      Boolean(
+        evolution
+          ?.unlocks
+          ?.megaEvolution
+      )
+  };
+}
+
+
+function getEvolutionSkillEnhancement(
+  evolution,
+  skillSlot
+) {
+  const value =
+    Number(
+      evolution
+        ?.skillEnhancements
+        ?.[skillSlot]
+    );
+
+
+  return Number.isFinite(
+    value
+  )
+    ? value
+    : 0;
+}
+
+
+// ========================================
 // SKILL UNLOCK
 // ========================================
 //
-// Unterstützte Unlocks:
+// Evolution entscheidet ausschließlich
+// über Skill 5 und Skill 6.
 //
-// {
-//   type: "default"
-// }
-//
-// {
-//   type: "stars",
-//   stars: 4
-// }
-//
-// {
-//   type: "evolution",
-//   stage: 3
-// }
-//
-// {
-//   type: "megaEvolution"
-// }
-//
+// Dadurch wird die Unlock-Logik nicht
+// gleichzeitig in zwei Dateien gepflegt.
 // ========================================
 
 export function isPalmonSkillUnlocked({
   skill,
   stars = 0,
   subLevel = 0,
-  evolutionStage = 0,
-  megaEvolved = false
+  evolution = null
 }) {
   if (!skill) {
     return false;
   }
 
 
-  const unlock =
-    skill.unlock || {
-      type: "default"
-    };
+  const slot =
+    normalizeSkillSlot(
+      skill.slot
+    );
 
 
-  switch (unlock.type) {
-
-    case "default":
-      return true;
-
-
-    case "stars": {
-      const requiredStars =
-        normalizeStars(
-          unlock.stars
-        );
-
-      const requiredSubLevel =
-        normalizeSubLevel(
-          requiredStars,
-          unlock.subLevel || 0
-        );
+  const unlocks =
+    getEvolutionUnlocks(
+      evolution
+    );
 
 
-      const currentProgress =
-        getPalmonAscensionProgress({
-          stars,
-          subLevel
-        });
+  // --------------------------------------
+  // SKILLS 1 - 3
+  // --------------------------------------
 
-
-      const requiredProgress =
-        getPalmonAscensionProgress({
-          stars: requiredStars,
-          subLevel: requiredSubLevel
-        });
-
-
-      return (
-        currentProgress >=
-        requiredProgress
-      );
-    }
-
-
-    case "evolution":
-      return (
-        normalizeEvolutionStage(
-          evolutionStage
-        ) >=
-        normalizeEvolutionStage(
-          unlock.stage
-        )
-      );
-
-
-    case "megaEvolution":
-      return Boolean(
-        megaEvolved
-      );
-
-
-    default:
-      return false;
+  if (
+    slot >= 1 &&
+    slot <= 3
+  ) {
+    return true;
   }
+
+
+  // --------------------------------------
+  // SKILL 4
+  // --------------------------------------
+  //
+  // Standard:
+  // ab 4-0★
+  //
+  // Falls ein Palmon später eine Ausnahme
+  // besitzt, kann unlock.stars benutzt werden.
+  // --------------------------------------
+
+  if (slot === 4) {
+    const requiredStars =
+      normalizeStars(
+        skill?.unlock?.stars ??
+        4
+      );
+
+
+    const requiredSubLevel =
+      normalizeSubLevel(
+        requiredStars,
+        skill?.unlock?.subLevel ??
+        0
+      );
+
+
+    const currentProgress =
+      getPalmonAscensionProgress({
+        stars,
+        subLevel
+      });
+
+
+    const requiredProgress =
+      getPalmonAscensionProgress({
+        stars:
+          requiredStars,
+
+        subLevel:
+          requiredSubLevel
+      });
+
+
+    return (
+      currentProgress >=
+      requiredProgress
+    );
+  }
+
+
+  // --------------------------------------
+  // SKILL 5
+  // --------------------------------------
+
+  if (slot === 5) {
+    return unlocks.skill5;
+  }
+
+
+  // --------------------------------------
+  // SKILL 6
+  // --------------------------------------
+
+  if (slot === 6) {
+    return unlocks.skill6;
+  }
+
+
+  return false;
 }
 
 
 // ========================================
-// SKILL LEVEL
+// BASE SKILL LEVEL
 // ========================================
 //
-// Skills 1–3 existieren immer und werden
-// durch volle Sterne verstärkt.
+// Skills werden durch ganze Sterne
+// verstärkt.
 //
-// Das bedeutet:
-//
-// 0★ => Skill Level 0
-// 1★ => Skill Level 1
+// 0★ -> Skill-Level 0
+// 1★ -> Skill-Level 1
 // ...
-// 5★ => Skill Level 5
+// 5★ -> Skill-Level 5
 //
-// Ein einzelner Skill kann diese Regel
-// später mit skill.levelSource überschreiben.
+// Falls ein Skill später davon abweicht,
+// kann levelSource angepasst werden.
 // ========================================
 
 export function getPalmonSkillLevel({
   skill,
-  stars = 0,
-  evolutionStage = 0
+  stars = 0
 }) {
   if (!skill) {
     return 0;
@@ -296,10 +415,15 @@ export function getPalmonSkillLevel({
 
   if (
     levelSource ===
-    "evolution"
+    "fixed"
   ) {
-    return normalizeEvolutionStage(
-      evolutionStage
+    return Math.max(
+      0,
+      Math.floor(
+        Number(
+          skill.fixedLevel
+        ) || 0
+      )
     );
   }
 
@@ -309,20 +433,26 @@ export function getPalmonSkillLevel({
 
 
 // ========================================
-// EFFECT LEVEL RESOLUTION
+// STAR-BASED SKILL EFFECTS
 // ========================================
 //
-// Ein Skill kann seine Effekte pro Stern
-// definieren:
+// Erwartete Struktur:
 //
 // levels: {
-//   0: { effects: [...] },
-//   1: { effects: [...] },
+//   0: {
+//     effects: [...]
+//   },
+//
+//   1: {
+//     effects: [...]
+//   },
+//
 //   ...
 // }
 //
-// Falls keine Levels existieren,
-// werden skill.effects verwendet.
+// Falls eine exakte Stufe fehlt,
+// wird die höchste definierte Stufe
+// <= aktuellem Skill-Level benutzt.
 // ========================================
 
 function getSkillEffectsForLevel({
@@ -342,24 +472,21 @@ function getSkillEffectsForLevel({
     levels &&
     typeof levels === "object"
   ) {
-    const exact =
+    const exactLevel =
       levels[
         skillLevel
       ];
 
 
     if (
-      exact &&
+      exactLevel &&
       Array.isArray(
-        exact.effects
+        exactLevel.effects
       )
     ) {
-      return exact.effects;
+      return exactLevel.effects;
     }
 
-
-    // Falls kein exakter Level existiert:
-    // höchste definierte Stufe <= skillLevel verwenden.
 
     const availableLevels =
       Object
@@ -379,7 +506,7 @@ function getSkillEffectsForLevel({
     if (
       availableLevels.length > 0
     ) {
-      const fallback =
+      const fallbackLevel =
         levels[
           availableLevels[0]
         ];
@@ -387,10 +514,10 @@ function getSkillEffectsForLevel({
 
       if (
         Array.isArray(
-          fallback?.effects
+          fallbackLevel?.effects
         )
       ) {
-        return fallback.effects;
+        return fallbackLevel.effects;
       }
     }
   }
@@ -405,24 +532,180 @@ function getSkillEffectsForLevel({
 
 
 // ========================================
+// EVOLUTION SKILL ENHANCEMENT
+// ========================================
+//
+// Aktuell relevant für Skill 5.
+//
+// Evolution liefert z.B.:
+//
+// skillEnhancements: {
+//   5: 7
+// }
+//
+// Das bedeutet:
+// Skill 5 Evo-Verstärkung 7/10.
+//
+// WICHTIG:
+//
+// Wir kennen noch nicht für jedes Palmon,
+// WAS diese zehn Stufen konkret verändern.
+//
+// Deshalb wird die Verstärkung nicht
+// automatisch mathematisch erfunden.
+//
+// Unterstützte Palmon-Daten:
+//
+// evolutionEnhancements: {
+//   0: { effects: [...] },
+//   1: { effects: [...] },
+//   ...
+//   10: { effects: [...] }
+// }
+//
+// Falls solche Daten noch fehlen,
+// bleibt die Enhancement-Stufe trotzdem
+// im Ergebnis sichtbar.
+// ========================================
+
+function getEvolutionEnhancementEffects({
+  skill,
+  enhancementLevel
+}) {
+  const levels =
+    skill?.evolutionEnhancements;
+
+
+  if (
+    !levels ||
+    typeof levels !== "object"
+  ) {
+    return [];
+  }
+
+
+  const exact =
+    levels[
+      enhancementLevel
+    ];
+
+
+  if (
+    exact &&
+    Array.isArray(
+      exact.effects
+    )
+  ) {
+    return exact.effects;
+  }
+
+
+  const availableLevels =
+    Object
+      .keys(levels)
+      .map(Number)
+      .filter(
+        level =>
+          Number.isFinite(level) &&
+          level <=
+            enhancementLevel
+      )
+      .sort(
+        (a, b) =>
+          b - a
+      );
+
+
+  if (
+    availableLevels.length === 0
+  ) {
+    return [];
+  }
+
+
+  const fallback =
+    levels[
+      availableLevels[0]
+    ];
+
+
+  return Array.isArray(
+    fallback?.effects
+  )
+    ? fallback.effects
+    : [];
+}
+
+
+// ========================================
+// EVO8 SKILL 6 BONUS
+// ========================================
+//
+// Nur aktiv wenn:
+//
+// evolution.unlocks.skill6Bonus
+// === true
+//
+// Erwartete Skill-Daten:
+//
+// evolution8Bonus: {
+//   effects: [...]
+// }
+//
+// ========================================
+
+function getSkill6Evolution8Effects({
+  skill,
+  evolution
+}) {
+  if (
+    normalizeSkillSlot(
+      skill?.slot
+    ) !== 6
+  ) {
+    return [];
+  }
+
+
+  if (
+    !evolution
+      ?.unlocks
+      ?.skill6Bonus
+  ) {
+    return [];
+  }
+
+
+  const bonus =
+    skill?.evolution8Bonus;
+
+
+  return Array.isArray(
+    bonus?.effects
+  )
+    ? bonus.effects
+    : [];
+}
+
+
+// ========================================
 // CONDITIONS
 // ========================================
 //
-// Beispiel:
+// Alle Conditions eines Effects müssen
+// aktiv sein.
+//
+// Beispiele:
 //
 // conditions: [
 //   "attackingCamps"
 // ]
-//
-// oder:
 //
 // conditions: [
 //   "battle",
 //   "afterRageSkill"
 // ]
 //
-// Alle Conditions eines Effects müssen
-// aktiv sein.
 // ========================================
 
 function effectConditionsApply(
@@ -446,7 +729,11 @@ function effectConditionsApply(
 
   const active =
     new Set(
-      activeConditions || []
+      Array.isArray(
+        activeConditions
+      )
+        ? activeConditions
+        : []
     );
 
 
@@ -463,7 +750,7 @@ function effectConditionsApply(
 // RESULT
 // ========================================
 
-function createSkillBonusBucket() {
+function createSkillValueBucket() {
   return {
     flat: {},
     percent: {}
@@ -473,11 +760,25 @@ function createSkillBonusBucket() {
 
 function createPalmonSkillBonusResult() {
   return {
+    // ------------------------------------
+    // NORMALER STAT-SCREEN
+    // ------------------------------------
+
     permanent:
-      createSkillBonusBucket(),
+      createSkillValueBucket(),
+
+
+    // ------------------------------------
+    // ERST IM KAMPF
+    // ------------------------------------
 
     battle:
-      createSkillBonusBucket(),
+      createSkillValueBucket(),
+
+
+    // ------------------------------------
+    // DEBUG / UI / SOURCES
+    // ------------------------------------
 
     effects: [],
 
@@ -516,35 +817,36 @@ function addSkillEffect(
 
 
   const timing =
-    effect.timing ===
-    PALMON_SKILL_TIMINGS.BATTLE
+    (
+      effect.timing ===
+      PALMON_SKILL_TIMINGS.BATTLE
+    )
       ? PALMON_SKILL_TIMINGS.BATTLE
       : PALMON_SKILL_TIMINGS.PERMANENT;
 
 
   const unit =
-    effect.unit === "flat"
+    (
+      effect.unit ===
+      "flat"
+    )
       ? "flat"
       : "percent";
 
 
-  const timingBucket =
+  const bucket =
     result[
       timing
-    ];
-
-
-  const valueBucket =
-    timingBucket[
+    ][
       unit
     ];
 
 
-  valueBucket[
+  bucket[
     effect.stat
   ] =
     (
-      valueBucket[
+      bucket[
         effect.stat
       ] || 0
     ) +
@@ -561,6 +863,10 @@ function addSkillEffect(
 
     timing,
 
+    scope:
+      effect.scope ||
+      "self",
+
     conditions:
       Array.isArray(
         effect.conditions
@@ -570,71 +876,87 @@ function addSkillEffect(
           ]
         : [],
 
-    scope:
-      effect.scope ||
-      "self",
-
     source
   });
 }
 
 
 // ========================================
-// EVO 8 BONUS
-// ========================================
-//
-// Skill 6 kann am Ende von Evo8 einen
-// zusätzlichen Effekt erhalten.
-//
-// Beispiel:
-//
-// evolution8Bonus: {
-//   effects: [...]
-// }
-//
+// APPLY EFFECT LIST
 // ========================================
 
-function getEvolution8BonusEffects({
-  skill,
-  evolutionStage
+function applySkillEffects({
+  result,
+  effects,
+  conditions,
+  source
 }) {
-  if (
-    normalizeEvolutionStage(
-      evolutionStage
-    ) < 8
-  ) {
-    return [];
-  }
-
-
-  const bonus =
-    skill?.evolution8Bonus;
-
-
-  if (
-    !bonus ||
-    !Array.isArray(
-      bonus.effects
+  (
+    Array.isArray(
+      effects
     )
-  ) {
-    return [];
-  }
+      ? effects
+      : []
+  )
+    .forEach(
+      effect => {
+
+        if (
+          !effectConditionsApply(
+            effect,
+            conditions
+          )
+        ) {
+          return;
+        }
 
 
-  return bonus.effects;
+        addSkillEffect(
+          result,
+          effect,
+          source
+        );
+
+      }
+    );
 }
 
 
 // ========================================
-// GET PALMON SKILL BONUSES
+// MAIN API
+// ========================================
+//
+// evolution:
+// Ergebnis von
+//
+// getPalmonEvolutionBonuses(...)
+//
+// Beispiel:
+//
+// const evolution =
+//   getPalmonEvolutionBonuses({
+//     palmonType: "normal",
+//     role: "Attacker",
+//     stage: 3,
+//     talentIndex: 0,
+//     talentLevel: 7
+//   });
+//
+// const skills =
+//   getPalmonSkillBonuses({
+//     palmon,
+//     stars: 4,
+//     subLevel: 0,
+//     evolution
+//   });
+//
 // ========================================
 
 export function getPalmonSkillBonuses({
   palmon,
   stars = 0,
   subLevel = 0,
-  evolutionStage = 0,
-  megaEvolved = false,
+  evolution = null,
   conditions = []
 } = {}) {
   const result =
@@ -652,13 +974,16 @@ export function getPalmonSkillBonuses({
   skills.forEach(
     skill => {
 
+      // ----------------------------------
+      // UNLOCK CHECK
+      // ----------------------------------
+
       const unlocked =
         isPalmonSkillUnlocked({
           skill,
           stars,
           subLevel,
-          evolutionStage,
-          megaEvolved
+          evolution
         });
 
 
@@ -667,154 +992,218 @@ export function getPalmonSkillBonuses({
       }
 
 
+      // ----------------------------------
+      // BASE SKILL LEVEL
+      // ----------------------------------
+
       const skillLevel =
         getPalmonSkillLevel({
           skill,
-          stars,
-          evolutionStage
+          stars
         });
 
 
-      result.activeSkills.push({
-        slot:
-          Number(
-            skill.slot
-          ) || null,
+      // ----------------------------------
+      // EVOLUTION ENHANCEMENT
+      // ----------------------------------
 
-        key:
-          skill.key ||
-          null,
-
-        name:
-          skill.name ||
-          skill.key ||
-          "Unknown Skill",
-
-        type:
-          skill.type ||
-          null,
-
-        level:
-          skillLevel
-      });
+      const skillSlot =
+        normalizeSkillSlot(
+          skill.slot
+        );
 
 
-      const effects =
+      const evolutionEnhancementLevel =
+        getEvolutionSkillEnhancement(
+          evolution,
+          skillSlot
+        );
+
+
+      // ----------------------------------
+      // ACTIVE SKILL INFO
+      // ----------------------------------
+
+      result
+        .activeSkills
+        .push({
+          slot:
+            skillSlot,
+
+          key:
+            skill.key ||
+            null,
+
+          name:
+            skill.name ||
+            skill.key ||
+            `Skill ${skillSlot}`,
+
+          type:
+            skill.type ||
+            null,
+
+          level:
+            skillLevel,
+
+          evolutionEnhancementLevel,
+
+          evolution8BonusActive:
+            (
+              skillSlot === 6 &&
+              Boolean(
+                evolution
+                  ?.unlocks
+                  ?.skill6Bonus
+              )
+            )
+        });
+
+
+      // ----------------------------------
+      // NORMAL STAR-LEVEL EFFECTS
+      // ----------------------------------
+
+      const starEffects =
         getSkillEffectsForLevel({
           skill,
           skillLevel
         });
 
 
-      effects.forEach(
-        effect => {
+      applySkillEffects({
+        result,
 
-          if (
-            !effectConditionsApply(
-              effect,
-              conditions
-            )
-          ) {
-            return;
-          }
+        effects:
+          starEffects,
 
+        conditions,
 
-          addSkillEffect(
-            result,
-            effect,
-            {
-              type:
-                "palmonSkill",
+        source: {
+          type:
+            "palmonSkill",
 
-              palmonKey:
-                palmon?.key ||
-                null,
+          palmonKey:
+            palmon?.key ||
+            null,
 
-              palmonName:
-                palmon?.name ||
-                null,
+          palmonName:
+            palmon?.name ||
+            null,
 
-              skillSlot:
-                Number(
-                  skill.slot
-                ) || null,
+          skillSlot,
 
-              skillKey:
-                skill.key ||
-                null,
+          skillKey:
+            skill.key ||
+            null,
 
-              skillName:
-                skill.name ||
-                skill.key ||
-                null,
+          skillName:
+            skill.name ||
+            null,
 
-              skillLevel
-            }
-          );
-
+          skillLevel
         }
-      );
+      });
 
 
       // ----------------------------------
-      // EVO 8 BONUS
+      // EVO SKILL ENHANCEMENT
+      // ----------------------------------
+      //
+      // Z.B. Skill 5 bei Evo3.
+      // ----------------------------------
+
+      if (
+        evolutionEnhancementLevel > 0
+      ) {
+        const evolutionEffects =
+          getEvolutionEnhancementEffects({
+            skill,
+
+            enhancementLevel:
+              evolutionEnhancementLevel
+          });
+
+
+        applySkillEffects({
+          result,
+
+          effects:
+            evolutionEffects,
+
+          conditions,
+
+          source: {
+            type:
+              "palmonSkillEvolutionEnhancement",
+
+            palmonKey:
+              palmon?.key ||
+              null,
+
+            palmonName:
+              palmon?.name ||
+              null,
+
+            skillSlot,
+
+            skillKey:
+              skill.key ||
+              null,
+
+            skillName:
+              skill.name ||
+              null,
+
+            enhancementLevel:
+              evolutionEnhancementLevel
+          }
+        });
+      }
+
+
+      // ----------------------------------
+      // EVO8 BONUS FOR SKILL 6
       // ----------------------------------
 
       const evolution8Effects =
-        getEvolution8BonusEffects({
+        getSkill6Evolution8Effects({
           skill,
-          evolutionStage
+          evolution
         });
 
 
-      evolution8Effects.forEach(
-        effect => {
+      applySkillEffects({
+        result,
 
-          if (
-            !effectConditionsApply(
-              effect,
-              conditions
-            )
-          ) {
-            return;
-          }
+        effects:
+          evolution8Effects,
 
+        conditions,
 
-          addSkillEffect(
-            result,
-            effect,
-            {
-              type:
-                "palmonSkillEvolution8Bonus",
+        source: {
+          type:
+            "palmonSkillEvolution8Bonus",
 
-              palmonKey:
-                palmon?.key ||
-                null,
+          palmonKey:
+            palmon?.key ||
+            null,
 
-              palmonName:
-                palmon?.name ||
-                null,
+          palmonName:
+            palmon?.name ||
+            null,
 
-              skillSlot:
-                Number(
-                  skill.slot
-                ) || null,
+          skillSlot,
 
-              skillKey:
-                skill.key ||
-                null,
+          skillKey:
+            skill.key ||
+            null,
 
-              skillName:
-                skill.name ||
-                skill.key ||
-                null,
-
-              evolutionStage: 8
-            }
-          );
-
+          skillName:
+            skill.name ||
+            null
         }
-      );
+      });
 
     }
   );
