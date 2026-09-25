@@ -15,7 +15,7 @@
     ]
   },
   "selectionRules": {
-    "minTraitsPerPalmon": 0,
+    "minTraitsPerPalmon": 1,
     "maxTraitsPerPalmon": 4,
     "traitsAreSpeciesLocked": false,
     "notes": [
