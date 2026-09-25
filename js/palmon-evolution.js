@@ -8,9 +8,15 @@
 // - Talents inside a stage are completed in order.
 // - A talent must reach 10/10 before the next talent unlocks.
 // - A complete stage is required before the next Evo stage unlocks.
-// - Evo1-Evo4 are available to Normal and Mythic Palmons.
+// - Evo1 requires 1★.
+// - Evo2 requires 2★.
+// - Evo3 requires 3★.
+// - Evo4 requires 4★.
+// - Evo5 / Mega Evolution requires 5★, a completed Evo4 and the matching Oath.
+// - Evo1-Evo4 are available to evolution-capable Normal and Mythic Palmons.
 // - Mythic Palmons stop at Evo4.
-// - Normal Palmons may Mega-Evolve and continue through Evo5-Evo8.
+// - Normal Palmons without a Mega Evolution stop at Evo4.
+// - Normal Palmons with a Mega Evolution may continue through Evo5-Evo8.
 // - Evo3 unlocks Skill 5.
 // - Mega Evolution / Evo5 unlocks Skill 6.
 // - Completing Evo8 unlocks the bonus effect for Skill 6.
@@ -51,6 +57,34 @@ export const EVOLUTION_SCOPES = {
 
 
 const MAX_TALENT_LEVEL = 10;
+
+
+// ========================================
+// ASCENSION / STAR REQUIREMENTS
+// ========================================
+//
+// Evo1 -> 1★
+// Evo2 -> 2★
+// Evo3 -> 3★
+// Evo4 -> 4★
+// Evo5+ -> 5★
+//
+// Evo5 benötigt zusätzlich:
+// - Evo4 vollständig
+// - vorhandene Megaentwicklung
+// - passenden Mega-Oath
+// ========================================
+
+export const EVOLUTION_STAR_REQUIREMENTS = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 5,
+  7: 5,
+  8: 5
+};
 
 
 // ========================================
@@ -558,9 +592,11 @@ export const PALMON_EVOLUTION_STAGES = {
     group: "megaEvolution",
 
     cost: {
-      resource: null,
-      amount: 0,
-      label: "Free"
+      resource: "Matching Mega Evolution Oath",
+      amount: 1,
+      label: "1 matching Mega Oath",
+      dynamicResource: true,
+      usesNormalEvolutionMaterials: false
     },
 
     unlocksSkill: 6,
@@ -1031,6 +1067,251 @@ export function getMaxEvolutionStage(
       ? 4
       : 8
   );
+}
+
+
+
+// ========================================
+// PALMON-SPECIFIC EVOLUTION LIMIT
+// ========================================
+//
+// Die generische Typ-Grenze oben bleibt für
+// reine Modellberechnungen bestehen.
+//
+// Diese Funktion berücksichtigt zusätzlich
+// die tatsächlichen Entwicklungsformen des
+// konkreten Palmons aus data/palmons.json.
+//
+// Keine Evo4-Form:
+// -> keine Evolution
+//
+// Evo4, aber keine Evo5-Form:
+// -> maximal Evo4
+//
+// Normales Palmon mit Evo5-Form:
+// -> maximal Evo8
+//
+// Mythic:
+// -> maximal Evo4
+// ========================================
+
+export function getPalmonEvolutionStageLimit({
+  palmonType =
+    PALMON_EVOLUTION_TYPES.NORMAL,
+
+  hasEvolution = false,
+
+  hasMegaEvolution = false
+} = {}) {
+  assertPalmonType(
+    palmonType
+  );
+
+
+  if (
+    !hasEvolution
+  ) {
+    return 0;
+  }
+
+
+  if (
+    palmonType ===
+    PALMON_EVOLUTION_TYPES.MYTHIC
+  ) {
+    return 4;
+  }
+
+
+  return hasMegaEvolution
+    ? 8
+    : 4;
+}
+
+
+// ========================================
+// REQUIRED STARS FOR EVO STAGE
+// ========================================
+
+export function getRequiredStarsForEvolutionStage(
+  stage
+) {
+  const normalizedStage =
+    clamp(
+      normalizeInteger(
+        stage
+      ),
+      0,
+      8
+    );
+
+
+  if (
+    normalizedStage <= 0
+  ) {
+    return 0;
+  }
+
+
+  return (
+    EVOLUTION_STAR_REQUIREMENTS[
+      normalizedStage
+    ] || 5
+  );
+}
+
+
+// ========================================
+// EVOLUTION STAGE ELIGIBILITY
+// ========================================
+//
+// Zentrale Regelprüfung für spätere UI und
+// Calculator-Logik.
+//
+// targetStage 5 benötigt:
+// - 5★
+// - Evo4 vollständig
+// - Megaentwicklung vorhanden
+// - passenden Oath gezogen
+//
+// Für Evo6-Evo8 muss Mega bereits über Evo5
+// erreicht worden sein; dadurch greift die
+// normale Previous-Stage-Complete-Regel.
+// ========================================
+
+export function canUnlockEvolutionStage({
+  palmonType =
+    PALMON_EVOLUTION_TYPES.NORMAL,
+
+  role,
+
+  currentState = {},
+
+  targetStage = 0,
+
+  stars = 0,
+
+  hasEvolution = false,
+
+  hasMegaEvolution = false,
+
+  megaOathUnlocked = false
+} = {}) {
+  assertPalmonType(
+    palmonType
+  );
+
+  assertRole(
+    role
+  );
+
+
+  const normalizedTargetStage =
+    clamp(
+      normalizeInteger(
+        targetStage
+      ),
+      0,
+      8
+    );
+
+
+  if (
+    normalizedTargetStage === 0
+  ) {
+    return true;
+  }
+
+
+  const stageLimit =
+    getPalmonEvolutionStageLimit({
+      palmonType,
+      hasEvolution,
+      hasMegaEvolution
+    });
+
+
+  if (
+    normalizedTargetStage >
+    stageLimit
+  ) {
+    return false;
+  }
+
+
+  const normalizedStars =
+    clamp(
+      normalizeInteger(
+        stars
+      ),
+      0,
+      5
+    );
+
+
+  const requiredStars =
+    getRequiredStarsForEvolutionStage(
+      normalizedTargetStage
+    );
+
+
+  if (
+    normalizedStars <
+    requiredStars
+  ) {
+    return false;
+  }
+
+
+  const state =
+    normalizeEvolutionState({
+      ...currentState,
+      palmonType,
+      role
+    });
+
+
+  // Bereits erreichte Stufen bleiben gültig.
+  if (
+    normalizedTargetStage <=
+    state.stage
+  ) {
+    return true;
+  }
+
+
+  if (
+    normalizedTargetStage > 1 &&
+    !isEvolutionStageComplete(
+      state,
+      normalizedTargetStage - 1
+    )
+  ) {
+    return false;
+  }
+
+
+  if (
+    normalizedTargetStage === 5
+  ) {
+
+    if (
+      !hasMegaEvolution
+    ) {
+      return false;
+    }
+
+
+    if (
+      !megaOathUnlocked
+    ) {
+      return false;
+    }
+
+  }
+
+
+  return true;
 }
 
 
