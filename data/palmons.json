@@ -1,0 +1,1186 @@
+{
+  "version": 1,
+  "source": {
+    "name": "MappePal.xlsx",
+    "notes": [
+      "All supplied Palmanac stat rows are Level 350 and displayed at 5 stars.",
+      "Evo 4 Name is the normal evolved form shown once Evo4 is unlocked.",
+      "Evo 5 Name is the Mega Evolution form.",
+      "Mega Evolution requires the matching Mega Evolution Oath.",
+      "A missing Evo 4 Name means the Palmon has no normal evolution.",
+      "A present Evo 4 Name with a missing Evo 5 Name means the Palmon has no Mega Evolution."
+    ]
+  },
+  "model": {
+    "normalURBaseStats": {
+      "status": "strongly-supported",
+      "formula": "base = palmanacLv350 / roleMultiplier - rawLevelGrowthLv350",
+      "rawLevelGrowthLv350": {
+        "attack": 58135.8,
+        "defense": 9872,
+        "hp": 8790000
+      },
+      "rolePercentBonuses": {
+        "Attacker": {
+          "attack": 20,
+          "defense": 0,
+          "hp": 0
+        },
+        "Defender": {
+          "attack": 0,
+          "defense": 20,
+          "hp": 20
+        }
+      },
+      "assumptions": [
+        "Palmanac Lv350 values include the intrinsic role percent bonus.",
+        "Palmanac Lv350 values do not include Ascension stat growth.",
+        "Palmanac Lv350 values do not include the Skill 4 stat bonus.",
+        "Traits, Research, Achievements, Boss Palmon, Bloodmoon and squad bonuses are not included."
+      ]
+    },
+    "mysticBaseStats": {
+      "status": "pending",
+      "reason": "A confirmed UR Mystic raw level-growth model is not available yet."
+    }
+  },
+  "palmons": [
+    {
+      "id": "kungpaw",
+      "name": "Kungpaw",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67121,
+        "defense": 16340,
+        "hp": 13823726
+      },
+      "baseStats": {
+        "attack": 8985.2,
+        "defense": 3744.666667,
+        "hp": 2729771.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Kungfury",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "gnashley",
+      "name": "Gnashley",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67053,
+        "defense": 16365,
+        "hp": 13829606
+      },
+      "baseStats": {
+        "attack": 8917.2,
+        "defense": 3765.5,
+        "hp": 2734671.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Gnashfin",
+        "hasMegaEvolution": true,
+        "evo5Name": "Gnashswirl",
+        "megaOathName": "Gnashswirl-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "regalion",
+      "name": "Regalion",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67145,
+        "defense": 16336,
+        "hp": 13824446
+      },
+      "baseStats": {
+        "attack": 9009.2,
+        "defense": 3741.333333,
+        "hp": 2730371.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Lionarch",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "fingenue",
+      "name": "Fingenue",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80573,
+        "defense": 13601,
+        "hp": 11520346
+      },
+      "baseStats": {
+        "attack": 9008.366667,
+        "defense": 3729,
+        "hp": 2730346
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Finnabelle",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "dolphriend",
+      "name": "Dolphriend",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67012,
+        "defense": 16365,
+        "hp": 13827638
+      },
+      "baseStats": {
+        "attack": 8876.2,
+        "defense": 3765.5,
+        "hp": 2733031.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Adolphonis",
+        "hasMegaEvolution": true,
+        "evo5Name": "Leviadolph",
+        "megaOathName": "Leviadolph-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "lucidina",
+      "name": "Lucidina",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80560,
+        "defense": 13635,
+        "hp": 11520071
+      },
+      "baseStats": {
+        "attack": 8997.533333,
+        "defense": 3763,
+        "hp": 2730071
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Oneirina",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "ninjump",
+      "name": "Ninjump",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80386,
+        "defense": 13681,
+        "hp": 11522071
+      },
+      "baseStats": {
+        "attack": 8852.533333,
+        "defense": 3809,
+        "hp": 2732071
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Bufonobi",
+        "hasMegaEvolution": true,
+        "evo5Name": "Shadowkaeru",
+        "megaOathName": "Shadowkaeru-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "sunplume",
+      "name": "Sunplume",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80546,
+        "defense": 13616,
+        "hp": 11519771
+      },
+      "baseStats": {
+        "attack": 8985.866667,
+        "defense": 3744,
+        "hp": 2729771
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": false,
+        "evo4Name": null,
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "spookaboo",
+      "name": "Spookaboo",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80546,
+        "defense": 13616,
+        "hp": 11519771
+      },
+      "baseStats": {
+        "attack": 8985.866667,
+        "defense": 3744,
+        "hp": 2729771
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": false,
+        "evo4Name": null,
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "pipistrigoi",
+      "name": "Pipistrigoi",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80562,
+        "defense": 13603,
+        "hp": 11520121
+      },
+      "baseStats": {
+        "attack": 8999.2,
+        "defense": 3731,
+        "hp": 2730121
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Azurostrigoi",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "escarffier",
+      "name": "Escarffier",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67163,
+        "defense": 16314,
+        "hp": 13824986
+      },
+      "baseStats": {
+        "attack": 9027.2,
+        "defense": 3723,
+        "hp": 2730821.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Essaucier",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "revontulet",
+      "name": "Revontulet",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80590,
+        "defense": 13629,
+        "hp": 11520696
+      },
+      "baseStats": {
+        "attack": 9022.533333,
+        "defense": 3757,
+        "hp": 2730696
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Vulpyrean",
+        "hasMegaEvolution": true,
+        "evo5Name": "Scarvulpine",
+        "megaOathName": "Scarvulpine-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "hoofrit",
+      "name": "Hoofrit",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80506,
+        "defense": 13638,
+        "hp": 11526071
+      },
+      "baseStats": {
+        "attack": 8952.533333,
+        "defense": 3766,
+        "hp": 2736071
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Flaries",
+        "hasMegaEvolution": true,
+        "evo5Name": "Solhorn",
+        "megaOathName": "Solhorn-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "magmolin",
+      "name": "Magmolin",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67096,
+        "defense": 16367,
+        "hp": 13831670
+      },
+      "baseStats": {
+        "attack": 8960.2,
+        "defense": 3767.166667,
+        "hp": 2736391.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Obsidrake",
+        "hasMegaEvolution": true,
+        "evo5Name": "Inferdrake",
+        "megaOathName": "Inferdrake-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "blazeal",
+      "name": "Blazeal",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80494,
+        "defense": 13634,
+        "hp": 11525671
+      },
+      "baseStats": {
+        "attack": 8942.533333,
+        "defense": 3762,
+        "hp": 2735671
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Wildfuror",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "oleana",
+      "name": "Oleana",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80544,
+        "defense": 13606,
+        "hp": 11519746
+      },
+      "baseStats": {
+        "attack": 8984.2,
+        "defense": 3734,
+        "hp": 2729746
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": false,
+        "evo4Name": null,
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "salamantis",
+      "name": "Salamantis",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80447,
+        "defense": 13649,
+        "hp": 11524111
+      },
+      "baseStats": {
+        "attack": 8903.366667,
+        "defense": 3777,
+        "hp": 2734111
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Silvaurus",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "woozard",
+      "name": "Woozard",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80537,
+        "defense": 13631,
+        "hp": 11519596
+      },
+      "baseStats": {
+        "attack": 8978.366667,
+        "defense": 3759,
+        "hp": 2729596
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Fleurizard",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "surveilynx",
+      "name": "Surveilynx",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80561,
+        "defense": 13601,
+        "hp": 11527911
+      },
+      "baseStats": {
+        "attack": 8998.366667,
+        "defense": 3729,
+        "hp": 2737911
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Camouflynx",
+        "hasMegaEvolution": true,
+        "evo5Name": "Predalynx",
+        "megaOathName": "Predalynx-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "baboom",
+      "name": "Baboom",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80477,
+        "defense": 13620,
+        "hp": 11525111
+      },
+      "baseStats": {
+        "attack": 8928.366667,
+        "defense": 3748,
+        "hp": 2735111
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Rumbkey",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "statchew",
+      "name": "Statchew",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67099,
+        "defense": 16400,
+        "hp": 13831814
+      },
+      "baseStats": {
+        "attack": 8963.2,
+        "defense": 3794.666667,
+        "hp": 2736511.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Anubeast",
+        "hasMegaEvolution": true,
+        "evo5Name": "Pharohound",
+        "megaOathName": "Pharohound-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "ghillant",
+      "name": "Ghillant",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Earth",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67151,
+        "defense": 16395,
+        "hp": 13834310
+      },
+      "baseStats": {
+        "attack": 9015.2,
+        "defense": 3790.5,
+        "hp": 2738591.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Chefeuillier",
+        "hasMegaEvolution": true,
+        "evo5Name": "Leafergarde",
+        "megaOathName": "Leafergarde-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "battereina",
+      "name": "Battereina",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80567,
+        "defense": 13610,
+        "hp": 11520221
+      },
+      "baseStats": {
+        "attack": 9003.366667,
+        "defense": 3738,
+        "hp": 2730221
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Ampereina",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "limudroid",
+      "name": "Limudroid",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80543,
+        "defense": 13583,
+        "hp": 11519721
+      },
+      "baseStats": {
+        "attack": 8983.366667,
+        "defense": 3711,
+        "hp": 2729721
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Bunodroid",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "fulgairy",
+      "name": "Fulgairy",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67133,
+        "defense": 16325,
+        "hp": 13824086
+      },
+      "baseStats": {
+        "attack": 8997.2,
+        "defense": 3732.166667,
+        "hp": 2730071.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Keraunosaur",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "abuzzinian",
+      "name": "Abuzzinian",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67133,
+        "defense": 16356,
+        "hp": 13824086
+      },
+      "baseStats": {
+        "attack": 8997.2,
+        "defense": 3758,
+        "hp": 2730071.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Servolt",
+        "hasMegaEvolution": true,
+        "evo5Name": "Shadowvolt",
+        "megaOathName": "Shadowvolt-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "mantleray",
+      "name": "Mantleray",
+      "rarity": "UR",
+      "role": "Attacker",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 80596,
+        "defense": 13661,
+        "hp": 11520821
+      },
+      "baseStats": {
+        "attack": 9027.533333,
+        "defense": 3789,
+        "hp": 2730821
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Sorceray",
+        "hasMegaEvolution": true,
+        "evo5Name": "Mystiray",
+        "megaOathName": "Mystiray-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "barkplug",
+      "name": "Barkplug",
+      "rarity": "UR",
+      "role": "Defender",
+      "element": "Electric",
+      "palmonType": "normal",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 67016,
+        "defense": 16317,
+        "hp": 13827830
+      },
+      "baseStats": {
+        "attack": 8880.2,
+        "defense": 3725.5,
+        "hp": 2733191.666667
+      },
+      "baseStatsStatus": "derived-strongly-supported",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Wattweiler",
+        "hasMegaEvolution": true,
+        "evo5Name": "Voltfang",
+        "megaOathName": "Voltfang-Oath",
+        "megaOathNameStatus": "derived-from-mega-evolution-name"
+      }
+    },
+    {
+      "id": "sylphira",
+      "name": "Sylphira",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Abyshphira",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "plunderjaw",
+      "name": "Plunderjaw",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98083,
+        "defense": 17059,
+        "hp": 14416027
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Dreadmaw",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "glacewing",
+      "name": "Glacewing",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Water",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98145,
+        "defense": 17097,
+        "hp": 14417370
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Cryovern",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "rapheni",
+      "name": "Rapheni",
+      "rarity": "UR Mystic",
+      "role": "Defender",
+      "element": "Fire",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 84542,
+        "defense": 19886,
+        "hp": 16723207
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Pyronyx",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "hexkit",
+      "name": "Hexkit",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Fire",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Cinderpurr",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "embergeist",
+      "name": "Embergeist",
+      "rarity": "UR Mystic",
+      "role": "Defender",
+      "element": "Fire",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 84572,
+        "defense": 19834,
+        "hp": 16723098
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Pyregeist",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "scorphelia",
+      "name": "Scorphelia",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Scorphelas",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "dialuna",
+      "name": "Dialuna",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Dialunova",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "rootwarden",
+      "name": "Rootwarden",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Earth",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Thornkeeper",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "mammolith",
+      "name": "Mammolith",
+      "rarity": "UR Mystic",
+      "role": "Defender",
+      "element": "Earth",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 84548,
+        "defense": 19815,
+        "hp": 16722410
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Prismalith",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "gryndarr",
+      "name": "Gryndarr",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Electric",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98068,
+        "defense": 17143,
+        "hp": 14416558
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Gryphonarch",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "zapantis",
+      "name": "Zapantis",
+      "rarity": "UR Mystic",
+      "role": "Defender",
+      "element": "Electric",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 84584,
+        "defense": 19790,
+        "hp": 16723461
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Shockmantis",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    },
+    {
+      "id": "thundertooth",
+      "name": "Thundertooth",
+      "rarity": "UR Mystic",
+      "role": "Attacker",
+      "element": "Electric",
+      "palmonType": "mythic",
+      "palmanac": {
+        "level": 350,
+        "stars": 5,
+        "attack": 98086,
+        "defense": 17099,
+        "hp": 14416089
+      },
+      "baseStats": null,
+      "baseStatsStatus": "pending-mystic-level-model",
+      "evolution": {
+        "hasEvolution": true,
+        "evo4Name": "Thundermane",
+        "hasMegaEvolution": false,
+        "evo5Name": null,
+        "megaOathName": null,
+        "megaOathNameStatus": null
+      }
+    }
+  ]
+}
