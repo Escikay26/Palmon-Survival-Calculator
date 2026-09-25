@@ -1,0 +1,1636 @@
+{
+  "version": 1,
+  "maxTraitsPerPalmon": 4,
+  "source": {
+    "name": "Palmon Survival Community - Traits",
+    "url": "https://www.palmonguide.com/traits/",
+    "sourceType": "community",
+    "checkedAt": "2026-09-25",
+    "notes": [
+      "The source lists S+ separately from S, A, B and C.",
+      "Trait wording and displayed values are preserved in displayEffect.",
+      "Structured effect fields are normalized for calculator use.",
+      "Obsolete and renamed traits are retained but marked non-active.",
+      "This is community-maintained data, not an official game-data export."
+    ]
+  },
+  "selectionRules": {
+    "minTraitsPerPalmon": 0,
+    "maxTraitsPerPalmon": 4,
+    "traitsAreSpeciesLocked": false,
+    "notes": [
+      "Traits belong to the individual bred/caught Palmon, not to the Palmon species.",
+      "Any Palmon may carry different traits.",
+      "Calculator state should store selected trait IDs on the individual Palmon instance."
+    ]
+  },
+  "traits": [
+    {
+      "id": "heartless-splus",
+      "name": "Heartless",
+      "rank": "S+",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Damage +15%",
+      "effects": [
+        {
+          "stat": "critDamage",
+          "value": 15,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "warlike-splus",
+      "name": "Warlike",
+      "rank": "S+",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Attack +10%",
+      "effects": [
+        {
+          "stat": "attack",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "blessed-splus",
+      "name": "Blessed",
+      "rank": "S+",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Rate +8%",
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "deadeye-splus",
+      "name": "Deadeye",
+      "rank": "S+",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Accuracy +8%",
+      "effects": [
+        {
+          "stat": "accuracy",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "unshakeable-splus",
+      "name": "Unshakeable",
+      "rank": "S+",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Defense +10%",
+      "effects": [
+        {
+          "stat": "defense",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "vigorous-splus",
+      "name": "Vigorous",
+      "rank": "S+",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "HP +10%",
+      "effects": [
+        {
+          "stat": "hp",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "iron-will-splus",
+      "name": "Iron Will",
+      "rank": "S+",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Tenacity +8%",
+      "effects": [
+        {
+          "stat": "tenacity",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "diamond-skull-splus",
+      "name": "Diamond Skull",
+      "rank": "S+",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Crit Damage Reduction +15%",
+      "effects": [
+        {
+          "stat": "critDamageReduction",
+          "value": 15,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "temperate-splus",
+      "name": "Temperate",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Food Consumption Reduction -50%",
+      "effects": [
+        {
+          "stat": "foodConsumption",
+          "value": -50,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sweet-dreams-splus",
+      "name": "Sweet Dreams",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Gain When Sleeping +15%",
+      "effects": [
+        {
+          "stat": "sleepXpGain",
+          "value": 15,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "supersonic-splus",
+      "name": "Supersonic",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Move Speed +10%",
+      "effects": [
+        {
+          "stat": "moveSpeed",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "prodigy-splus",
+      "name": "Prodigy",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Research Time -900s",
+      "effects": [
+        {
+          "stat": "researchTime",
+          "value": -900,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "light-eater-splus",
+      "name": "Light Eater",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Hunger Depletion Slower 50%",
+      "effects": [
+        {
+          "stat": "hungerDepletionRate",
+          "value": -50,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "healing-touch-splus",
+      "name": "Healing Touch",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Healing Time -8%",
+      "effects": [
+        {
+          "stat": "healingTime",
+          "value": -8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "turbo-builder-splus",
+      "name": "Turbo Builder",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Construction Time -900s",
+      "effects": [
+        {
+          "stat": "constructionTime",
+          "value": -900,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "comfy-splus",
+      "name": "Comfy",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Per Second +3",
+      "effects": [
+        {
+          "stat": "xpPerSecond",
+          "value": 3,
+          "unit": "perSecond"
+        }
+      ]
+    },
+    {
+      "id": "coach-splus",
+      "name": "Coach",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Training Time -8%",
+      "effects": [
+        {
+          "stat": "trainingTime",
+          "value": -8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "clear-headed-splus",
+      "name": "Clear-Headed",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Stun Resist +7%",
+      "effects": [
+        {
+          "stat": "stunResist",
+          "value": 7,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "caffeinated-splus",
+      "name": "Caffeinated",
+      "rank": "S+",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Energy Depletion Slower 50%",
+      "effects": [
+        {
+          "stat": "energyDepletionRate",
+          "value": -50,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "wood-whiz-splus",
+      "name": "Wood Whiz",
+      "rank": "S+",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Sawing Output +30%",
+      "effects": [
+        {
+          "stat": "sawingOutput",
+          "value": 30,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "forge-fanatic-splus",
+      "name": "Forge Fanatic",
+      "rank": "S+",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Smelting Output +30%",
+      "effects": [
+        {
+          "stat": "smeltingOutput",
+          "value": 30,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "electric-frenzy-splus",
+      "name": "Electric Frenzy",
+      "rank": "S+",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Charging Output +15%",
+      "effects": [
+        {
+          "stat": "chargingOutput",
+          "value": 15,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "dreamium-hunter-splus",
+      "name": "Dreamium Hunter",
+      "rank": "S+",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Dreamium Output +8%",
+      "effects": [
+        {
+          "stat": "dreamiumOutput",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "alchemist-splus",
+      "name": "Alchemist",
+      "rank": "S+",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Magicking Output +8%",
+      "effects": [
+        {
+          "stat": "magickingOutput",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sharpshooter-s",
+      "name": "Sharpshooter",
+      "rank": "S",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Accuracy +5%",
+      "effects": [
+        {
+          "stat": "accuracy",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "ruthless-s",
+      "name": "Ruthless",
+      "rank": "S",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Damage +8%",
+      "effects": [
+        {
+          "stat": "critDamage",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "belligerent-s",
+      "name": "Belligerent",
+      "rank": "S",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Attack +7%",
+      "effects": [
+        {
+          "stat": "attack",
+          "value": 7,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "fortunate-s",
+      "name": "Fortunate",
+      "rank": "S",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Rate +5%",
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "unyielding-s",
+      "name": "Unyielding",
+      "rank": "S",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Tenacity +5%",
+      "effects": [
+        {
+          "stat": "tenacity",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "steel-skull-s",
+      "name": "Steel Skull",
+      "rank": "S",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Crit Damage Reduction +8%",
+      "effects": [
+        {
+          "stat": "critDamageReduction",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "steadfast-s",
+      "name": "Steadfast",
+      "rank": "S",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Defense +7%",
+      "effects": [
+        {
+          "stat": "defense",
+          "value": 7,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "robust-s",
+      "name": "Robust",
+      "rank": "S",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "HP +7%",
+      "effects": [
+        {
+          "stat": "hp",
+          "value": 7,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "elusive-s",
+      "name": "Elusive",
+      "rank": "S",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Evasion +5%",
+      "effects": [
+        {
+          "stat": "evasion",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "temperate-a",
+      "name": "Temperate",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Food Consumption Reduction -25%",
+      "effects": [
+        {
+          "stat": "foodConsumption",
+          "value": -25,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sweet-dreams-a",
+      "name": "Sweet Dreams",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Gain When Sleeping +10%",
+      "effects": [
+        {
+          "stat": "sleepXpGain",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "steady-a",
+      "name": "Steady",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Stun Resist +5%",
+      "effects": [
+        {
+          "stat": "stunResist",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "prodigy-a",
+      "name": "Prodigy",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Research Time -300s",
+      "effects": [
+        {
+          "stat": "researchTime",
+          "value": -300,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "light-eater-a",
+      "name": "Light Eater",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Hunger Depletion Slower 25%",
+      "effects": [
+        {
+          "stat": "hungerDepletionRate",
+          "value": -25,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "healing-touch-a",
+      "name": "Healing Touch",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Healing Time -4%",
+      "effects": [
+        {
+          "stat": "healingTime",
+          "value": -4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "fleet-footed-a",
+      "name": "Fleet-Footed",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Move Speed +5%",
+      "effects": [
+        {
+          "stat": "moveSpeed",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "turbo-builder-a",
+      "name": "Turbo Builder",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Construction Time -300s",
+      "effects": [
+        {
+          "stat": "constructionTime",
+          "value": -300,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "comfy-a",
+      "name": "Comfy",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Per Second +2",
+      "effects": [
+        {
+          "stat": "xpPerSecond",
+          "value": 2,
+          "unit": "perSecond"
+        }
+      ]
+    },
+    {
+      "id": "generous-a",
+      "name": "Generous",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Dismissal Rewards +50%",
+      "effects": [
+        {
+          "stat": "dismissalRewards",
+          "value": 50,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "coach-a",
+      "name": "Coach",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Training Time -4%",
+      "effects": [
+        {
+          "stat": "trainingTime",
+          "value": -4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "caffeinated-a",
+      "name": "Caffeinated",
+      "rank": "A",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Energy Depletion Slower 25%",
+      "effects": [
+        {
+          "stat": "energyDepletionRate",
+          "value": -25,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "saw-savant-a",
+      "name": "Saw Savant",
+      "rank": "A",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Sawing Output +10%",
+      "effects": [
+        {
+          "stat": "sawingOutput",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "lightning-affinity-a",
+      "name": "Lightning Affinity",
+      "rank": "A",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Charging Output +10%",
+      "effects": [
+        {
+          "stat": "chargingOutput",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "dreamium-hunter-a",
+      "name": "Dreamium Hunter",
+      "rank": "A",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Dreamium Output +5%",
+      "effects": [
+        {
+          "stat": "dreamiumOutput",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "bellow-fellow-a",
+      "name": "Bellow Fellow",
+      "rank": "A",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Smelting Output +10%",
+      "effects": [
+        {
+          "stat": "smeltingOutput",
+          "value": 10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "alchemist-a",
+      "name": "Alchemist",
+      "rank": "A",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Magicking Output +5%",
+      "effects": [
+        {
+          "stat": "magickingOutput",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "favored-a",
+      "name": "Favored",
+      "rank": "A",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Rate +2.5%",
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 2.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "crack-shot-a",
+      "name": "Crack Shot",
+      "rank": "A",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Accuracy +2.5%",
+      "effects": [
+        {
+          "stat": "accuracy",
+          "value": 2.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "brutal-a",
+      "name": "Brutal",
+      "rank": "A",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Damage +4%",
+      "effects": [
+        {
+          "stat": "critDamage",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "combative-a",
+      "name": "Combative",
+      "rank": "A",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Attack +4%",
+      "effects": [
+        {
+          "stat": "attack",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "slippery-a",
+      "name": "Slippery",
+      "rank": "A",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Evasion +2.5%",
+      "effects": [
+        {
+          "stat": "evasion",
+          "value": 2.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "iron-skull-a",
+      "name": "Iron Skull",
+      "rank": "A",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Crit Damage Reduction +4%",
+      "effects": [
+        {
+          "stat": "critDamageReduction",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "energetic-a",
+      "name": "Energetic",
+      "rank": "A",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "HP +4%",
+      "effects": [
+        {
+          "stat": "hp",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "hardy-a",
+      "name": "Hardy",
+      "rank": "A",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Tenacity +2.5%",
+      "effects": [
+        {
+          "stat": "tenacity",
+          "value": 2.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "resolute-a",
+      "name": "Resolute",
+      "rank": "A",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Defense +4%",
+      "effects": [
+        {
+          "stat": "defense",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "temperate-b",
+      "name": "Temperate",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Food Consumption Reduction -10%",
+      "effects": [
+        {
+          "stat": "foodConsumption",
+          "value": -10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sweet-dreams-b",
+      "name": "Sweet Dreams",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Gain When Sleeping +5%",
+      "effects": [
+        {
+          "stat": "sleepXpGain",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "prodigy-b",
+      "name": "Prodigy",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Research Time -120s",
+      "effects": [
+        {
+          "stat": "researchTime",
+          "value": -120,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "light-eater-b",
+      "name": "Light Eater",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Hunger Depletion Slower 10%",
+      "effects": [
+        {
+          "stat": "hungerDepletionRate",
+          "value": -10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "healing-touch-b",
+      "name": "Healing Touch",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Healing Time -2%",
+      "effects": [
+        {
+          "stat": "healingTime",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "turbo-builder-b",
+      "name": "Turbo Builder",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Construction Time -120s",
+      "effects": [
+        {
+          "stat": "constructionTime",
+          "value": -120,
+          "unit": "seconds"
+        }
+      ]
+    },
+    {
+      "id": "comfy-b",
+      "name": "Comfy",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "XP Per Second +1",
+      "effects": [
+        {
+          "stat": "xpPerSecond",
+          "value": 1,
+          "unit": "perSecond"
+        }
+      ]
+    },
+    {
+      "id": "coach-b",
+      "name": "Coach",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Training Time -2%",
+      "effects": [
+        {
+          "stat": "trainingTime",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "caffeinated-b",
+      "name": "Caffeinated",
+      "rank": "B",
+      "category": "utility",
+      "status": "active",
+      "displayEffect": "Energy Depletion Slower 10%",
+      "effects": [
+        {
+          "stat": "energyDepletionRate",
+          "value": -10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "workshopper-b",
+      "name": "Workshopper",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Sawing Output +5%",
+      "effects": [
+        {
+          "stat": "sawingOutput",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "battery-pack-b",
+      "name": "Battery Pack",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Charging Output +5%",
+      "effects": [
+        {
+          "stat": "chargingOutput",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "dreamium-hunter-b",
+      "name": "Dreamium Hunter",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Dreamium Output +2%",
+      "effects": [
+        {
+          "stat": "dreamiumOutput",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "e-conductor-b",
+      "name": "E-Conductor",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Charging Output +3%",
+      "effects": [
+        {
+          "stat": "chargingOutput",
+          "value": 3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "anvil-adept-b",
+      "name": "Anvil Adept",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Smelting Output +5%",
+      "effects": [
+        {
+          "stat": "smeltingOutput",
+          "value": 5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "alchemist-b",
+      "name": "Alchemist",
+      "rank": "B",
+      "category": "production",
+      "status": "active",
+      "displayEffect": "Magicking Output +2%",
+      "effects": [
+        {
+          "stat": "magickingOutput",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "mean-b",
+      "name": "Mean",
+      "rank": "B",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Damage +3%",
+      "effects": [
+        {
+          "stat": "critDamage",
+          "value": 3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "lucky-b",
+      "name": "Lucky",
+      "rank": "B",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Crit Rate +1.5%",
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "hostile-b",
+      "name": "Hostile",
+      "rank": "B",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Attack +2%",
+      "effects": [
+        {
+          "stat": "attack",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "gunner-b",
+      "name": "Gunner",
+      "rank": "B",
+      "category": "combat-offensive",
+      "status": "active",
+      "displayEffect": "Accuracy +1.5%",
+      "effects": [
+        {
+          "stat": "accuracy",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "stubborn-b",
+      "name": "Stubborn",
+      "rank": "B",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Tenacity +1.5%",
+      "effects": [
+        {
+          "stat": "tenacity",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "stone-skull-b",
+      "name": "Stone Skull",
+      "rank": "B",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Crit Damage Reduction +3%",
+      "effects": [
+        {
+          "stat": "critDamageReduction",
+          "value": 3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "rooted-b",
+      "name": "Rooted",
+      "rank": "B",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Defense +2%",
+      "effects": [
+        {
+          "stat": "defense",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "nimble-b",
+      "name": "Nimble",
+      "rank": "B",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "Evasion +1.5%",
+      "effects": [
+        {
+          "stat": "evasion",
+          "value": 1.5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "durable-b",
+      "name": "Durable",
+      "rank": "B",
+      "category": "combat-defensive",
+      "status": "active",
+      "displayEffect": "HP +2%",
+      "effects": [
+        {
+          "stat": "hp",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sluggard-c",
+      "name": "Sluggard",
+      "rank": "C",
+      "category": "debuff-utility",
+      "status": "active",
+      "displayEffect": "Move Speed -10%",
+      "effects": [
+        {
+          "stat": "moveSpeed",
+          "value": -10,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "embattled-c",
+      "name": "Embattled",
+      "rank": "C",
+      "category": "debuff-utility",
+      "status": "active",
+      "displayEffect": "Stun Resist -5%",
+      "effects": [
+        {
+          "stat": "stunResist",
+          "value": -5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "soot-allergy-c",
+      "name": "Soot Allergy",
+      "rank": "C",
+      "category": "debuff-production",
+      "status": "active",
+      "displayEffect": "Smelting Output -5%",
+      "effects": [
+        {
+          "stat": "smeltingOutput",
+          "value": -5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sawdust-allergy-c",
+      "name": "Sawdust Allergy",
+      "rank": "C",
+      "category": "debuff-production",
+      "status": "active",
+      "displayEffect": "Sawing Output -5%",
+      "effects": [
+        {
+          "stat": "sawingOutput",
+          "value": -5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "energy-saver-c",
+      "name": "Energy Saver",
+      "rank": "C",
+      "category": "debuff-production",
+      "status": "active",
+      "displayEffect": "Charging Output -5%",
+      "effects": [
+        {
+          "stat": "chargingOutput",
+          "value": -5,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "softie-c",
+      "name": "Softie",
+      "rank": "C",
+      "category": "debuff-offensive",
+      "status": "active",
+      "displayEffect": "Crit Damage -3%",
+      "effects": [
+        {
+          "stat": "critDamage",
+          "value": -3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "pacifist-c",
+      "name": "Pacifist",
+      "rank": "C",
+      "category": "debuff-offensive",
+      "status": "active",
+      "displayEffect": "Attack -4%",
+      "effects": [
+        {
+          "stat": "attack",
+          "value": -4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "myopic-c",
+      "name": "Myopic",
+      "rank": "C",
+      "category": "debuff-offensive",
+      "status": "active",
+      "displayEffect": "Accuracy -2%",
+      "effects": [
+        {
+          "stat": "accuracy",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "jinxed-c",
+      "name": "Jinxed",
+      "rank": "C",
+      "category": "debuff-offensive",
+      "status": "active",
+      "displayEffect": "Crit Rate -2%",
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "spineless-c",
+      "name": "Spineless",
+      "rank": "C",
+      "category": "debuff-defensive",
+      "status": "active",
+      "displayEffect": "Tenacity -2%",
+      "effects": [
+        {
+          "stat": "tenacity",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "sickly-c",
+      "name": "Sickly",
+      "rank": "C",
+      "category": "debuff-defensive",
+      "status": "active",
+      "displayEffect": "HP -4%",
+      "effects": [
+        {
+          "stat": "hp",
+          "value": -4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "pushover-c",
+      "name": "Pushover",
+      "rank": "C",
+      "category": "debuff-defensive",
+      "status": "active",
+      "displayEffect": "Defense -4%",
+      "effects": [
+        {
+          "stat": "defense",
+          "value": -4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "fumbling-c",
+      "name": "Fumbling",
+      "rank": "C",
+      "category": "debuff-defensive",
+      "status": "active",
+      "displayEffect": "Evasion -2%",
+      "effects": [
+        {
+          "stat": "evasion",
+          "value": -2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "faberge-jaw-c",
+      "name": "Fabergé Jaw",
+      "rank": "C",
+      "category": "debuff-defensive",
+      "status": "active",
+      "displayEffect": "Crit Damage Reduction -3%",
+      "effects": [
+        {
+          "stat": "critDamageReduction",
+          "value": -3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "metal-maestro-legacy",
+      "name": "Metal Maestro",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "renamed",
+      "displayEffect": "Smelting Output +30%",
+      "effects": [
+        {
+          "stat": "smeltingOutput",
+          "value": 30,
+          "unit": "percent"
+        }
+      ],
+      "note": "Source marks this trait as Renamed; replacement name is not inferred here."
+    },
+    {
+      "id": "timber-tycoon-legacy",
+      "name": "Timber Tycoon",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "renamed",
+      "displayEffect": "Sawing Output +30%",
+      "effects": [
+        {
+          "stat": "sawingOutput",
+          "value": 30,
+          "unit": "percent"
+        }
+      ],
+      "note": "Source marks this trait as Renamed; replacement name is not inferred here."
+    },
+    {
+      "id": "workaholic-legacy",
+      "name": "Workaholic",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Job Efficiency +25%",
+      "effects": [
+        {
+          "stat": "jobEfficiency",
+          "value": 25,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "industrious-legacy",
+      "name": "Industrious",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Job Efficiency +8%",
+      "effects": [
+        {
+          "stat": "jobEfficiency",
+          "value": 8,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "diligent-legacy",
+      "name": "Diligent",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Job Efficiency +4%",
+      "effects": [
+        {
+          "stat": "jobEfficiency",
+          "value": 4,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "efficient-legacy",
+      "name": "Efficient",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Job Efficiency +2%",
+      "effects": [
+        {
+          "stat": "jobEfficiency",
+          "value": 2,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "serene-legacy",
+      "name": "Serene",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Stun Resist +12%",
+      "effects": [
+        {
+          "stat": "stunResist",
+          "value": 12,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "lightspeed-legacy",
+      "name": "Lightspeed",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Move Speed +15%",
+      "effects": [
+        {
+          "stat": "moveSpeed",
+          "value": 15,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "speedy-legacy",
+      "name": "Speedy",
+      "rank": "legacy",
+      "category": "utility",
+      "status": "obsolete",
+      "displayEffect": "Move Speed +3%",
+      "effects": [
+        {
+          "stat": "moveSpeed",
+          "value": 3,
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "shadow-legacy",
+      "name": "Shadow",
+      "rank": "legacy",
+      "category": "combat-defensive",
+      "status": "obsolete",
+      "displayEffect": "Evasion +12%",
+      "effects": [
+        {
+          "stat": "evasion",
+          "value": 12,
+          "unit": "percent"
+        }
+      ]
+    }
+  ]
+}
