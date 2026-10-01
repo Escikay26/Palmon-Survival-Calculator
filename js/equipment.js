@@ -361,6 +361,9 @@ function createItem(
 
   nextInstanceId += 1;
 
+  activeAddCategory =
+    null;
+
   saveState();
 
   render();
