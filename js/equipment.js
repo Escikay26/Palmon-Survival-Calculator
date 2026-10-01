@@ -31,7 +31,11 @@ let items = [];
 let buildMode =
   "unlimited";
 
-let ownedEnhancementXp = 0;
+let temperitCounts = {
+  large: 0,
+  medium: 0,
+  small: 0
+};
 
 let ownedOpusPearls = 0;
 
@@ -39,6 +43,8 @@ let budgetBaseCost = {
   enhancementXp: 0,
   opusPearls: 0
 };
+
+let budgetBaseItems = {};
 
 let nextInstanceId = 1;
 
@@ -80,6 +86,24 @@ function formatMainStatValue(
   return formatNumber(
     stat.value
   );
+}
+
+
+function formatSignedNumber(
+  value,
+  suffix = ""
+) {
+  const number =
+    Number(value) || 0;
+
+  const prefix =
+    number > 0
+      ? "+"
+      : "";
+
+  return `${prefix}${formatNumber(
+    number
+  )}${suffix}`;
 }
 
 
@@ -169,9 +193,10 @@ function saveState() {
   saveEquipmentState({
     items,
     buildMode,
-    ownedEnhancementXp,
+    temperitCounts,
     ownedOpusPearls,
     budgetBaseCost,
+    budgetBaseItems,
     nextInstanceId
   });
 }
@@ -227,15 +252,83 @@ function loadSavedState() {
       ? "budget"
       : "unlimited";
 
-  ownedEnhancementXp =
-    Math.max(
-      0,
+  temperitCounts = {
+    large:
+      Math.max(
+        0,
+        Math.floor(
+          Number(
+            data.temperitCounts
+              ?.large
+          ) || 0
+        )
+      ),
+
+    medium:
+      Math.max(
+        0,
+        Math.floor(
+          Number(
+            data.temperitCounts
+              ?.medium
+          ) || 0
+        )
+      ),
+
+    small:
+      Math.max(
+        0,
+        Math.floor(
+          Number(
+            data.temperitCounts
+              ?.small
+          ) || 0
+        )
+      )
+  };
+
+
+  // Migration from the first Equipment
+  // planner version, which allowed raw XP.
+  // Temperit is the only Equipment XP source,
+  // so legacy XP is converted to Small Temperit.
+  if (
+    temperitCounts.large === 0 &&
+    temperitCounts.medium === 0 &&
+    temperitCounts.small === 0 &&
+    Number(
+      data.legacyEnhancementXp
+    ) > 0
+  ) {
+    const smallTemperitXp =
+      Number(
+        equipmentData
+          ?.enhancement
+          ?.temperitXp
+          ?.small
+      ) || 10;
+
+    temperitCounts.small =
       Math.floor(
         Number(
-          data.ownedEnhancementXp
-        ) || 0
-      )
-    );
+          data.legacyEnhancementXp
+        ) /
+        smallTemperitXp
+      );
+
+    if (
+      Number(
+        data.legacyEnhancementXp
+      ) %
+        smallTemperitXp !==
+      0
+    ) {
+      console.warn(
+        "Legacy Equipment XP could not be converted to Temperit without a remainder."
+      );
+    }
+  }
+
 
   ownedOpusPearls =
     Math.max(
@@ -266,6 +359,41 @@ function loadSavedState() {
         ) || 0
       )
   };
+
+
+  budgetBaseItems = {};
+
+  Object.entries(
+    data.budgetBaseItems ||
+    {}
+  ).forEach(
+    ([instanceId, item]) => {
+
+      if (
+        !getItem(
+          instanceId
+        )
+      ) {
+        return;
+      }
+
+      budgetBaseItems[
+        instanceId
+      ] = {
+        enhancementLevel:
+          normalizeEquipmentLevel(
+            item?.enhancementLevel
+          ),
+
+        ascensionLevel:
+          normalizeEquipmentAscension(
+            item?.ascensionLevel
+          )
+      };
+
+    }
+  );
+
 
   nextInstanceId =
     Math.max(
@@ -305,6 +433,23 @@ function loadSavedState() {
       );
   }
 
+
+  // Migration for a Budget Build saved before
+  // per-item baselines existed.
+  if (
+    buildMode ===
+      "budget" &&
+    Object.keys(
+      budgetBaseItems
+    ).length === 0
+  ) {
+    budgetBaseItems =
+      createBudgetSnapshot();
+
+    budgetBaseCost =
+      calculateInventoryCost();
+  }
+
   saveState();
 }
 
@@ -331,6 +476,129 @@ function getDefinition(
     equipmentData,
     item?.equipmentId
   );
+}
+
+
+function getTemperitXpValue(
+  type
+) {
+  return (
+    Number(
+      equipmentData
+        ?.enhancement
+        ?.temperitXp
+        ?.[type]
+    ) || 0
+  );
+}
+
+
+function getOwnedEnhancementXp() {
+  return (
+    temperitCounts.large *
+      getTemperitXpValue(
+        "large"
+      ) +
+    temperitCounts.medium *
+      getTemperitXpValue(
+        "medium"
+      ) +
+    temperitCounts.small *
+      getTemperitXpValue(
+        "small"
+      )
+  );
+}
+
+
+function createBudgetSnapshot() {
+  return Object.fromEntries(
+    items.map(
+      item => [
+        item.instanceId,
+        {
+          enhancementLevel:
+            item.enhancementLevel,
+
+          ascensionLevel:
+            item.ascensionLevel
+        }
+      ]
+    )
+  );
+}
+
+
+function getBudgetBaseItem(
+  instanceId
+) {
+  const base =
+    budgetBaseItems[
+      instanceId
+    ];
+
+  if (!base) {
+    return null;
+  }
+
+  const current =
+    getItem(
+      instanceId
+    );
+
+  if (!current) {
+    return null;
+  }
+
+  return {
+    ...current,
+
+    enhancementLevel:
+      normalizeEquipmentLevel(
+        base.enhancementLevel
+      ),
+
+    ascensionLevel:
+      normalizeEquipmentAscension(
+        base.ascensionLevel
+      )
+  };
+}
+
+
+function getItemDisplayName(
+  item
+) {
+  const definition =
+    getDefinition(
+      item
+    );
+
+  if (!definition) {
+    return "Unknown Equipment";
+  }
+
+  const matchingItems =
+    items.filter(
+      candidate =>
+        candidate.equipmentId ===
+        item.equipmentId
+    );
+
+  if (
+    matchingItems.length <= 1
+  ) {
+    return definition.name;
+  }
+
+  const index =
+    matchingItems.findIndex(
+      candidate =>
+        candidate.instanceId ===
+        item.instanceId
+    );
+
+  return `${definition.name} #${index + 1}`;
 }
 
 
@@ -419,18 +687,15 @@ function removeItem(
       instanceId
     );
 
-  const definition =
-    getDefinition(
-      item
-    );
-
   if (!item) {
     return;
   }
 
   const confirmed =
     window.confirm(
-      `Remove ${definition?.name || "this equipment"} from your inventory?`
+      `Remove ${getItemDisplayName(
+        item
+      )} from your inventory?`
     );
 
   if (!confirmed) {
@@ -524,7 +789,7 @@ function getAvailableBudget() {
       (
         budgetBaseCost
           .enhancementXp +
-        ownedEnhancementXp
+        getOwnedEnhancementXp()
       ) -
       currentCost
         .enhancementXp,
@@ -536,6 +801,26 @@ function getAvailableBudget() {
         ownedOpusPearls
       ) -
       currentCost
+        .opusPearls
+  };
+}
+
+
+function getPlanCostDelta() {
+  const currentCost =
+    calculateInventoryCost();
+
+  return {
+    enhancementXp:
+      currentCost
+        .enhancementXp -
+      budgetBaseCost
+        .enhancementXp,
+
+    opusPearls:
+      currentCost
+        .opusPearls -
+      budgetBaseCost
         .opusPearls
   };
 }
@@ -752,6 +1037,9 @@ function setBuildMode(
     budgetBaseCost =
       calculateInventoryCost();
 
+    budgetBaseItems =
+      createBudgetSnapshot();
+
     buildMode =
       "budget";
 
@@ -767,7 +1055,60 @@ function setBuildMode(
       enhancementXp: 0,
       opusPearls: 0
     };
+
+    budgetBaseItems = {};
   }
+
+  saveState();
+
+  render();
+}
+
+
+function resetPlan(
+  instanceId = null
+) {
+  if (
+    buildMode !==
+    "budget"
+  ) {
+    return;
+  }
+
+  items.forEach(
+    item => {
+
+      if (
+        instanceId &&
+        item.instanceId !==
+          instanceId
+      ) {
+        return;
+      }
+
+      const base =
+        budgetBaseItems[
+          item.instanceId
+        ];
+
+      if (!base) {
+        return;
+      }
+
+      item.enhancementLevel =
+        normalizeEquipmentLevel(
+          base.enhancementLevel
+        );
+
+      item.ascensionLevel =
+        normalizeEquipmentAscension(
+          base.ascensionLevel
+        );
+
+    }
+  );
+
+  budgetWarning = "";
 
   saveState();
 
@@ -846,6 +1187,312 @@ function renderExtraEffects(
 }
 
 
+function renderPlanComparison(
+  item,
+  definition,
+  plannedStats
+) {
+  if (
+    buildMode !==
+    "budget"
+  ) {
+    return "";
+  }
+
+  const baseItem =
+    getBudgetBaseItem(
+      item.instanceId
+    );
+
+  if (!baseItem) {
+    return "";
+  }
+
+  const baseStats =
+    getEquipmentStats({
+      equipmentData,
+      equipmentId:
+        definition.id,
+      level:
+        baseItem.enhancementLevel,
+      ascension:
+        baseItem.ascensionLevel
+    });
+
+  const baseStatMap =
+    Object.fromEntries(
+      baseStats.mainStats.map(
+        stat => [
+          stat.stat,
+          stat
+        ]
+      )
+    );
+
+  const statChanges =
+    plannedStats.mainStats
+      .map(
+        stat => {
+
+          const baseStat =
+            baseStatMap[
+              stat.stat
+            ];
+
+          const delta =
+            stat.value -
+            (
+              baseStat?.value ||
+              0
+            );
+
+          if (
+            Math.abs(
+              delta
+            ) < 0.000001
+          ) {
+            return "";
+          }
+
+          return `
+            <div class="equipment-plan-stat">
+              <span>
+                ${
+                  EQUIPMENT_STAT_NAMES[
+                    stat.stat
+                  ] ||
+                  stat.stat
+                }
+              </span>
+
+              <strong class="${
+                delta >= 0
+                  ? "positive"
+                  : "negative"
+              }">
+                ${
+                  stat.unit ===
+                    "percent"
+                    ? formatSignedNumber(
+                        delta,
+                        "%"
+                      )
+                    : formatSignedNumber(
+                        delta
+                      )
+                }
+              </strong>
+            </div>
+          `;
+
+        }
+      )
+      .filter(
+        Boolean
+      )
+      .join("");
+
+  const baseCost =
+    getItemCost(
+      baseItem
+    );
+
+  const plannedCost =
+    getItemCost(
+      item
+    );
+
+  const xpDelta =
+    plannedCost
+      .enhancementXp -
+    baseCost
+      .enhancementXp;
+
+  const pearlDelta =
+    plannedCost
+      .opusPearls -
+    baseCost
+      .opusPearls;
+
+  const changed =
+    item.enhancementLevel !==
+      baseItem.enhancementLevel ||
+    item.ascensionLevel !==
+      baseItem.ascensionLevel;
+
+  return `
+    <div class="equipment-plan-comparison ${
+      changed
+        ? "changed"
+        : "unchanged"
+    }">
+
+      <div class="equipment-plan-header">
+
+        <div>
+          <span class="equipment-card-section-label">
+            Current → Planned
+          </span>
+
+          <strong>
+            Lv${baseItem.enhancementLevel}
+            ·
+            ${getEquipmentAscensionLabel(
+              equipmentData,
+              baseItem.ascensionLevel
+            )}
+            →
+            Lv${item.enhancementLevel}
+            ·
+            ${getEquipmentAscensionLabel(
+              equipmentData,
+              item.ascensionLevel
+            )}
+          </strong>
+        </div>
+
+        <button
+          type="button"
+          class="equipment-plan-reset-item"
+          data-equipment-reset-item="${item.instanceId}"
+          ${changed ? "" : "disabled"}
+        >
+          Reset Item
+        </button>
+
+      </div>
+
+
+      ${
+        statChanges
+          ? `
+            <div class="equipment-plan-stat-list">
+              ${statChanges}
+            </div>
+          `
+          : `
+            <span class="equipment-plan-no-change">
+              No stat changes planned.
+            </span>
+          `
+      }
+
+
+      <div class="equipment-plan-costs">
+
+        <span>
+          XP
+          <strong>
+            ${formatSignedNumber(
+              xpDelta
+            )}
+          </strong>
+        </span>
+
+        <span>
+          Opus Pearls
+          <strong>
+            ${formatSignedNumber(
+              pearlDelta
+            )}
+          </strong>
+        </span>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+function renderInventorySummary() {
+  const rarityCounts =
+    Object.fromEntries(
+      (
+        equipmentData?.rarities ||
+        []
+      ).map(
+        rarity => [
+          rarity,
+          items.filter(
+            item =>
+              getDefinition(
+                item
+              )?.rarity ===
+              rarity
+          ).length
+        ]
+      )
+    );
+
+  const categoryCounts =
+    Object.fromEntries(
+      (
+        equipmentData?.categories ||
+        []
+      ).map(
+        category => [
+          category.id,
+          items.filter(
+            item =>
+              getDefinition(
+                item
+              )?.category ===
+              category.id
+          ).length
+        ]
+      )
+    );
+
+  return `
+    <div class="equipment-inventory-summary">
+
+      <div class="equipment-inventory-summary-card">
+        <span>Total</span>
+        <strong>${items.length}</strong>
+      </div>
+
+      ${
+        (
+          equipmentData?.rarities ||
+          []
+        )
+          .map(
+            rarity => `
+              <div class="equipment-inventory-summary-card">
+                <span>${rarity}</span>
+                <strong>
+                  ${rarityCounts[rarity] || 0}
+                </strong>
+              </div>
+            `
+          )
+          .join("")
+      }
+
+      ${
+        (
+          equipmentData?.categories ||
+          []
+        )
+          .map(
+            category => `
+              <div class="equipment-inventory-summary-card">
+                <span>${category.name}</span>
+                <strong>
+                  ${categoryCounts[category.id] || 0}
+                </strong>
+              </div>
+            `
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+}
+
+
 function renderAscensionOptions(
   currentAscension
 ) {
@@ -891,6 +1538,11 @@ function renderItemCard(
     return "";
   }
 
+  const displayName =
+    getItemDisplayName(
+      item
+    );
+
   const stats =
     getEquipmentStats({
       equipmentData,
@@ -920,6 +1572,13 @@ function renderItemCard(
           item.ascensionLevel + 1
         );
 
+  const planComparison =
+    renderPlanComparison(
+      item,
+      definition,
+      stats
+    );
+
   const ascensionBoost =
     item.ascensionLevel *
     (
@@ -948,7 +1607,7 @@ function renderItemCard(
             </span>
 
             <h4>
-              ${definition.name}
+              ${displayName}
             </h4>
 
           </div>
@@ -1003,7 +1662,12 @@ function renderItemCard(
       <div class="equipment-current-stats">
 
         <span class="equipment-card-section-label">
-          Current Main Stats
+          ${
+            buildMode ===
+              "budget"
+              ? "Planned Main Stats"
+              : "Current Main Stats"
+          }
         </span>
 
         <div class="equipment-stat-list">
@@ -1020,6 +1684,9 @@ function renderItemCard(
         </div>
 
       </div>
+
+
+      ${planComparison}
 
 
       <div class="equipment-control-section">
@@ -1369,6 +2036,12 @@ function render() {
   const available =
     getAvailableBudget();
 
+  const planDelta =
+    getPlanCostDelta();
+
+  const ownedEnhancementXp =
+    getOwnedEnhancementXp();
+
   root.innerHTML = `
 
     <section class="build-settings equipment-build-settings">
@@ -1382,8 +2055,8 @@ function render() {
 
           <p>
             Use Unlimited to recreate your current inventory.
-            Switch to Budget Build to plan upgrades with
-            Enhancement XP and Opus Pearls.
+            Enter the Temperit and Opus Pearls you own, then
+            switch to Budget Build to plan your upgrades.
           </p>
         </div>
 
@@ -1423,22 +2096,59 @@ function render() {
 
       <div class="equipment-budget-summary">
 
-        <label class="summary-card token-input-card">
+        <div class="summary-card equipment-temperit-card">
 
           <span class="summary-label">
-            Owned Enhancement XP
+            Owned Temperit
           </span>
 
-          <input
-            id="equipment-owned-xp"
-            class="token-input"
-            type="number"
-            min="0"
-            step="1"
-            value="${ownedEnhancementXp}"
-          >
+          <div class="equipment-temperit-grid">
 
-        </label>
+            ${
+              [
+                ["large", "Large"],
+                ["medium", "Medium"],
+                ["small", "Small"]
+              ]
+                .map(
+                  ([type, label]) => `
+                    <label class="equipment-temperit-input">
+                      <span>
+                        ${label}
+                        <small>
+                          +${formatNumber(
+                            getTemperitXpValue(
+                              type
+                            )
+                          )} XP
+                        </small>
+                      </span>
+
+                      <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        value="${temperitCounts[type]}"
+                        data-equipment-temperit="${type}"
+                      >
+                    </label>
+                  `
+                )
+                .join("")
+            }
+
+          </div>
+
+          <div class="equipment-temperit-total">
+            Total Enhancement XP
+            <strong>
+              ${formatNumber(
+                ownedEnhancementXp
+              )}
+            </strong>
+          </div>
+
+        </div>
 
 
         <div class="summary-card">
@@ -1468,14 +2178,27 @@ function render() {
         <div class="summary-card">
 
           <span class="summary-label">
-            Build XP Cost
+            ${
+              buildMode ===
+                "budget"
+                ? "Plan XP Spend"
+                : "Inventory XP Value"
+            }
           </span>
 
           <strong>
-            ${formatNumber(
-              currentCost
-                .enhancementXp
-            )}
+            ${
+              buildMode ===
+                "budget"
+                ? formatSignedNumber(
+                    planDelta
+                      .enhancementXp
+                  )
+                : formatNumber(
+                    currentCost
+                      .enhancementXp
+                  )
+            }
           </strong>
 
         </div>
@@ -1526,14 +2249,27 @@ function render() {
         <div class="summary-card">
 
           <span class="summary-label">
-            Build Pearl Cost
+            ${
+              buildMode ===
+                "budget"
+                ? "Plan Pearl Spend"
+                : "Inventory Pearl Value"
+            }
           </span>
 
           <strong>
-            ${formatNumber(
-              currentCost
-                .opusPearls
-            )}
+            ${
+              buildMode ===
+                "budget"
+                ? formatSignedNumber(
+                    planDelta
+                      .opusPearls
+                  )
+                : formatNumber(
+                    currentCost
+                      .opusPearls
+                  )
+            }
           </strong>
 
         </div>
@@ -1543,11 +2279,28 @@ function render() {
 
       <div class="equipment-budget-note">
 
+        <span>
+          ${
+            buildMode ===
+              "budget"
+              ? "Budget Build keeps your current inventory fixed. Temperit is converted into Enhancement XP automatically; downgrading frees that XP and Opus Pearl budget for other planned upgrades."
+              : "Configure the equipment you currently own here. Temperit is the only Enhancement XP source. Each saved item will later be assignable to exactly one Palmon in the Team Overview."
+          }
+        </span>
+
         ${
           buildMode ===
             "budget"
-            ? "Budget Build keeps your current inventory fixed. Downgrading refunds the modeled resources into your available budget."
-            : "Configure the equipment you currently own here. Each saved item will later be assignable to exactly one Palmon in the Team Overview."
+            ? `
+              <button
+                type="button"
+                class="equipment-reset-plan-button"
+                data-equipment-reset-plan
+              >
+                Reset Plan
+              </button>
+            `
+            : ""
         }
 
       </div>
@@ -1586,6 +2339,9 @@ function render() {
         </span>
 
       </div>
+
+
+      ${renderInventorySummary()}
 
 
       <div class="equipment-category-grid">
@@ -1641,33 +2397,91 @@ function addListeners() {
     );
 
 
-  const xpInput =
-    document.getElementById(
-      "equipment-owned-xp"
-    );
+  document
+    .querySelectorAll(
+      "[data-equipment-temperit]"
+    )
+    .forEach(
+      input => {
 
-  if (xpInput) {
-    xpInput.addEventListener(
-      "change",
-      event => {
+        input.addEventListener(
+          "change",
+          () => {
 
-        ownedEnhancementXp =
-          Math.max(
-            0,
-            Math.floor(
-              Number(
-                event.target.value
-              ) || 0
-            )
-          );
+            const type =
+              input.dataset
+                .equipmentTemperit;
 
-        saveState();
+            if (
+              !Object.prototype
+                .hasOwnProperty
+                .call(
+                  temperitCounts,
+                  type
+                )
+            ) {
+              return;
+            }
 
-        render();
+            temperitCounts[
+              type
+            ] =
+              Math.max(
+                0,
+                Math.floor(
+                  Number(
+                    input.value
+                  ) || 0
+                )
+              );
+
+            saveState();
+
+            render();
+
+          }
+        );
 
       }
     );
+
+
+  const resetPlanButton =
+    document.querySelector(
+      "[data-equipment-reset-plan]"
+    );
+
+  if (resetPlanButton) {
+    resetPlanButton.addEventListener(
+      "click",
+      () => {
+        resetPlan();
+      }
+    );
   }
+
+
+  document
+    .querySelectorAll(
+      "[data-equipment-reset-item]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            resetPlan(
+              button.dataset
+                .equipmentResetItem
+            );
+
+          }
+        );
+
+      }
+    );
 
 
   const pearlInput =
