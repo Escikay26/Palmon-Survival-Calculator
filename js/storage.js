@@ -186,12 +186,18 @@ export function loadEquipmentState() {
   const defaultState = {
     items: [],
     buildMode: "unlimited",
-    ownedEnhancementXp: 0,
+    temperitCounts: {
+      large: 0,
+      medium: 0,
+      small: 0
+    },
+    legacyEnhancementXp: 0,
     ownedOpusPearls: 0,
     budgetBaseCost: {
       enhancementXp: 0,
       opusPearls: 0
     },
+    budgetBaseItems: {},
     nextInstanceId: 1
   };
 
@@ -213,6 +219,12 @@ export function loadEquipmentState() {
       JSON.parse(saved);
 
 
+    const hasTemperitCounts =
+      data.temperitCounts &&
+      typeof data.temperitCounts ===
+        "object";
+
+
     return {
 
       items:
@@ -228,20 +240,65 @@ export function loadEquipmentState() {
           ? "budget"
           : "unlimited",
 
-      ownedEnhancementXp:
-        Math.max(
-          0,
-          Number(
-            data.ownedEnhancementXp
-          ) || 0
-        ),
+      temperitCounts: {
+        large:
+          Math.max(
+            0,
+            Math.floor(
+              Number(
+                data.temperitCounts
+                  ?.large
+              ) || 0
+            )
+          ),
+
+        medium:
+          Math.max(
+            0,
+            Math.floor(
+              Number(
+                data.temperitCounts
+                  ?.medium
+              ) || 0
+            )
+          ),
+
+        small:
+          Math.max(
+            0,
+            Math.floor(
+              Number(
+                data.temperitCounts
+                  ?.small
+              ) || 0
+            )
+          )
+      },
+
+      // Migration helper for the very first
+      // Equipment-planner version, which
+      // stored raw Enhancement XP instead
+      // of Temperit counts.
+      legacyEnhancementXp:
+        hasTemperitCounts
+          ? 0
+          : Math.max(
+              0,
+              Math.floor(
+                Number(
+                  data.ownedEnhancementXp
+                ) || 0
+              )
+            ),
 
       ownedOpusPearls:
         Math.max(
           0,
-          Number(
-            data.ownedOpusPearls
-          ) || 0
+          Math.floor(
+            Number(
+              data.ownedOpusPearls
+            ) || 0
+          )
         ),
 
       budgetBaseCost: {
@@ -263,6 +320,13 @@ export function loadEquipmentState() {
             ) || 0
           )
       },
+
+      budgetBaseItems:
+        data.budgetBaseItems &&
+        typeof data.budgetBaseItems ===
+          "object"
+          ? data.budgetBaseItems
+          : {},
 
       nextInstanceId:
         Math.max(
@@ -316,6 +380,7 @@ export function saveEquipmentState(
   }
 
 }
+
 
 // =============================
 // BOSS PALMON
