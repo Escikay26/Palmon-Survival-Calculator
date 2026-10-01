@@ -1,0 +1,1432 @@
+{
+  "version": 1,
+  "source": {
+    "name": "Mappe1equip.xlsx + confirmed ingame measurements",
+    "sourceType": "user-provided-ingame-transcription",
+    "checkedAt": "2026-10-01",
+    "notes": [
+      "Only UR and SSR equipment are modeled. SR was intentionally excluded because it is not relevant for the intended team-planning use case.",
+      "Enhancement curves are measured at 0-star Ascension.",
+      "The SSR Staff of Wonders-equivalent weapon value at Enhancement Lv3 was corrected from 4428 to 428.",
+      "UR Shield HP at Enhancement Lv91 was corrected to 1005865.",
+      "Weapon, Shield, Accessory and Headgear use the same enhancement curve for the same rarity and stat type.",
+      "Ascension increases the three normal equipment stats by 10% per Ascension level, based on the already-enhanced stat value.",
+      "Flat main stats are rounded up after the Ascension multiplier.",
+      "Ascension extra effects are separate from the 10%-per-level main-stat multiplier.",
+      "Ascension levels 6-10 replace the corresponding extra effect from Ascension levels 1-5."
+    ]
+  },
+  "categories": [
+    {
+      "id": "weapon",
+      "name": "Weapon"
+    },
+    {
+      "id": "shield",
+      "name": "Shield"
+    },
+    {
+      "id": "accessory",
+      "name": "Accessory"
+    },
+    {
+      "id": "headgear",
+      "name": "Headgear"
+    }
+  ],
+  "rarities": [
+    "UR",
+    "SSR"
+  ],
+  "enhancement": {
+    "maxLevel": 100,
+    "temperitXp": {
+      "large": 50,
+      "medium": 20,
+      "small": 10
+    },
+    "upgradeCosts": [
+      {
+        "fromLevel": 0,
+        "toLevel": 4,
+        "xpPerLevel": 2000
+      },
+      {
+        "fromLevel": 5,
+        "toLevel": 9,
+        "xpPerLevel": 4000
+      },
+      {
+        "fromLevel": 10,
+        "toLevel": 14,
+        "xpPerLevel": 6000
+      },
+      {
+        "fromLevel": 15,
+        "toLevel": 19,
+        "xpPerLevel": 8000
+      },
+      {
+        "fromLevel": 20,
+        "toLevel": 24,
+        "xpPerLevel": 12000
+      },
+      {
+        "fromLevel": 25,
+        "toLevel": 29,
+        "xpPerLevel": 15000
+      },
+      {
+        "fromLevel": 30,
+        "toLevel": 34,
+        "xpPerLevel": 20000
+      },
+      {
+        "fromLevel": 35,
+        "toLevel": 39,
+        "xpPerLevel": 26000
+      },
+      {
+        "fromLevel": 40,
+        "toLevel": 44,
+        "xpPerLevel": 33000
+      },
+      {
+        "fromLevel": 45,
+        "toLevel": 49,
+        "xpPerLevel": 39000
+      },
+      {
+        "fromLevel": 50,
+        "toLevel": 54,
+        "xpPerLevel": 47000
+      },
+      {
+        "fromLevel": 55,
+        "toLevel": 59,
+        "xpPerLevel": 57000
+      },
+      {
+        "fromLevel": 60,
+        "toLevel": 64,
+        "xpPerLevel": 73000
+      },
+      {
+        "fromLevel": 65,
+        "toLevel": 69,
+        "xpPerLevel": 93000
+      },
+      {
+        "fromLevel": 70,
+        "toLevel": 74,
+        "xpPerLevel": 116000
+      },
+      {
+        "fromLevel": 75,
+        "toLevel": 79,
+        "xpPerLevel": 145000
+      },
+      {
+        "fromLevel": 80,
+        "toLevel": 84,
+        "xpPerLevel": 186000
+      },
+      {
+        "fromLevel": 85,
+        "toLevel": 89,
+        "xpPerLevel": 242000
+      },
+      {
+        "fromLevel": 90,
+        "toLevel": 94,
+        "xpPerLevel": 308000
+      },
+      {
+        "fromLevel": 95,
+        "toLevel": 99,
+        "xpPerLevel": 420000
+      }
+    ],
+    "curves": {
+      "UR": {
+        "attack": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 5,
+              "growthPerLevel": 16
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 10,
+              "growthPerLevel": 18
+            },
+            {
+              "fromLevel": 11,
+              "toLevel": 15,
+              "growthPerLevel": 20
+            },
+            {
+              "fromLevel": 16,
+              "toLevel": 20,
+              "growthPerLevel": 22
+            },
+            {
+              "fromLevel": 21,
+              "toLevel": 25,
+              "growthPerLevel": 24
+            },
+            {
+              "fromLevel": 26,
+              "toLevel": 30,
+              "growthPerLevel": 26
+            },
+            {
+              "fromLevel": 31,
+              "toLevel": 35,
+              "growthPerLevel": 28
+            },
+            {
+              "fromLevel": 36,
+              "toLevel": 40,
+              "growthPerLevel": 30
+            },
+            {
+              "fromLevel": 41,
+              "toLevel": 45,
+              "growthPerLevel": 32
+            },
+            {
+              "fromLevel": 46,
+              "toLevel": 50,
+              "growthPerLevel": 34
+            },
+            {
+              "fromLevel": 51,
+              "toLevel": 55,
+              "growthPerLevel": 36
+            },
+            {
+              "fromLevel": 56,
+              "toLevel": 60,
+              "growthPerLevel": 38
+            },
+            {
+              "fromLevel": 61,
+              "toLevel": 100,
+              "growthPerLevel": 40
+            }
+          ]
+        },
+        "defense": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 5,
+              "growthPerLevel": 3
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 20,
+              "growthPerLevel": 4
+            },
+            {
+              "fromLevel": 21,
+              "toLevel": 30,
+              "growthPerLevel": 5
+            },
+            {
+              "fromLevel": 31,
+              "toLevel": 45,
+              "growthPerLevel": 6
+            },
+            {
+              "fromLevel": 46,
+              "toLevel": 55,
+              "growthPerLevel": 7
+            },
+            {
+              "fromLevel": 56,
+              "toLevel": 100,
+              "growthPerLevel": 8
+            }
+          ]
+        },
+        "hp": {
+          "type": "level-growth",
+          "values": [
+            0,
+            512,
+            1024,
+            1538,
+            2055,
+            2577,
+            3169,
+            3768,
+            4377,
+            4996,
+            5626,
+            6337,
+            7064,
+            7809,
+            8573,
+            9358,
+            10235,
+            11138,
+            12069,
+            13030,
+            14021,
+            15120,
+            16257,
+            17432,
+            18648,
+            19908,
+            21293,
+            22727,
+            24213,
+            25753,
+            27349,
+            29092,
+            30897,
+            32769,
+            34709,
+            36718,
+            38898,
+            41157,
+            43496,
+            45919,
+            48428,
+            51133,
+            53934,
+            56832,
+            59831,
+            62933,
+            66259,
+            69699,
+            73255,
+            76930,
+            80727,
+            84779,
+            88964,
+            93285,
+            97744,
+            102345,
+            107236,
+            112280,
+            117481,
+            122841,
+            128364,
+            134214,
+            140240,
+            146444,
+            152829,
+            159400,
+            166160,
+            173111,
+            180256,
+            187600,
+            195146,
+            202896,
+            210853,
+            219022,
+            227406,
+            236007,
+            244829,
+            253875,
+            263148,
+            272653,
+            282391,
+            292366,
+            302582,
+            313042,
+            323748,
+            334705,
+            345915,
+            357382,
+            369109,
+            381100,
+            393357,
+            405883,
+            418683,
+            431759,
+            445114,
+            458752,
+            472677,
+            486890,
+            501396,
+            516198,
+            531300
+          ]
+        },
+        "percent": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "growthPerLevel": 0.15
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 100,
+              "growthPerLevel": 0.2
+            }
+          ]
+        }
+      },
+      "SSR": {
+        "attack": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 5,
+              "growthPerLevel": 13
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 10,
+              "growthPerLevel": 14
+            },
+            {
+              "fromLevel": 11,
+              "toLevel": 15,
+              "growthPerLevel": 16
+            },
+            {
+              "fromLevel": 16,
+              "toLevel": 20,
+              "growthPerLevel": 18
+            },
+            {
+              "fromLevel": 21,
+              "toLevel": 25,
+              "growthPerLevel": 19
+            },
+            {
+              "fromLevel": 26,
+              "toLevel": 30,
+              "growthPerLevel": 21
+            },
+            {
+              "fromLevel": 31,
+              "toLevel": 35,
+              "growthPerLevel": 22
+            },
+            {
+              "fromLevel": 36,
+              "toLevel": 40,
+              "growthPerLevel": 24
+            },
+            {
+              "fromLevel": 41,
+              "toLevel": 45,
+              "growthPerLevel": 26
+            },
+            {
+              "fromLevel": 46,
+              "toLevel": 50,
+              "growthPerLevel": 27
+            },
+            {
+              "fromLevel": 51,
+              "toLevel": 55,
+              "growthPerLevel": 29
+            },
+            {
+              "fromLevel": 56,
+              "toLevel": 60,
+              "growthPerLevel": 30
+            },
+            {
+              "fromLevel": 61,
+              "toLevel": 100,
+              "growthPerLevel": 32
+            }
+          ]
+        },
+        "defense": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 5,
+              "growthPerLevel": 2
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 20,
+              "growthPerLevel": 3
+            },
+            {
+              "fromLevel": 21,
+              "toLevel": 30,
+              "growthPerLevel": 4
+            },
+            {
+              "fromLevel": 31,
+              "toLevel": 45,
+              "growthPerLevel": 5
+            },
+            {
+              "fromLevel": 46,
+              "toLevel": 100,
+              "growthPerLevel": 6
+            }
+          ]
+        },
+        "hp": {
+          "type": "level-growth",
+          "values": [
+            0,
+            416,
+            832,
+            1249,
+            1667,
+            2087,
+            2542,
+            3000,
+            3463,
+            3929,
+            4401,
+            4944,
+            5494,
+            6052,
+            6618,
+            7193,
+            7846,
+            8510,
+            9187,
+            9876,
+            10580,
+            11333,
+            12102,
+            12888,
+            13693,
+            14516,
+            15431,
+            16369,
+            17329,
+            18314,
+            19323,
+            20396,
+            21497,
+            22627,
+            23785,
+            24975,
+            26278,
+            27615,
+            28989,
+            30398,
+            31846,
+            33420,
+            35037,
+            36697,
+            38402,
+            40153,
+            41997,
+            43891,
+            45836,
+            47833,
+            49883,
+            52088,
+            54352,
+            56676,
+            59061,
+            61508,
+            64073,
+            66705,
+            69406,
+            72175,
+            75015,
+            78045,
+            81152,
+            84337,
+            87602,
+            90949,
+            94377,
+            97891,
+            101489,
+            105175,
+            108949,
+            112813,
+            116768,
+            120816,
+            124958,
+            129195,
+            133530,
+            137963,
+            142496,
+            147130,
+            151867,
+            156708,
+            161654,
+            166708,
+            171870,
+            177141,
+            182525,
+            188020,
+            193630,
+            199356,
+            205199,
+            211160,
+            217240,
+            223443,
+            229768,
+            236217,
+            242791,
+            249493,
+            256323,
+            263283,
+            270375
+          ]
+        },
+        "percent": {
+          "type": "step-growth",
+          "ranges": [
+            {
+              "fromLevel": 1,
+              "toLevel": 1,
+              "growthPerLevel": 0.07
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 2,
+              "growthPerLevel": 0.08
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 100,
+              "growthPerLevel": 0.1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "ascension": {
+    "maxLevel": 10,
+    "mainStatPercentPerLevel": 10,
+    "flatRounding": "ceil",
+    "display": {
+      "0": "0★",
+      "1": "Gold 1★",
+      "2": "Gold 2★",
+      "3": "Gold 3★",
+      "4": "Gold 4★",
+      "5": "Gold 5★",
+      "6": "Red 1★",
+      "7": "Red 2★",
+      "8": "Red 3★",
+      "9": "Red 4★",
+      "10": "Red 5★"
+    },
+    "opusPearlCosts": {
+      "1": 10,
+      "2": 20,
+      "3": 30,
+      "4": 40,
+      "5": 50,
+      "6": 75,
+      "7": 100,
+      "8": 200,
+      "9": 300,
+      "10": 600
+    },
+    "replacementSlots": {
+      "6": 1,
+      "7": 2,
+      "8": 3,
+      "9": 4,
+      "10": 5
+    }
+  },
+  "equipment": [
+    {
+      "id": "staff-of-wonders-ur",
+      "name": "Staff of Wonders",
+      "category": "weapon",
+      "rarity": "UR",
+      "baseStats": [
+        {
+          "stat": "attack",
+          "value": 6016,
+          "unit": "flat",
+          "curve": "attack"
+        },
+        {
+          "stat": "defense",
+          "value": 533,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "critRate",
+          "value": 2,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "attack",
+            "value": 200,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 4,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "attack",
+            "value": 500,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critRate",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "attack",
+            "value": 1200,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 12,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "attack",
+            "value": 3000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critRate",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamage",
+            "value": 15,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bejeweled-blade-ssr",
+      "name": "Bejeweled Blade",
+      "category": "weapon",
+      "rarity": "SSR",
+      "baseStats": [
+        {
+          "stat": "attack",
+          "value": 389,
+          "unit": "flat",
+          "curve": "attack"
+        },
+        {
+          "stat": "defense",
+          "value": 40,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "critRate",
+          "value": 1,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "attack",
+            "value": 150,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "attack",
+            "value": 400,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critRate",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamage",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "attack",
+            "value": 900,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 6,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "attack",
+            "value": 2400,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critRate",
+            "value": 7,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamage",
+            "value": 7,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "energy-barrier-ur",
+      "name": "Energy Barrier",
+      "category": "shield",
+      "rarity": "UR",
+      "baseStats": [
+        {
+          "stat": "defense",
+          "value": 1552,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "hp",
+          "value": 599982,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "tenacity",
+          "value": 2,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "defense",
+            "value": 100,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 4,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "hp",
+            "value": 30000,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "tenacity",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "defense",
+            "value": 600,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 12,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "hp",
+            "value": 830000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "tenacity",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 15,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "gemstone-shield-ssr",
+      "name": "Gemstone Shield",
+      "category": "shield",
+      "rarity": "SSR",
+      "baseStats": [
+        {
+          "stat": "defense",
+          "value": 115,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "hp",
+          "value": 9375,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "tenacity",
+          "value": 1,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "defense",
+            "value": 75,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "hp",
+            "value": 20000,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "tenacity",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "defense",
+            "value": 400,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 6,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "hp",
+            "value": 660000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "tenacity",
+            "value": 7,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 7,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "wishing-amulet-ur",
+      "name": "Wishing Amulet",
+      "category": "accessory",
+      "rarity": "UR",
+      "baseStats": [
+        {
+          "stat": "attack",
+          "value": 3983,
+          "unit": "flat",
+          "curve": "attack"
+        },
+        {
+          "stat": "hp",
+          "value": 191993,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "accuracy",
+          "value": 2,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "attack",
+            "value": 200,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 4,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "attack",
+            "value": 500,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critDamage",
+            "value": 10,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamage",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "attack",
+            "value": 1200,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 12,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "attack",
+            "value": 3000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critDamage",
+            "value": 30,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamage",
+            "value": 15,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handmade-doll-ssr",
+      "name": "Handmade Doll",
+      "category": "accessory",
+      "rarity": "SSR",
+      "baseStats": [
+        {
+          "stat": "attack",
+          "value": 275,
+          "unit": "flat",
+          "curve": "attack"
+        },
+        {
+          "stat": "hp",
+          "value": 3163,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "accuracy",
+          "value": 1,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "attack",
+            "value": 150,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamage",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "attack",
+            "value": 400,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critDamage",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamage",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "attack",
+            "value": 900,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "damageVsEarthWorldBoss",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "attack",
+            "value": 2400,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critDamage",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamage",
+            "value": 7,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "mask-of-justice-ur",
+      "name": "Mask of Justice",
+      "category": "headgear",
+      "rarity": "UR",
+      "baseStats": [
+        {
+          "stat": "defense",
+          "value": 1198,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "hp",
+          "value": 407989,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "evasion",
+          "value": 2,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "defense",
+            "value": 100,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 4,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "hp",
+            "value": 30000,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critDamageReduction",
+            "value": 10,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "defense",
+            "value": 600,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 12,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "hp",
+            "value": 830000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critDamageReduction",
+            "value": 30,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 15,
+            "unit": "percent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ranger-hat-ssr",
+      "name": "Ranger Hat",
+      "category": "headgear",
+      "rarity": "SSR",
+      "baseStats": [
+        {
+          "stat": "defense",
+          "value": 89,
+          "unit": "flat",
+          "curve": "defense"
+        },
+        {
+          "stat": "hp",
+          "value": 6563,
+          "unit": "flat",
+          "curve": "hp"
+        },
+        {
+          "stat": "evasion",
+          "value": 1,
+          "unit": "percent",
+          "curve": "percent"
+        }
+      ],
+      "ascensionExtraEffects": {
+        "1": [
+          {
+            "stat": "defense",
+            "value": 75,
+            "unit": "flat"
+          }
+        ],
+        "2": [
+          {
+            "stat": "rageSkillDamageTakenReduction",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "3": [
+          {
+            "stat": "hp",
+            "value": 20000,
+            "unit": "flat"
+          }
+        ],
+        "4": [
+          {
+            "stat": "critDamageReduction",
+            "value": 5,
+            "unit": "percent"
+          }
+        ],
+        "5": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 2,
+            "unit": "percent"
+          }
+        ],
+        "6": [
+          {
+            "stat": "defense",
+            "value": 400,
+            "unit": "flat"
+          }
+        ],
+        "7": [
+          {
+            "stat": "damageVsElectricWorldBoss",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "8": [
+          {
+            "stat": "hp",
+            "value": 660000,
+            "unit": "flat"
+          }
+        ],
+        "9": [
+          {
+            "stat": "critDamageReduction",
+            "value": 15,
+            "unit": "percent"
+          }
+        ],
+        "10": [
+          {
+            "stat": "finalDamageTakenReduction",
+            "value": 7,
+            "unit": "percent"
+          }
+        ]
+      }
+    }
+  ]
+}
