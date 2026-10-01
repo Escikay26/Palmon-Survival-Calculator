@@ -5,6 +5,9 @@
 const ACHIEVEMENT_STORAGE_KEY =
   "achievementPlanner";
 
+const EQUIPMENT_STORAGE_KEY =
+  "equipmentPlanner";
+
 const BOSS_PALMON_STORAGE_KEY =
   "bossPalmonPlanner";
 
@@ -14,6 +17,7 @@ const RESEARCH_STORAGE_KEY =
 
 const PLANNER_STORAGE_KEYS = [
   ACHIEVEMENT_STORAGE_KEY,
+  EQUIPMENT_STORAGE_KEY,
   BOSS_PALMON_STORAGE_KEY,
   RESEARCH_STORAGE_KEY
 ];
@@ -26,6 +30,13 @@ const PLANNER_STORAGE_KEYS = [
 export function clearAchievementState() {
   localStorage.removeItem(
     ACHIEVEMENT_STORAGE_KEY
+  );
+}
+
+
+export function clearEquipmentState() {
+  localStorage.removeItem(
+    EQUIPMENT_STORAGE_KEY
   );
 }
 
@@ -164,6 +175,147 @@ export function saveAchievementState(
 
 }
 
+
+
+// =============================
+// EQUIPMENT
+// =============================
+
+export function loadEquipmentState() {
+
+  const defaultState = {
+    items: [],
+    buildMode: "unlimited",
+    ownedEnhancementXp: 0,
+    ownedOpusPearls: 0,
+    budgetBaseCost: {
+      enhancementXp: 0,
+      opusPearls: 0
+    },
+    nextInstanceId: 1
+  };
+
+
+  const saved =
+    localStorage.getItem(
+      EQUIPMENT_STORAGE_KEY
+    );
+
+
+  if (!saved) {
+    return defaultState;
+  }
+
+
+  try {
+
+    const data =
+      JSON.parse(saved);
+
+
+    return {
+
+      items:
+        Array.isArray(
+          data.items
+        )
+          ? data.items
+          : [],
+
+      buildMode:
+        data.buildMode ===
+          "budget"
+          ? "budget"
+          : "unlimited",
+
+      ownedEnhancementXp:
+        Math.max(
+          0,
+          Number(
+            data.ownedEnhancementXp
+          ) || 0
+        ),
+
+      ownedOpusPearls:
+        Math.max(
+          0,
+          Number(
+            data.ownedOpusPearls
+          ) || 0
+        ),
+
+      budgetBaseCost: {
+        enhancementXp:
+          Math.max(
+            0,
+            Number(
+              data.budgetBaseCost
+                ?.enhancementXp
+            ) || 0
+          ),
+
+        opusPearls:
+          Math.max(
+            0,
+            Number(
+              data.budgetBaseCost
+                ?.opusPearls
+            ) || 0
+          )
+      },
+
+      nextInstanceId:
+        Math.max(
+          1,
+          Number(
+            data.nextInstanceId
+          ) || 1
+        )
+
+    };
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Could not load Equipment save.",
+      error
+    );
+
+
+    return defaultState;
+
+  }
+
+}
+
+
+export function saveEquipmentState(
+  state
+) {
+
+  try {
+
+    localStorage.setItem(
+      EQUIPMENT_STORAGE_KEY,
+      JSON.stringify(
+        state
+      )
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Could not save Equipment state.",
+      error
+    );
+
+  }
+
+}
 
 // =============================
 // BOSS PALMON
