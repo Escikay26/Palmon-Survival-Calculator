@@ -3,6 +3,10 @@ import {
 } from "./achievements.js";
 
 import {
+  initEquipmentSystem
+} from "./equipment.js";
+
+import {
   initBossPalmonSystem
 } from "./boss-palmon.js";
 
@@ -12,6 +16,7 @@ import {
 
 import {
   clearAchievementState,
+  clearEquipmentState,
   clearBossPalmonState,
   clearResearchState,
   clearAllPlannerState
@@ -189,7 +194,7 @@ function addResetListeners() {
       "reset-all-button",
 
     message:
-      "Reset ALL saved calculator progress?\n\nAchievements, Boss Palmon and Research will all be reset.",
+      "Reset ALL saved calculator progress?\n\nAchievements, Equipment, Boss Palmon and Research will all be reset.",
 
     reset:
       clearAllPlannerState
@@ -209,6 +214,22 @@ function addResetListeners() {
 
     reset:
       clearAchievementState
+  });
+
+
+  // ---------------------------------
+  // EQUIPMENT
+  // ---------------------------------
+
+  addResetListener({
+    buttonId:
+      "equipment-reset-button",
+
+    message:
+      "Reset all Equipment inventory, levels, Ascension and budget settings?",
+
+    reset:
+      clearEquipmentState
   });
 
 
@@ -262,6 +283,7 @@ async function startApp() {
 
   await Promise.all([
     initAchievementSystem(),
+    initEquipmentSystem(),
     initBossPalmonSystem(),
     initResearchSystem()
   ]);
