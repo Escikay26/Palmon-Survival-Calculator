@@ -14,12 +14,16 @@ const BOSS_PALMON_STORAGE_KEY =
 const RESEARCH_STORAGE_KEY =
   "researchPlanner";
 
+const TEAM_STORAGE_KEY =
+  "teamPlanner";
+
 
 const PLANNER_STORAGE_KEYS = [
   ACHIEVEMENT_STORAGE_KEY,
   EQUIPMENT_STORAGE_KEY,
   BOSS_PALMON_STORAGE_KEY,
-  RESEARCH_STORAGE_KEY
+  RESEARCH_STORAGE_KEY,
+  TEAM_STORAGE_KEY
 ];
 
 
@@ -51,6 +55,13 @@ export function clearBossPalmonState() {
 export function clearResearchState() {
   localStorage.removeItem(
     RESEARCH_STORAGE_KEY
+  );
+}
+
+
+export function clearTeamState() {
+  localStorage.removeItem(
+    TEAM_STORAGE_KEY
   );
 }
 
@@ -403,6 +414,324 @@ export function saveEquipmentState(
 
   }
 
+}
+
+
+
+
+// =============================
+// TEAM OVERVIEW
+// =============================
+
+function createDefaultTeams() {
+  return [
+    {
+      id: "team-1",
+      name: "Team 1",
+      palmons: []
+    },
+    {
+      id: "team-2",
+      name: "Team 2",
+      palmons: []
+    },
+    {
+      id: "team-3",
+      name: "Team 3",
+      palmons: []
+    },
+    {
+      id: "team-4",
+      name: "Team 4",
+      palmons: []
+    }
+  ];
+}
+
+
+function normalizeTeamPalmon(
+  item
+) {
+  if (
+    !item ||
+    typeof item !==
+      "object"
+  ) {
+    return null;
+  }
+
+  const instanceId =
+    String(
+      item.instanceId ||
+      ""
+    );
+
+  const palmonId =
+    String(
+      item.palmonId ||
+      ""
+    );
+
+  if (
+    !instanceId ||
+    !palmonId
+  ) {
+    return null;
+  }
+
+  const stars =
+    Math.min(
+      5,
+      Math.max(
+        0,
+        Math.floor(
+          Number(
+            item.stars
+          ) || 0
+        )
+      )
+    );
+
+  return {
+    instanceId,
+    palmonId,
+
+    level:
+      Math.min(
+        350,
+        Math.max(
+          1,
+          Math.floor(
+            Number(
+              item.level
+            ) || 1
+          )
+        )
+      ),
+
+    stars,
+
+    subLevel:
+      stars >= 5
+        ? 0
+        : Math.min(
+            4,
+            Math.max(
+              0,
+              Math.floor(
+                Number(
+                  item.subLevel
+                ) || 0
+              )
+            )
+          ),
+
+    evolution: {
+      stage:
+        Math.min(
+          8,
+          Math.max(
+            0,
+            Math.floor(
+              Number(
+                item.evolution
+                  ?.stage
+              ) || 0
+            )
+          )
+        ),
+
+      talentIndex:
+        Math.max(
+          0,
+          Math.floor(
+            Number(
+              item.evolution
+                ?.talentIndex
+            ) || 0
+          )
+        ),
+
+      talentLevel:
+        Math.min(
+          10,
+          Math.max(
+            0,
+            Math.floor(
+              Number(
+                item.evolution
+                  ?.talentLevel
+            ) || 0
+          )
+        ),
+
+      megaEvolved:
+        Boolean(
+          item.evolution
+            ?.megaEvolved
+        )
+    },
+
+    traitIds:
+      Array.isArray(
+        item.traitIds
+      )
+        ? item.traitIds
+            .map(String)
+            .slice(0, 4)
+        : [],
+
+    equipment: {
+      weapon:
+        item.equipment
+          ?.weapon ||
+        null,
+
+      shield:
+        item.equipment
+          ?.shield ||
+        null,
+
+      accessory:
+        item.equipment
+          ?.accessory ||
+        null,
+
+      headgear:
+        item.equipment
+          ?.headgear ||
+        null
+    }
+  };
+}
+
+
+export function loadTeamState() {
+  const defaultState = {
+    activeTeamId:
+      "team-1",
+
+    teams:
+      createDefaultTeams(),
+
+    nextPalmonInstanceId: 1
+  };
+
+  const saved =
+    localStorage.getItem(
+      TEAM_STORAGE_KEY
+    );
+
+  if (!saved) {
+    return defaultState;
+  }
+
+  try {
+    const data =
+      JSON.parse(saved);
+
+    const savedTeams =
+      Array.isArray(
+        data.teams
+      )
+        ? data.teams
+        : [];
+
+    const defaultTeams =
+      createDefaultTeams();
+
+    const teams =
+      defaultTeams.map(
+        defaultTeam => {
+          const savedTeam =
+            savedTeams.find(
+              team =>
+                team?.id ===
+                defaultTeam.id
+            );
+
+          return {
+            id:
+              defaultTeam.id,
+
+            name:
+              String(
+                savedTeam?.name ||
+                defaultTeam.name
+              ),
+
+            palmons:
+              Array.isArray(
+                savedTeam?.palmons
+              )
+                ? savedTeam.palmons
+                    .map(
+                      normalizeTeamPalmon
+                    )
+                    .filter(Boolean)
+                    .slice(0, 7)
+                : []
+          };
+        }
+      );
+
+    const validTeamIds =
+      new Set(
+        teams.map(
+          team =>
+            team.id
+        )
+      );
+
+    return {
+      activeTeamId:
+        validTeamIds.has(
+          data.activeTeamId
+        )
+          ? data.activeTeamId
+          : "team-1",
+
+      teams,
+
+      nextPalmonInstanceId:
+        Math.max(
+          1,
+          Math.floor(
+            Number(
+              data.nextPalmonInstanceId
+            ) || 1
+          )
+        )
+    };
+  }
+  catch (error) {
+    console.error(
+      "Could not load Team save.",
+      error
+    );
+
+    return defaultState;
+  }
+}
+
+
+export function saveTeamState(
+  state
+) {
+  try {
+    localStorage.setItem(
+      TEAM_STORAGE_KEY,
+      JSON.stringify(
+        state
+      )
+    );
+  }
+  catch (error) {
+    console.error(
+      "Could not save Team state.",
+      error
+    );
+  }
 }
 
 
