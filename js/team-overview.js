@@ -1526,57 +1526,117 @@ function renderEquipmentSummary(
   const inventory =
     getEquipmentInventory();
 
-  const equipped =
-    Object.values(
-      member.equipment ||
-      {}
-    )
-      .filter(Boolean)
-      .map(
-        instanceId =>
-          inventory.find(
-            item =>
-              item.instanceId ===
-              instanceId
-          )
-      )
-      .filter(Boolean);
-
-  if (
-    equipped.length === 0
-  ) {
-    return `
-      <span class="team-equipment-empty">
-        No Equipment assigned
-      </span>
-    `;
-  }
+  const slots = [
+    {
+      category: "weapon",
+      label: "Weapon"
+    },
+    {
+      category: "shield",
+      label: "Shield"
+    },
+    {
+      category: "accessory",
+      label: "Accessory"
+    },
+    {
+      category: "headgear",
+      label: "Headgear"
+    }
+  ];
 
   return `
-    <div class="team-equipment-summary">
-      ${
-        equipped
-          .map(
-            instance => {
-              const definition =
-                getEquipmentDefinition(
-                  equipmentData,
-                  instance.equipmentId
-                );
+    <div class="team-equipment-summary-grid">
 
+      ${slots
+        .map(
+          slot => {
+            const instanceId =
+              member.equipment
+                ?.[slot.category] ||
+              null;
+
+            const instance =
+              instanceId
+                ? inventory.find(
+                    item =>
+                      item.instanceId ===
+                      instanceId
+                  )
+                : null;
+
+            const definition =
+              instance
+                ? getEquipmentDefinition(
+                    equipmentData,
+                    instance.equipmentId
+                  )
+                : null;
+
+            if (
+              !instance ||
+              !definition
+            ) {
               return `
-                <span>
-                  ${definition?.name || "Equipment"}
-                </span>
+                <div class="team-equipment-summary-slot empty">
+
+                  <span class="team-equipment-summary-slot-label">
+                    ${slot.label}
+                  </span>
+
+                  <strong>
+                    Empty
+                  </strong>
+
+                  <span class="team-equipment-summary-slot-detail">
+                    —
+                  </span>
+
+                  <span class="team-equipment-summary-slot-detail">
+                    —
+                  </span>
+
+                </div>
               `;
             }
-          )
-          .join("")
-      }
+
+            return `
+              <div class="team-equipment-summary-slot">
+
+                <span class="team-equipment-summary-slot-label">
+                  ${slot.label}
+                </span>
+
+                <strong title="${getEquipmentDisplayName(
+                  instance,
+                  inventory
+                )}">
+                  ${getEquipmentDisplayName(
+                    instance,
+                    inventory
+                  )}
+                </strong>
+
+                <span class="team-equipment-summary-slot-detail">
+                  Lv${instance.enhancementLevel}
+                </span>
+
+                <span class="team-equipment-summary-slot-detail">
+                  ${getEquipmentAscensionLabel(
+                    equipmentData,
+                    instance.ascensionLevel
+                  )}
+                </span>
+
+              </div>
+            `;
+          }
+        )
+        .join("")}
+
     </div>
   `;
 }
-
 
 function renderTeamPalmonCard(
   member,
