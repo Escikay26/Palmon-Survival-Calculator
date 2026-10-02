@@ -1,6 +1,7 @@
 import {
   loadEquipmentState,
-  saveEquipmentState
+  saveEquipmentState,
+  loadTeamState
 } from "./storage.js";
 
 import {
@@ -25,6 +26,8 @@ import {
 // ========================================
 
 let equipmentData = null;
+
+let palmonNameById = {};
 
 let items = [];
 
@@ -160,23 +163,55 @@ initEquipmentSystem() {
   }
 
   try {
-    const response =
-      await fetch(
-        "./data/equipment.json"
-      );
+    const [
+      equipmentResponse,
+      palmonResponse
+    ] =
+      await Promise.all([
+        fetch(
+          "./data/equipment.json"
+        ),
+        fetch(
+          "./data/palmons.json"
+        )
+      ]);
 
-    if (!response.ok) {
+    if (
+      !equipmentResponse.ok ||
+      !palmonResponse.ok
+    ) {
       throw new Error(
-        `Could not load equipment.json (${response.status})`
+        "Could not load Equipment planner data."
       );
     }
 
     equipmentData =
-      await response.json();
+      await equipmentResponse.json();
+
+    const palmonData =
+      await palmonResponse.json();
+
+    palmonNameById =
+      Object.fromEntries(
+        (
+          palmonData.palmons ||
+          []
+        ).map(
+          palmon => [
+            palmon.id,
+            palmon.name
+          ]
+        )
+      );
 
     loadSavedState();
 
     addHelpListeners();
+
+    window.addEventListener(
+      "palmon-team-state-changed",
+      render
+    );
 
     render();
   }
@@ -210,6 +245,12 @@ function saveState() {
     budgetBaseItems,
     nextInstanceId
   });
+
+  window.dispatchEvent(
+    new CustomEvent(
+      "equipment-state-changed"
+    )
+  );
 }
 
 
@@ -654,6 +695,53 @@ function getBudgetBaseItem(
         base.ascensionLevel
       )
   };
+}
+
+
+function getEquipmentAssignment(
+  instanceId
+) {
+  const teamState =
+    loadTeamState();
+
+  for (
+    const team of
+    teamState.teams ||
+    []
+  ) {
+    for (
+      const member of
+      team.palmons ||
+      []
+    ) {
+      const category =
+        Object.entries(
+          member.equipment ||
+          {}
+        ).find(
+          ([, equipmentId]) =>
+            equipmentId ===
+            instanceId
+        )?.[0];
+
+      if (!category) {
+        continue;
+      }
+
+      return {
+        teamName:
+          team.name,
+        palmonName:
+          palmonNameById[
+            member.palmonId
+          ] ||
+          member.palmonId,
+        category
+      };
+    }
+  }
+
+  return null;
 }
 
 
@@ -1653,6 +1741,11 @@ function renderItemCard(
       item.instanceId
     );
 
+  const assignment =
+    getEquipmentAssignment(
+      item.instanceId
+    );
+
   const stats =
     getEquipmentStats({
       equipmentData,
@@ -1730,6 +1823,25 @@ function renderItemCard(
               item.ascensionLevel
             )}
           </p>
+
+          ${
+            assignment
+              ? `
+                <div class="equipment-assignment-badge">
+                  Equipped by
+                  <strong>
+                    ${assignment.palmonName}
+                  </strong>
+                  ·
+                  ${assignment.teamName}
+                </div>
+              `
+              : `
+                <div class="equipment-unassigned-badge">
+                  Unassigned
+                </div>
+              `
+          }
         </div>
 
 
