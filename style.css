@@ -9685,3 +9685,570 @@ body.team-modal-open {
   }
 
 }
+
+
+/* ========================================
+   TEAM PALMON PICKER
+   ======================================== */
+
+.team-add-palmon {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 12px;
+}
+
+.team-add-palmon-copy {
+  display: grid;
+
+  gap: 2px;
+
+  min-width: 0;
+}
+
+.team-add-palmon-copy strong {
+  color:
+    var(--text);
+
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.team-add-palmon-copy span {
+  color:
+    var(--muted);
+
+  font-size: 9px;
+}
+
+.team-add-palmon > button {
+  flex-shrink: 0;
+
+  min-height: 38px;
+}
+
+.team-palmon-picker-modal {
+  position: fixed;
+
+  z-index: 1100;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.team-palmon-picker-backdrop {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  background:
+    rgba(
+      17,
+      31,
+      54,
+      0.48
+    );
+
+  border: 0;
+
+  cursor: default;
+}
+
+.team-palmon-picker-dialog {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  width:
+    min(
+      760px,
+      100%
+    );
+
+  max-height:
+    min(
+      780px,
+      calc(100vh - 40px)
+    );
+
+  overflow: hidden;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    14px;
+
+  box-shadow:
+    0 24px 80px
+    rgba(
+      23,
+      35,
+      59,
+      0.25
+    );
+}
+
+.team-palmon-picker-header {
+  display: flex;
+
+  align-items:
+    flex-start;
+  justify-content:
+    space-between;
+
+  gap: 14px;
+
+  padding:
+    16px 18px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-palmon-picker-header h2 {
+  margin: 0;
+
+  color:
+    var(--text);
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.team-palmon-picker-header p {
+  margin:
+    3px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size: 9px;
+}
+
+.team-palmon-picker-close {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font-size: 20px;
+  line-height: 1;
+}
+
+.team-palmon-picker-tools {
+  display: grid;
+
+  gap: 10px;
+
+  padding:
+    13px 18px;
+
+  background:
+    var(--surface-soft);
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-palmon-picker-search input {
+  width: 100%;
+
+  min-height: 42px;
+
+  padding:
+    9px 11px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--text);
+
+  font:
+    inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.team-palmon-picker-search input:focus {
+  outline:
+    2px solid
+    #cfe0ff;
+
+  border-color:
+    var(--primary);
+}
+
+.team-palmon-picker-filters {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.team-palmon-picker-filters button {
+  min-height: 34px;
+
+  padding:
+    6px 10px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-palmon-picker-filters button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+.team-palmon-picker-body {
+  display: grid;
+
+  gap: 16px;
+
+  overflow-y: auto;
+
+  padding:
+    16px 18px 20px;
+}
+
+.team-palmon-picker-group {
+  display: grid;
+
+  gap: 8px;
+}
+
+.team-palmon-picker-group-header {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+}
+
+.team-palmon-picker-group-header h3 {
+  margin: 0;
+
+  color:
+    var(--text);
+
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.team-palmon-picker-group-header span {
+  min-width: 24px;
+
+  padding:
+    2px 6px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+
+  text-align: center;
+}
+
+.team-palmon-picker-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 8px;
+}
+
+.team-palmon-picker-card {
+  display: grid;
+
+  gap: 3px;
+
+  min-width: 0;
+  min-height: 58px;
+
+  padding:
+    10px 11px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.team-palmon-picker-name {
+  overflow: hidden;
+
+  font-size: 11px;
+  font-weight: 850;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-palmon-picker-meta {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.team-palmon-picker-empty {
+  padding:
+    28px 16px;
+
+  color:
+    var(--muted);
+
+  font-size: 10px;
+  font-weight: 750;
+
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .team-palmon-picker-card:hover {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      #bed4fb;
+
+    transform:
+      translateY(-1px);
+  }
+
+  .team-palmon-picker-filters
+  button:hover:not(.active) {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      #bed4fb;
+
+    color:
+      var(--primary-dark);
+  }
+
+}
+
+@media (
+  max-width: 760px
+) {
+
+  .team-palmon-picker-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-add-palmon {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .team-add-palmon > button {
+    width: 100%;
+
+    min-height: 44px;
+  }
+
+  .team-palmon-picker-modal {
+    align-items:
+      flex-end;
+
+    padding: 0;
+  }
+
+  .team-palmon-picker-dialog {
+    width: 100%;
+
+    max-height:
+      min(
+        88vh,
+        760px
+      );
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+
+    border-radius:
+      16px 16px 0 0;
+  }
+
+  .team-palmon-picker-header {
+    padding:
+      14px 15px;
+  }
+
+  .team-palmon-picker-tools {
+    padding:
+      11px 15px;
+  }
+
+  .team-palmon-picker-body {
+    padding:
+      14px 15px 22px;
+  }
+
+  .team-palmon-picker-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .team-palmon-picker-card {
+    min-height: 62px;
+
+    padding:
+      11px 12px;
+  }
+
+  .team-palmon-picker-name {
+    font-size: 12px;
+  }
+
+  .team-palmon-picker-meta {
+    font-size: 9px;
+  }
+
+  .team-palmon-picker-filters {
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    padding-bottom: 2px;
+
+    scrollbar-width: thin;
+  }
+
+  .team-palmon-picker-filters button {
+    flex:
+      0 0 auto;
+
+    min-height: 38px;
+
+    padding:
+      7px 12px;
+  }
+
+}
