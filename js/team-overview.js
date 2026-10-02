@@ -4255,6 +4255,166 @@ function addListeners() {
 
   document
     .querySelectorAll(
+      "[data-team-open-trait-picker], [data-team-card-trait-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            traitPicker = {
+              open: true,
+              memberInstanceId:
+                button.dataset
+                  .teamInstanceId,
+              query: "",
+              rank: "all",
+              category: "all"
+            };
+
+            render();
+
+            requestAnimationFrame(
+              () => {
+                document
+                  .querySelector(
+                    "[data-team-trait-picker-search]"
+                  )
+                  ?.focus();
+              }
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-remove-trait]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            toggleTraitSelection(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamRemoveTrait
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-close-trait-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            traitPicker = {
+              open: false,
+              memberInstanceId: null,
+              query: "",
+              rank: "all",
+              category: "all"
+            };
+
+            render();
+          }
+        );
+      }
+    );
+
+
+  const traitPickerSearch =
+    document.querySelector(
+      "[data-team-trait-picker-search]"
+    );
+
+  if (traitPickerSearch) {
+    traitPickerSearch.addEventListener(
+      "input",
+      () => {
+        traitPicker.query =
+          traitPickerSearch.value;
+
+        updateTraitPickerVisibility();
+      }
+    );
+  }
+
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-rank]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            traitPicker.rank =
+              button.dataset
+                .teamTraitRank ||
+              "all";
+
+            updateTraitPickerVisibility();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-category]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            traitPicker.category =
+              button.dataset
+                .teamTraitCategory ||
+              "all";
+
+            updateTraitPickerVisibility();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-picker-item]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            toggleTraitSelection(
+              traitPicker.memberInstanceId,
+              button.dataset
+                .teamTraitPickerItem
+            );
+          }
+        );
+      }
+    );
+
+  document
+    .querySelectorAll(
       "[data-team-remove]"
     )
     .forEach(
