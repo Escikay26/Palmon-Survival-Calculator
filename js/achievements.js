@@ -1762,22 +1762,6 @@ function renderSummary() {
   }
 
 
-  const resetPlanButton =
-    document.getElementById(
-      "achievements-reset-plan-button"
-    );
-
-
-  if (resetPlanButton) {
-
-    resetPlanButton.addEventListener(
-      "click",
-      resetAchievementPlan
-    );
-
-  }
-
-
   document
     .querySelectorAll(
       ".build-mode-button"
@@ -2468,6 +2452,21 @@ function addBuildModeListeners() {
 
   }
 
+
+  const resetPlanButton =
+    document.getElementById(
+      "achievements-reset-plan-button"
+    );
+
+
+  if (resetPlanButton) {
+
+    resetPlanButton.addEventListener(
+      "click",
+      resetAchievementPlan
+    );
+
+  }
 
   document
     .querySelectorAll(
