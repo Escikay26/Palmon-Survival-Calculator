@@ -270,6 +270,20 @@
 
         </div>
 
+
+        <div class="achievement-budget-actions">
+
+          <button
+            id="achievements-reset-plan-button"
+            class="reset-button"
+            type="button"
+            hidden
+          >
+            Reset Plan
+          </button>
+
+        </div>
+
       </section>
 
 
@@ -373,6 +387,15 @@
             type="button"
           >
             Reset Equipment
+          </button>
+
+
+          <button
+            id="equipment-help-button"
+            class="help-button"
+            type="button"
+          >
+            ? How to Use
           </button>
 
         </div>
@@ -687,9 +710,12 @@
               Upgrade achievements as you like.
               Levels you cannot afford are
               disabled automatically.
-              Downgrading an achievement returns
-              its UR Tokens to your available
-              budget.
+              Changed achievements show their
+              Current → Planned level and Token
+              difference. Use
+              <strong>Reset Plan</strong>
+              to return to the build you had when
+              Budget Build was started.
             </p>
 
           </div>
@@ -745,6 +771,205 @@
     </div>
 
   </div>
+
+  <!-- EQUIPMENT HELP MODAL -->
+
+  <div
+    id="equipment-help-modal"
+    class="help-modal"
+    aria-hidden="true"
+  >
+
+    <div class="help-modal-backdrop"></div>
+
+
+    <div
+      class="help-modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="equipment-help-title"
+    >
+
+      <div class="help-modal-header">
+
+        <div>
+
+          <h2
+            id="equipment-help-title"
+          >
+            How to Use Equipment
+          </h2>
+
+          <p>
+            Recreate your inventory first, then
+            plan Equipment upgrades with your
+            available resources.
+          </p>
+
+        </div>
+
+
+        <button
+          id="equipment-help-close"
+          class="help-modal-close"
+          type="button"
+          aria-label="Close help"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="help-modal-body">
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            1
+          </span>
+
+          <div>
+
+            <h3>
+              Build your current inventory
+            </h3>
+
+            <p>
+              Start in
+              <strong>Unlimited</strong>
+              mode. Add the UR and SSR Equipment
+              you own and set each item to its
+              current Enhancement level and
+              Ascension.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            2
+          </span>
+
+          <div>
+
+            <h3>
+              Enter your upgrade resources
+            </h3>
+
+            <p>
+              Enter your Large, Medium and Small
+              Temperit plus your Opus Pearls.
+              Temperit is converted to Enhancement
+              XP automatically.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            3
+          </span>
+
+          <div>
+
+            <h3>
+              Start a Budget Build
+            </h3>
+
+            <p>
+              Switching to
+              <strong>Budget Build</strong>
+              freezes the current level and
+              Ascension of every Equipment item
+              as your starting point.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            4
+          </span>
+
+          <div>
+
+            <h3>
+              Compare Current and Planned
+            </h3>
+
+            <p>
+              Only changed Equipment shows a
+              Current → Planned comparison.
+              The Changed filter lets you focus
+              on planned upgrades, and Reset Plan
+              restores the original Budget Build
+              state.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-step">
+
+          <span class="help-step-number">
+            5
+          </span>
+
+          <div>
+
+            <h3>
+              Keep the inventory compact
+            </h3>
+
+            <p>
+              Equipment cards and entire
+              categories can be collapsed.
+              The compact card still shows the
+              three main stats, level and
+              Ascension.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="help-note">
+
+          <strong>
+            Ascension
+          </strong>
+
+          <p>
+            Each Ascension level adds 10% to the
+            three normal Equipment stats.
+            Ascension extra effects are applied
+            separately.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 
   <script
   type="module"
