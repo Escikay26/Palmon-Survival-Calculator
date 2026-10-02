@@ -25,16 +25,32 @@ Game mechanics that are still uncertain or need validation belong in
 - [x] Temperit inventory calculator
 - [x] Opus Pearl budget
 - [x] Equipment inventory summary
+- [x] Equipment How to Use help
+- [x] Equipment filters: All / Changed / UR / SSR
+- [x] Collapsible Equipment cards
+- [x] Collapsible Equipment categories
+- [x] Expand All / Collapse All inventory controls
+- [x] Current → Planned comparison shown only for changed Equipment
 
 ### Later
 - [ ] Assigned / Unassigned status
 - [ ] Show assigned Palmon and Team on Equipment cards
 - [ ] Direct "Equip to Palmon" action
-- [ ] Equipment filters
 - [ ] Optional Equipment nicknames
 - [ ] More detailed build comparison if needed
 - [ ] Drag & Drop assignment as an optional desktop interaction
 - [ ] Specialized Equipment optimization only after combat goals can be defined clearly
+
+---
+
+## Achievements
+
+### Implemented
+- [x] Unlimited / Budget Build modes
+- [x] How to Use help
+- [x] Budget baseline snapshot
+- [x] Current → Planned level and UR Token comparison for changed Achievements
+- [x] Reset Plan
 
 ---
 
