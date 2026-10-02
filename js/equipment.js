@@ -52,6 +52,15 @@ let activeAddCategory = null;
 
 let budgetWarning = "";
 
+let selectedEquipmentFilter =
+  "all";
+
+let collapsedItemIds =
+  new Set();
+
+let collapsedCategoryIds =
+  new Set();
+
 
 // ========================================
 // FORMAT
@@ -166,6 +175,8 @@ initEquipmentSystem() {
       await response.json();
 
     loadSavedState();
+
+    addHelpListeners();
 
     render();
   }
@@ -450,6 +461,18 @@ function loadSavedState() {
       calculateInventoryCost();
   }
 
+
+  // Existing inventory starts compact.
+  // Newly created items are opened automatically.
+  collapsedItemIds =
+    new Set(
+      items.map(
+        item =>
+          item.instanceId
+      )
+    );
+
+
   saveState();
 }
 
@@ -526,6 +549,74 @@ function createBudgetSnapshot() {
       ]
     )
   );
+}
+
+
+function isEquipmentItemChanged(
+  item
+) {
+
+  if (
+    buildMode !==
+      "budget" ||
+    !item
+  ) {
+    return false;
+  }
+
+  const base =
+    budgetBaseItems[
+      item.instanceId
+    ];
+
+  if (!base) {
+    return false;
+  }
+
+  return (
+    item.enhancementLevel !==
+      normalizeEquipmentLevel(
+        base.enhancementLevel
+      ) ||
+    item.ascensionLevel !==
+      normalizeEquipmentAscension(
+        base.ascensionLevel
+      )
+  );
+
+}
+
+
+function matchesEquipmentFilter(
+  item
+) {
+
+  if (
+    selectedEquipmentFilter ===
+    "all"
+  ) {
+    return true;
+  }
+
+  if (
+    selectedEquipmentFilter ===
+    "changed"
+  ) {
+    return isEquipmentItemChanged(
+      item
+    );
+  }
+
+  const definition =
+    getDefinition(
+      item
+    );
+
+  return (
+    definition?.rarity ===
+    selectedEquipmentFilter
+  );
+
 }
 
 
@@ -615,9 +706,11 @@ function createItem(
     return;
   }
 
+  const instanceId =
+    `eq-${nextInstanceId}`;
+
   items.push({
-    instanceId:
-      `eq-${nextInstanceId}`,
+    instanceId,
 
     equipmentId:
       definition.id,
@@ -628,6 +721,10 @@ function createItem(
   });
 
   nextInstanceId += 1;
+
+  collapsedItemIds.delete(
+    instanceId
+  );
 
   activeAddCategory =
     null;
@@ -657,14 +754,20 @@ function duplicateItem(
     return;
   }
 
+  const instanceId =
+    `eq-${nextInstanceId}`;
+
   items.push({
     ...source,
 
-    instanceId:
-      `eq-${nextInstanceId}`
+    instanceId
   });
 
   nextInstanceId += 1;
+
+  collapsedItemIds.delete(
+    instanceId
+  );
 
   saveState();
 
@@ -708,6 +811,10 @@ function removeItem(
         entry.instanceId !==
         instanceId
     );
+
+  collapsedItemIds.delete(
+    instanceId
+  );
 
   saveState();
 
