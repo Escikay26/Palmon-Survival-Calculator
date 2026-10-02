@@ -69,6 +69,18 @@ export function clearAllPlannerState() {
 
 export function loadAchievementState() {
 
+  const defaultState = {
+    element: "Water",
+    levels: {},
+    unlocked: {},
+    ownedTokens: 0,
+    buildMode: "unlimited",
+    budgetBaseCost: 0,
+    budgetBaseLevels: {},
+    budgetBaseUnlocked: {}
+  };
+
+
   const saved =
     localStorage.getItem(
       ACHIEVEMENT_STORAGE_KEY
@@ -76,16 +88,7 @@ export function loadAchievementState() {
 
 
   if (!saved) {
-
-    return {
-      element: "Water",
-      levels: {},
-      unlocked: {},
-      ownedTokens: 0,
-      buildMode: "unlimited",
-      budgetBaseCost: 0
-    };
-
+    return defaultState;
   }
 
 
@@ -102,26 +105,54 @@ export function loadAchievementState() {
         "Water",
 
       levels:
-        data.levels ||
-        {},
+        data.levels &&
+        typeof data.levels ===
+          "object"
+          ? data.levels
+          : {},
 
       unlocked:
-        data.unlocked ||
-        {},
+        data.unlocked &&
+        typeof data.unlocked ===
+          "object"
+          ? data.unlocked
+          : {},
 
       ownedTokens:
-        Number(
-          data.ownedTokens
-        ) || 0,
+        Math.max(
+          0,
+          Number(
+            data.ownedTokens
+          ) || 0
+        ),
 
       buildMode:
-        data.buildMode ||
-        "unlimited",
+        data.buildMode ===
+          "budget"
+          ? "budget"
+          : "unlimited",
 
       budgetBaseCost:
-        Number(
-          data.budgetBaseCost
-        ) || 0
+        Math.max(
+          0,
+          Number(
+            data.budgetBaseCost
+          ) || 0
+        ),
+
+      budgetBaseLevels:
+        data.budgetBaseLevels &&
+        typeof data.budgetBaseLevels ===
+          "object"
+          ? data.budgetBaseLevels
+          : {},
+
+      budgetBaseUnlocked:
+        data.budgetBaseUnlocked &&
+        typeof data.budgetBaseUnlocked ===
+          "object"
+          ? data.budgetBaseUnlocked
+          : {}
 
     };
 
@@ -135,14 +166,7 @@ export function loadAchievementState() {
     );
 
 
-    return {
-      element: "Water",
-      levels: {},
-      unlocked: {},
-      ownedTokens: 0,
-      buildMode: "unlimited",
-      budgetBaseCost: 0
-    };
+    return defaultState;
 
   }
 
