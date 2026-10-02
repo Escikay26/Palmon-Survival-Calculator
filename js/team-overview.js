@@ -2725,6 +2725,294 @@ function updateEquipmentPickerVisibility() {
     );
 }
 
+function renderEvolutionPanel({
+  member,
+  palmon
+}) {
+  const evolutionData =
+    palmon.evolution ||
+    {};
+
+  const hasEvolution =
+    Boolean(
+      evolutionData.hasEvolution
+    );
+
+  if (!hasEvolution) {
+    return `
+      <div class="team-evolution-empty">
+        This Palmon has no Evolution progression.
+      </div>
+    `;
+  }
+
+  const stageLimit =
+    getPalmonEvolutionStageLimit({
+      palmonType:
+        palmon.palmonType ||
+        "normal",
+      hasEvolution:
+        Boolean(
+          evolutionData.hasEvolution
+        ),
+      hasMegaEvolution:
+        Boolean(
+          evolutionData.hasMegaEvolution
+        )
+    });
+
+  const stage =
+    clampInteger(
+      member.evolution?.stage,
+      0,
+      stageLimit
+    );
+
+  const stageDefinition =
+    stage > 0
+      ? getEvolutionStageDefinition(
+          stage,
+          palmon.role
+        )
+      : null;
+
+  const talents =
+    stageDefinition?.talents ||
+    [];
+
+  const currentTalentIndex =
+    clampInteger(
+      member.evolution?.talentIndex,
+      0,
+      Math.max(
+        0,
+        talents.length - 1
+      )
+    );
+
+  const currentTalentLevel =
+    clampInteger(
+      member.evolution?.talentLevel,
+      0,
+      10
+    );
+
+  const cost =
+    stageDefinition?.cost ||
+    null;
+
+  const costLabel =
+    cost
+      ? (
+          cost.label ||
+          `${cost.amount} ${cost.resource}`
+        )
+      : null;
+
+  return `
+    <section class="team-config-section team-config-panel ${configTab === "evolution" ? "active" : ""}">
+
+      <div class="team-evolution-heading">
+        <div>
+          <h3>Evolution</h3>
+          <p class="team-config-section-note">
+            Set the current Evolution stage and progress of the active talent.
+          </p>
+        </div>
+
+        <strong>
+          Evo ${stage}
+        </strong>
+      </div>
+
+      <div class="team-evolution-line">
+        <span>${palmon.name}</span>
+        ${evolutionData.evo4Name
+          ? `<span>→ ${evolutionData.evo4Name}</span>`
+          : ""}
+        ${evolutionData.evo5Name
+          ? `<span>→ ${evolutionData.evo5Name}</span>`
+          : ""}
+      </div>
+
+      ${evolutionData.hasMegaEvolution
+        ? `
+          <label class="team-evolution-oath">
+            <input
+              type="checkbox"
+              data-team-evolution-oath="${member.instanceId}"
+              ${member.evolution?.megaOathUnlocked ? "checked" : ""}
+            >
+
+            <span>
+              <strong>Matching Mega Oath unlocked</strong>
+              <small>
+                ${evolutionData.megaOathName || "Mega Evolution Oath"}
+              </small>
+            </span>
+          </label>
+        `
+        : ""}
+
+      <div class="team-evolution-stage-list">
+        ${Array.from(
+          { length: stageLimit + 1 },
+          (_, index) => index
+        ).map(
+          stageNumber => {
+            const requiredStars =
+              getRequiredStarsForEvolutionStage(
+                stageNumber
+              );
+
+            const lacksStars =
+              member.stars <
+              requiredStars;
+
+            const lacksOath =
+              stageNumber >= 5 &&
+              !member.evolution?.megaOathUnlocked;
+
+            const disabled =
+              lacksStars ||
+              lacksOath;
+
+            return `
+              <button
+                type="button"
+                class="${stage === stageNumber ? "active" : ""}"
+                data-team-evolution-stage="${stageNumber}"
+                data-team-instance-id="${member.instanceId}"
+                ${disabled ? "disabled" : ""}
+                title="${
+                  lacksStars
+                    ? `Requires ${requiredStars}★`
+                    : lacksOath
+                      ? "Requires the matching Mega Oath"
+                      : ""
+                }"
+              >
+                <strong>
+                  ${stageNumber === 0 ? "No Evo" : `Evo ${stageNumber}`}
+                </strong>
+
+                <span>
+                  ${stageNumber === 0 ? "Base" : `${requiredStars}★`}
+                </span>
+              </button>
+            `;
+          }
+        ).join("")}
+      </div>
+
+      ${stage === 0
+        ? `
+          <div class="team-evolution-empty">
+            Select an Evolution stage to configure its current talent progress.
+          </div>
+        `
+        : `
+          <div class="team-evolution-stage-meta">
+            <span>
+              Current stage
+              <strong>Evo ${stage}</strong>
+            </span>
+
+            ${costLabel
+              ? `
+                <span>
+                  Stage cost
+                  <strong>${costLabel}</strong>
+                </span>
+              `
+              : ""}
+          </div>
+
+          <div class="team-evolution-talents">
+            <div class="team-evolution-subheading">
+              <strong>Current talent</strong>
+              <span>
+                Earlier talents are treated as completed.
+              </span>
+            </div>
+
+            ${talents.map(
+              (talent, index) => {
+                const level =
+                  index < currentTalentIndex
+                    ? 10
+                    : index === currentTalentIndex
+                      ? currentTalentLevel
+                      : 0;
+
+                return `
+                  <button
+                    type="button"
+                    class="team-evolution-talent ${index === currentTalentIndex ? "active" : ""}"
+                    data-team-evolution-talent="${index}"
+                    data-team-instance-id="${member.instanceId}"
+                  >
+                    <span>
+                      ${talent.name}
+                    </span>
+
+                    <strong>
+                      ${level}/10
+                    </strong>
+                  </button>
+                `;
+              }
+            ).join("")}
+          </div>
+
+          <div class="team-evolution-level-control">
+            <div class="team-evolution-subheading">
+              <strong>Talent level</strong>
+              <span>
+                ${talents[currentTalentIndex]?.name || "Current talent"}
+              </span>
+            </div>
+
+            <div class="team-evolution-level-stepper">
+              <button
+                type="button"
+                data-team-evolution-level-step="-1"
+                data-team-instance-id="${member.instanceId}"
+                ${currentTalentLevel <= 0 ? "disabled" : ""}
+              >
+                −
+              </button>
+
+              <strong>
+                ${currentTalentLevel}/10
+              </strong>
+
+              <button
+                type="button"
+                data-team-evolution-level-step="1"
+                data-team-instance-id="${member.instanceId}"
+                ${currentTalentLevel >= 10 ? "disabled" : ""}
+              >
+                +
+              </button>
+            </div>
+
+            <input
+              class="team-evolution-level-range"
+              type="range"
+              min="0"
+              max="10"
+              step="1"
+              value="${currentTalentLevel}"
+              data-team-evolution-level="${member.instanceId}"
+            >
+          </div>
+        `}
+
+    </section>
+  `;
+}
+
 function renderConfigModal() {
   if (!editingInstanceId) {
     return "";
@@ -2823,6 +3111,14 @@ function renderConfigModal() {
             data-team-config-tab="equipment"
           >
             Equipment
+          </button>
+
+          <button
+            type="button"
+            class="${configTab === "evolution" ? "active" : ""}"
+            data-team-config-tab="evolution"
+          >
+            Evolution
           </button>
         </div>
 
@@ -2976,6 +3272,12 @@ function renderConfigModal() {
           </section>
 
 
+          ${renderEvolutionPanel({
+            member,
+            palmon
+          })}
+
+
           <div class="team-config-future-note">
 
             <strong>
@@ -2983,8 +3285,8 @@ function renderConfigModal() {
             </strong>
 
             <span>
-              Evolution progression, Traits and full
-              Palmon Skill configuration. Until those
+              Traits and full Palmon Skill
+              configuration. Until those
               systems are connected here, the displayed
               stat preview can be lower than the final
               ingame value.
