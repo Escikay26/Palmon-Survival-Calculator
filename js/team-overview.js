@@ -2766,6 +2766,11 @@ function render() {
       </div>
 
 
+      ${renderTeamSummary(
+        team,
+        results
+      )}
+
       ${renderAddPalmon(
         team
       )}
