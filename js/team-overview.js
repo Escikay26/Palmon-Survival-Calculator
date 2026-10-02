@@ -33,6 +33,12 @@ let teamState = null;
 
 let editingInstanceId = null;
 
+let palmonPickerOpen = false;
+
+let palmonPickerElement = "all";
+
+let palmonPickerQuery = "";
+
 
 // ========================================
 // FORMAT
@@ -634,10 +640,25 @@ initTeamOverview() {
         if (
           event.key ===
             "Escape" &&
-          editingInstanceId
+          (
+            editingInstanceId ||
+            palmonPickerOpen
+          )
         ) {
-          editingInstanceId =
-            null;
+          if (editingInstanceId) {
+            editingInstanceId =
+              null;
+          }
+          else {
+            palmonPickerOpen =
+              false;
+
+            palmonPickerQuery =
+              "";
+
+            palmonPickerElement =
+              "all";
+          }
 
           render();
         }
@@ -704,6 +725,15 @@ function setActiveTeam(
   editingInstanceId =
     null;
 
+  palmonPickerOpen =
+    false;
+
+  palmonPickerQuery =
+    "";
+
+  palmonPickerElement =
+    "all";
+
   saveState();
 
   render();
@@ -769,6 +799,15 @@ function addPalmon(
       headgear: null
     }
   });
+
+  palmonPickerOpen =
+    false;
+
+  palmonPickerQuery =
+    "";
+
+  palmonPickerElement =
+    "all";
 
   editingInstanceId =
     instanceId;
@@ -1078,16 +1117,13 @@ function renderTeamTabs() {
 }
 
 
-function renderAddPalmon(
+function getAvailablePalmonsForTeam(
   team
 ) {
-  const maxed =
-    team.palmons.length >= 7;
-
   const usedPalmonIds =
     new Set(
       (
-        team.palmons ||
+        team?.palmons ||
         []
       ).map(
         member =>
@@ -1095,74 +1131,368 @@ function renderAddPalmon(
       )
     );
 
-  const available =
-    [
-      ...palmons
-    ]
-      .filter(
-        palmon =>
-          !usedPalmonIds.has(
-            palmon.id
-          )
+  return palmons.filter(
+    palmon =>
+      !usedPalmonIds.has(
+        palmon.id
       )
-      .sort(
-        (a, b) =>
-          a.name.localeCompare(
-            b.name
-          )
-      );
+  );
+}
 
-  const noAvailablePalmons =
-    available.length === 0;
+
+function renderAddPalmon(
+  team
+) {
+  const maxed =
+    team.palmons.length >= 7;
+
+  const availableCount =
+    getAvailablePalmonsForTeam(
+      team
+    ).length;
 
   const disabled =
     maxed ||
-    noAvailablePalmons;
+    availableCount === 0;
 
   return `
     <div class="team-add-palmon">
 
-      <select
-        id="team-add-palmon-select"
-        ${disabled ? "disabled" : ""}
-      >
-        ${
-          available.length > 0
-            ? available
-                .map(
-                  palmon => `
-                    <option
-                      value="${palmon.id}"
-                    >
-                      ${palmon.name}
-                      ·
-                      ${palmon.element}
-                      ·
-                      ${palmon.role}
-                      ·
-                      ${palmon.rarity}
-                    </option>
-                  `
-                )
-                .join("")
-            : `
-              <option value="">
-                No additional Palmons available
-              </option>
-            `
-        }
-      </select>
+      <div class="team-add-palmon-copy">
+        <strong>
+          Add Palmon
+        </strong>
+
+        <span>
+          Choose by element or search by name.
+        </span>
+      </div>
 
       <button
         type="button"
-        data-team-add-palmon
+        data-team-open-palmon-picker
         ${disabled ? "disabled" : ""}
       >
-        + Add Palmon
+        + Choose Palmon
       </button>
 
     </div>
   `;
+}
+
+
+function renderPalmonPicker() {
+  if (!palmonPickerOpen) {
+    return "";
+  }
+
+  const team =
+    getActiveTeam();
+
+  if (!team) {
+    return "";
+  }
+
+  const available =
+    getAvailablePalmonsForTeam(
+      team
+    );
+
+  const preferredElementOrder = [
+    "Water",
+    "Fire",
+    "Earth",
+    "Electric"
+  ];
+
+  const elements =
+    [
+      ...new Set(
+        available.map(
+          palmon =>
+            palmon.element
+        )
+      )
+    ];
+
+  const orderedElements = [
+    ...preferredElementOrder.filter(
+      element =>
+        elements.includes(
+          element
+        )
+    ),
+    ...elements
+      .filter(
+        element =>
+          !preferredElementOrder.includes(
+            element
+          )
+      )
+      .sort(
+        (a, b) =>
+          a.localeCompare(b)
+      )
+  ];
+
+  return `
+    <div class="team-palmon-picker-modal">
+
+      <button
+        type="button"
+        class="team-palmon-picker-backdrop"
+        data-team-close-palmon-picker
+        aria-label="Close Palmon picker"
+      ></button>
+
+      <div
+        class="team-palmon-picker-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="team-palmon-picker-title"
+      >
+
+        <div class="team-palmon-picker-header">
+
+          <div>
+            <h2 id="team-palmon-picker-title">
+              Add Palmon
+            </h2>
+
+            <p>
+              ${team.name}
+              ·
+              ${team.palmons.length}/7 Palmons
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="team-palmon-picker-close"
+            data-team-close-palmon-picker
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <div class="team-palmon-picker-tools">
+
+          <label class="team-palmon-picker-search">
+            <span class="sr-only">
+              Search Palmon
+            </span>
+
+            <input
+              type="search"
+              placeholder="Search Palmon..."
+              autocomplete="off"
+              value="${palmonPickerQuery}"
+              data-team-palmon-picker-search
+            >
+          </label>
+
+
+          <div
+            class="team-palmon-picker-filters"
+            role="group"
+            aria-label="Filter by element"
+          >
+            ${[
+              "all",
+              ...orderedElements
+            ]
+              .map(
+                element => `
+                  <button
+                    type="button"
+                    class="${palmonPickerElement === element ? "active" : ""}"
+                    data-team-palmon-picker-filter="${element}"
+                  >
+                    ${element === "all" ? "All" : element}
+                  </button>
+                `
+              )
+              .join("")}
+          </div>
+
+        </div>
+
+
+        <div class="team-palmon-picker-body">
+
+          ${orderedElements
+            .map(
+              element => {
+                const elementPalmons =
+                  available
+                    .filter(
+                      palmon =>
+                        palmon.element ===
+                        element
+                    )
+                    .sort(
+                      (a, b) =>
+                        a.name.localeCompare(
+                          b.name
+                        )
+                    );
+
+                return `
+                  <section
+                    class="team-palmon-picker-group"
+                    data-team-palmon-picker-group="${element}"
+                  >
+                    <div class="team-palmon-picker-group-header">
+                      <h3>
+                        ${element}
+                      </h3>
+
+                      <span>
+                        ${elementPalmons.length}
+                      </span>
+                    </div>
+
+                    <div class="team-palmon-picker-grid">
+                      ${elementPalmons
+                        .map(
+                          palmon => `
+                            <button
+                              type="button"
+                              class="team-palmon-picker-card"
+                              data-team-palmon-picker-item="${palmon.id}"
+                              data-team-palmon-element="${palmon.element}"
+                            >
+                              <span class="team-palmon-picker-name">
+                                ${palmon.name}
+                              </span>
+
+                              <span class="team-palmon-picker-meta">
+                                ${palmon.role}
+                                ·
+                                ${palmon.rarity}
+                              </span>
+                            </button>
+                          `
+                        )
+                        .join("")}
+                    </div>
+                  </section>
+                `;
+              }
+            )
+            .join("")}
+
+          <div
+            class="team-palmon-picker-empty"
+            data-team-palmon-picker-empty
+            hidden
+          >
+            No matching Palmons found.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+function updatePalmonPickerVisibility() {
+  const query =
+    palmonPickerQuery
+      .trim()
+      .toLowerCase();
+
+  let visibleCount = 0;
+
+  document
+    .querySelectorAll(
+      "[data-team-palmon-picker-item]"
+    )
+    .forEach(
+      button => {
+        const element =
+          button.dataset
+            .teamPalmonElement ||
+          "";
+
+        const matchesElement =
+          palmonPickerElement ===
+            "all" ||
+          element ===
+            palmonPickerElement;
+
+        const matchesSearch =
+          !query ||
+          button.textContent
+            .toLowerCase()
+            .includes(
+              query
+            );
+
+        const visible =
+          matchesElement &&
+          matchesSearch;
+
+        button.hidden =
+          !visible;
+
+        if (visible) {
+          visibleCount += 1;
+        }
+      }
+    );
+
+  document
+    .querySelectorAll(
+      "[data-team-palmon-picker-group]"
+    )
+    .forEach(
+      group => {
+        const hasVisibleItems =
+          [
+            ...group.querySelectorAll(
+              "[data-team-palmon-picker-item]"
+            )
+          ].some(
+            item =>
+              !item.hidden
+          );
+
+        group.hidden =
+          !hasVisibleItems;
+      }
+    );
+
+  const empty =
+    document.querySelector(
+      "[data-team-palmon-picker-empty]"
+    );
+
+  if (empty) {
+    empty.hidden =
+      visibleCount > 0;
+  }
+
+  document
+    .querySelectorAll(
+      "[data-team-palmon-picker-filter]"
+    )
+    .forEach(
+      button => {
+        button.classList.toggle(
+          "active",
+          button.dataset
+            .teamPalmonPickerFilter ===
+            palmonPickerElement
+        );
+      }
+    );
 }
 
 function renderEquipmentSummary(
@@ -1886,6 +2216,8 @@ function render() {
     </section>
 
 
+    ${renderPalmonPicker()}
+
     ${renderConfigModal()}
 
   `;
@@ -1893,7 +2225,8 @@ function render() {
   document.body.classList.toggle(
     "team-modal-open",
     Boolean(
-      editingInstanceId
+      editingInstanceId ||
+      palmonPickerOpen
     )
   );
 
@@ -1925,30 +2258,121 @@ function addListeners() {
     );
 
 
-  const addButton =
+  const openPickerButton =
     document.querySelector(
-      "[data-team-add-palmon]"
+      "[data-team-open-palmon-picker]"
     );
 
-  if (addButton) {
-    addButton.addEventListener(
+  if (openPickerButton) {
+    openPickerButton.addEventListener(
       "click",
       () => {
-        const select =
-          document.getElementById(
-            "team-add-palmon-select"
-          );
+        palmonPickerOpen =
+          true;
 
-        if (!select) {
-          return;
-        }
+        palmonPickerElement =
+          "all";
 
-        addPalmon(
-          select.value
+        palmonPickerQuery =
+          "";
+
+        render();
+
+        requestAnimationFrame(
+          () => {
+            document
+              .querySelector(
+                "[data-team-palmon-picker-search]"
+              )
+              ?.focus();
+          }
         );
       }
     );
   }
+
+
+  document
+    .querySelectorAll(
+      "[data-team-close-palmon-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            palmonPickerOpen =
+              false;
+
+            palmonPickerElement =
+              "all";
+
+            palmonPickerQuery =
+              "";
+
+            render();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-palmon-picker-filter]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            palmonPickerElement =
+              button.dataset
+                .teamPalmonPickerFilter ||
+              "all";
+
+            updatePalmonPickerVisibility();
+          }
+        );
+      }
+    );
+
+
+  const pickerSearch =
+    document.querySelector(
+      "[data-team-palmon-picker-search]"
+    );
+
+  if (pickerSearch) {
+    pickerSearch.addEventListener(
+      "input",
+      () => {
+        palmonPickerQuery =
+          pickerSearch.value;
+
+        updatePalmonPickerVisibility();
+      }
+    );
+  }
+
+
+  document
+    .querySelectorAll(
+      "[data-team-palmon-picker-item]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            addPalmon(
+              button.dataset
+                .teamPalmonPickerItem
+            );
+          }
+        );
+      }
+    );
 
 
   document
