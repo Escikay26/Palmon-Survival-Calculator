@@ -1238,6 +1238,30 @@ function setEvolutionTalentLevel(
   render();
 }
 
+function changeEvolutionTalentLevel(
+  instanceId,
+  direction
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  setEvolutionTalentLevel(
+    instanceId,
+    (
+      Number(
+        found.item.evolution?.talentLevel
+      ) || 0
+    ) +
+      Number(direction || 0)
+  );
+}
+
 
 function setMegaOathUnlocked(
   instanceId,
@@ -3808,6 +3832,108 @@ function addListeners() {
       }
     );
 
+
+  document
+    .querySelectorAll(
+      "[data-team-evolution-stage]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            setEvolutionStage(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamEvolutionStage
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-evolution-talent]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            setEvolutionTalent(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamEvolutionTalent
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-evolution-level-step]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            changeEvolutionTalentLevel(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamEvolutionLevelStep
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-evolution-level]"
+    )
+    .forEach(
+      input => {
+        input.addEventListener(
+          "change",
+          () => {
+            setEvolutionTalentLevel(
+              input.dataset
+                .teamEvolutionLevel,
+              input.value
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-evolution-oath]"
+    )
+    .forEach(
+      input => {
+        input.addEventListener(
+          "change",
+          () => {
+            setMegaOathUnlocked(
+              input.dataset
+                .teamEvolutionOath,
+              input.checked
+            );
+          }
+        );
+      }
+    );
 
   document
     .querySelectorAll(
