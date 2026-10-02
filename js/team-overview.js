@@ -1087,6 +1087,195 @@ function setAscensionProgress(
   render();
 }
 
+function setEvolutionStage(
+  instanceId,
+  value
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  const palmon =
+    getPalmonById(
+      found.item.palmonId
+    );
+
+  if (!palmon) {
+    return;
+  }
+
+  const stageLimit =
+    getPalmonEvolutionStageLimit({
+      palmonType:
+        palmon.palmonType ||
+        "normal",
+      hasEvolution:
+        Boolean(
+          palmon.evolution?.hasEvolution
+        ),
+      hasMegaEvolution:
+        Boolean(
+          palmon.evolution?.hasMegaEvolution
+        )
+    });
+
+  const stage =
+    clampInteger(
+      value,
+      0,
+      stageLimit
+    );
+
+  const requiredStars =
+    getRequiredStarsForEvolutionStage(
+      stage
+    );
+
+  if (found.item.stars < requiredStars) {
+    return;
+  }
+
+  if (
+    stage >= 5 &&
+    !found.item.evolution?.megaOathUnlocked
+  ) {
+    return;
+  }
+
+  found.item.evolution = {
+    ...found.item.evolution,
+    stage,
+    talentIndex: 0,
+    talentLevel: 0,
+    megaEvolved:
+      stage >= 5
+  };
+
+  saveState();
+  render();
+}
+
+
+function setEvolutionTalent(
+  instanceId,
+  value
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  const palmon =
+    getPalmonById(
+      found.item.palmonId
+    );
+
+  const stage =
+    Number(
+      found.item.evolution?.stage
+    ) || 0;
+
+  if (!palmon || stage <= 0) {
+    return;
+  }
+
+  const definition =
+    getEvolutionStageDefinition(
+      stage,
+      palmon.role
+    );
+
+  const maxIndex =
+    Math.max(
+      0,
+      (definition?.talents?.length || 1) - 1
+    );
+
+  found.item.evolution.talentIndex =
+    clampInteger(
+      value,
+      0,
+      maxIndex
+    );
+
+  found.item.evolution.talentLevel = 0;
+
+  saveState();
+  render();
+}
+
+
+function setEvolutionTalentLevel(
+  instanceId,
+  value
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  found.item.evolution.talentLevel =
+    clampInteger(
+      value,
+      0,
+      10
+    );
+
+  saveState();
+  render();
+}
+
+
+function setMegaOathUnlocked(
+  instanceId,
+  unlocked
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  found.item.evolution.megaOathUnlocked =
+    Boolean(unlocked);
+
+  if (
+    !unlocked &&
+    found.item.evolution.stage >= 5
+  ) {
+    found.item.evolution.stage = 4;
+    found.item.evolution.talentIndex = 0;
+    found.item.evolution.talentLevel = 0;
+    found.item.evolution.megaEvolved = false;
+  }
+
+  normalizeMemberEvolution(
+    found.item,
+    getPalmonById(
+      found.item.palmonId
+    )
+  );
+
+  saveState();
+  render();
+}
+
 
 function setEquipment(
   instanceId,
