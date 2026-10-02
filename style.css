@@ -8054,3 +8054,354 @@ select {
   }
 
 }
+
+
+/* ========================================
+   EQUIPMENT COMPACT VIEW / ACHIEVEMENT PLAN
+   ======================================== */
+
+.achievement-budget-actions {
+  display: flex;
+
+  justify-content:
+    flex-end;
+
+  margin-top: 12px;
+}
+
+
+.achievement-budget-actions
+.reset-button:disabled {
+  opacity: 0.4;
+
+  cursor:
+    not-allowed;
+}
+
+
+.achievement-plan-comparison {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 5px 8px;
+
+  margin-top: 9px;
+
+  padding:
+    7px 9px;
+
+  background:
+    #f8fbff;
+
+  border:
+    1px solid
+    #cfe0ff;
+
+  border-radius:
+    7px;
+
+  box-shadow:
+    inset
+    3px 0 0
+    var(--primary);
+}
+
+
+.achievement-plan-comparison span {
+  color:
+    var(--muted);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing:
+    0.035em;
+
+  text-transform:
+    uppercase;
+}
+
+
+.achievement-plan-comparison strong {
+  color:
+    var(--text);
+
+  font-size: 10px;
+  font-weight: 850;
+}
+
+
+.achievement-plan-comparison em {
+  color:
+    var(--primary-dark);
+
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+
+/* EQUIPMENT TOOLBAR */
+
+.equipment-toolbar {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 12px;
+
+  margin-bottom: 14px;
+}
+
+
+.equipment-filters,
+.equipment-collapse-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+
+.equipment-filter-button,
+.equipment-collapse-actions button,
+.equipment-category-toggle {
+  padding:
+    7px 10px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    7px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+
+.equipment-filter-button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+
+.equipment-filter-button:disabled {
+  opacity: 0.35;
+
+  cursor:
+    not-allowed;
+}
+
+
+@media (hover: hover) and (pointer: fine) {
+
+  .equipment-filter-button:hover:not(:disabled):not(.active),
+  .equipment-collapse-actions button:hover,
+  .equipment-category-toggle:hover {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      var(--primary);
+
+    color:
+      var(--primary-dark);
+  }
+
+}
+
+
+/* CATEGORY COLLAPSE */
+
+.equipment-category-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+.equipment-category-toggle {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  color:
+    var(--primary-dark);
+
+  font-size: 13px;
+}
+
+
+.equipment-category.collapsed
+.equipment-category-header {
+  margin-bottom: 0;
+}
+
+
+.equipment-category.collapsed
+.equipment-category-content {
+  display: none;
+}
+
+
+/* ITEM COLLAPSE */
+
+.equipment-card-toggle {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 30px;
+
+  color:
+    var(--primary-dark);
+}
+
+
+.equipment-card.collapsed {
+  padding:
+    11px 12px;
+}
+
+
+.equipment-card.collapsed
+.equipment-card-header {
+  padding-bottom: 8px;
+}
+
+
+.equipment-card.collapsed
+.equipment-card-action:not(
+  .equipment-card-toggle
+) {
+  display: none;
+}
+
+
+.equipment-card.collapsed
+.equipment-card-details {
+  display: none;
+}
+
+
+.equipment-card.collapsed
+.equipment-current-stats {
+  margin-top: 8px;
+}
+
+
+.equipment-card.collapsed
+.equipment-card-section-label {
+  display: none;
+}
+
+
+.equipment-card.collapsed
+.equipment-ascension-main-boost {
+  display: none;
+}
+
+
+.equipment-card.collapsed
+.equipment-stat-chip {
+  padding:
+    4px 6px;
+
+  font-size: 8px;
+}
+
+
+.equipment-card.expanded
+.equipment-card-details {
+  display: block;
+}
+
+
+/* CURRENT -> PLANNED ONLY APPEARS WHEN CHANGED */
+
+.equipment-plan-comparison {
+  margin-top: 13px;
+}
+
+
+/* MOBILE */
+
+@media (
+  max-width: 750px
+) {
+
+  .equipment-toolbar {
+    align-items: stretch;
+
+    flex-direction:
+      column;
+  }
+
+
+  .equipment-collapse-actions {
+    justify-content:
+      flex-start;
+  }
+
+
+  .achievement-budget-actions {
+    justify-content:
+      flex-start;
+  }
+
+}
+
+
+@media (
+  max-width: 520px
+) {
+
+  .equipment-filter-button,
+  .equipment-collapse-actions button {
+    flex:
+      1 1 auto;
+  }
+
+
+  .equipment-card.collapsed
+  .equipment-card-header {
+    align-items:
+      center;
+
+    flex-direction:
+      row;
+  }
+
+}
