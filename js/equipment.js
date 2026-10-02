@@ -2580,10 +2580,277 @@ function render() {
 
 
 // ========================================
+// HELP MODAL
+// ========================================
+
+function addHelpListeners() {
+
+  const openButton =
+    document.getElementById(
+      "equipment-help-button"
+    );
+
+  const modal =
+    document.getElementById(
+      "equipment-help-modal"
+    );
+
+  const closeButton =
+    document.getElementById(
+      "equipment-help-close"
+    );
+
+  const backdrop =
+    modal
+      ? modal.querySelector(
+          ".help-modal-backdrop"
+        )
+      : null;
+
+  if (
+    !openButton ||
+    !modal
+  ) {
+    return;
+  }
+
+  function openHelp() {
+    modal.classList.add(
+      "open"
+    );
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow =
+      "hidden";
+  }
+
+  function closeHelp() {
+    modal.classList.remove(
+      "open"
+    );
+
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    document.body.style.overflow =
+      "";
+  }
+
+  openButton.addEventListener(
+    "click",
+    openHelp
+  );
+
+  if (closeButton) {
+    closeButton.addEventListener(
+      "click",
+      closeHelp
+    );
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener(
+      "click",
+      closeHelp
+    );
+  }
+
+  document.addEventListener(
+    "keydown",
+    event => {
+      if (
+        event.key ===
+          "Escape" &&
+        modal.classList.contains(
+          "open"
+        )
+      ) {
+        closeHelp();
+      }
+    }
+  );
+}
+
+
+// ========================================
 // LISTENERS
 // ========================================
 
 function addListeners() {
+
+  document
+    .querySelectorAll(
+      "[data-equipment-filter]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            if (
+              button.disabled
+            ) {
+              return;
+            }
+
+            selectedEquipmentFilter =
+              button.dataset
+                .equipmentFilter;
+
+            render();
+
+          }
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-equipment-toggle]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const instanceId =
+              button.dataset
+                .equipmentToggle;
+
+            if (
+              collapsedItemIds.has(
+                instanceId
+              )
+            ) {
+              collapsedItemIds.delete(
+                instanceId
+              );
+            }
+            else {
+              collapsedItemIds.add(
+                instanceId
+              );
+            }
+
+            render();
+
+          }
+        );
+
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-equipment-category-toggle]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            const categoryId =
+              button.dataset
+                .equipmentCategoryToggle;
+
+            if (
+              collapsedCategoryIds.has(
+                categoryId
+              )
+            ) {
+              collapsedCategoryIds.delete(
+                categoryId
+              );
+            }
+            else {
+              collapsedCategoryIds.add(
+                categoryId
+              );
+            }
+
+            activeAddCategory =
+              null;
+
+            render();
+
+          }
+        );
+
+      }
+    );
+
+
+  const expandAllButton =
+    document.querySelector(
+      "[data-equipment-expand-all]"
+    );
+
+  if (expandAllButton) {
+    expandAllButton.addEventListener(
+      "click",
+      () => {
+        collapsedItemIds.clear();
+        collapsedCategoryIds.clear();
+        render();
+      }
+    );
+  }
+
+
+  const collapseAllButton =
+    document.querySelector(
+      "[data-equipment-collapse-all]"
+    );
+
+  if (collapseAllButton) {
+    collapseAllButton.addEventListener(
+      "click",
+      () => {
+
+        collapsedItemIds =
+          new Set(
+            items.map(
+              item =>
+                item.instanceId
+            )
+          );
+
+        collapsedCategoryIds =
+          new Set(
+            (
+              equipmentData
+                ?.categories ||
+              []
+            ).map(
+              category =>
+                category.id
+            )
+          );
+
+        activeAddCategory =
+          null;
+
+        render();
+
+      }
+    );
+  }
+
 
   document
     .querySelectorAll(
@@ -2745,6 +3012,10 @@ function addListeners() {
             const category =
               button.dataset
                 .equipmentAddCategory;
+
+            collapsedCategoryIds.delete(
+              category
+            );
 
             activeAddCategory =
               activeAddCategory ===
