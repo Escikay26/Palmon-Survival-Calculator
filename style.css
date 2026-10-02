@@ -12007,3 +12007,870 @@ body.team-modal-open {
   }
 
 }
+
+
+/* ========================================
+   TEAM TRAITS EDITOR
+   ======================================== */
+
+.team-trait-summary-heading,
+.team-traits-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 8px;
+}
+
+.team-trait-summary-heading {
+  margin-bottom: 6px;
+}
+
+.team-trait-summary-heading span,
+.team-traits-heading > div > h3 {
+  color:
+    var(--text);
+}
+
+.team-trait-summary-heading span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 850;
+
+  text-transform:
+    uppercase;
+}
+
+.team-trait-summary-heading strong,
+.team-traits-heading > strong {
+  padding:
+    2px 6px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-trait-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 6px;
+}
+
+.team-trait-summary-slot {
+  appearance: none;
+
+  display: grid;
+
+  gap: 2px;
+
+  min-width: 0;
+  min-height: 54px;
+
+  padding:
+    7px 8px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    7px;
+
+  color:
+    var(--text-soft);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+}
+
+.team-trait-summary-slot.empty {
+  background:
+    rgba(
+      248,
+      250,
+      253,
+      0.72
+    );
+
+  border-style:
+    dashed;
+}
+
+.team-trait-summary-slot > span {
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 850;
+
+  text-transform:
+    uppercase;
+}
+
+.team-trait-summary-slot strong {
+  overflow: hidden;
+
+  font-size: 8px;
+  font-weight: 850;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-trait-summary-slot small {
+  overflow: hidden;
+
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 700;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-traits-heading {
+  align-items:
+    flex-start;
+
+  margin-bottom: 10px;
+}
+
+.team-traits-heading > div {
+  min-width: 0;
+}
+
+.team-traits-selected-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 8px;
+}
+
+.team-traits-selected-card {
+  display: flex;
+
+  align-items:
+    flex-start;
+  justify-content:
+    space-between;
+
+  gap: 8px;
+
+  min-width: 0;
+  min-height: 70px;
+
+  padding:
+    9px 10px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+}
+
+button.team-traits-selected-card {
+  appearance: none;
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+}
+
+.team-traits-selected-card.empty {
+  display: grid;
+
+  align-content: center;
+
+  border-style:
+    dashed;
+
+  color:
+    var(--muted);
+}
+
+.team-traits-selected-card > div {
+  display: grid;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.team-traits-selected-card span {
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 800;
+
+  text-transform:
+    uppercase;
+}
+
+.team-traits-selected-card strong {
+  color:
+    var(--text);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-traits-selected-card small {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+
+  line-height: 1.35;
+}
+
+.team-traits-selected-card > button {
+  display: flex;
+
+  flex:
+    0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 26px;
+  height: 26px;
+
+  padding: 0;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    7px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font-size: 16px;
+  line-height: 1;
+}
+
+.team-traits-open-picker {
+  width: 100%;
+
+  min-height: 38px;
+
+  margin-top: 10px;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #cfdeff;
+
+  border-radius:
+    8px;
+
+  color:
+    var(--primary-dark);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-trait-picker-modal {
+  position: fixed;
+
+  z-index: 1300;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.team-trait-picker-backdrop {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  background:
+    rgba(
+      17,
+      31,
+      54,
+      0.54
+    );
+
+  border: 0;
+
+  cursor: default;
+}
+
+.team-trait-picker-dialog {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  width:
+    min(
+      720px,
+      100%
+    );
+
+  max-height:
+    min(
+      800px,
+      calc(100vh - 40px)
+    );
+
+  overflow: hidden;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    14px;
+
+  box-shadow:
+    0 24px 80px
+    rgba(
+      23,
+      35,
+      59,
+      0.28
+    );
+}
+
+.team-trait-picker-header {
+  display: flex;
+
+  align-items:
+    flex-start;
+  justify-content:
+    space-between;
+
+  gap: 14px;
+
+  padding:
+    16px 18px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-trait-picker-header h2 {
+  margin: 0;
+
+  color:
+    var(--text);
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.team-trait-picker-header p {
+  margin:
+    3px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size: 9px;
+}
+
+.team-trait-picker-close {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font-size: 20px;
+}
+
+.team-trait-picker-tools {
+  display: grid;
+
+  gap: 10px;
+
+  padding:
+    13px 18px;
+
+  background:
+    var(--surface-soft);
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-trait-picker-tools input {
+  width: 100%;
+
+  min-height: 42px;
+
+  padding:
+    9px 11px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--text);
+
+  font:
+    inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.team-trait-picker-filter-row {
+  display: grid;
+
+  gap: 7px;
+}
+
+.team-trait-picker-filters {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.team-trait-picker-filters button {
+  min-height: 32px;
+
+  padding:
+    5px 9px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-trait-picker-filters button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+.team-trait-picker-body {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 8px;
+
+  overflow-y: auto;
+
+  padding:
+    14px 18px;
+}
+
+.team-trait-picker-item {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+
+  min-width: 0;
+  min-height: 66px;
+
+  padding:
+    9px 10px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+}
+
+.team-trait-picker-item > div {
+  display: grid;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.team-trait-picker-item span {
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 800;
+
+  text-transform:
+    uppercase;
+}
+
+.team-trait-picker-item strong {
+  overflow: hidden;
+
+  font-size: 9px;
+  font-weight: 850;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-trait-picker-item small {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+
+  line-height: 1.3;
+}
+
+.team-trait-picker-item > b {
+  flex:
+    0 0 auto;
+
+  padding:
+    3px 6px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  font-size: 8px;
+}
+
+.team-trait-picker-item.active {
+  background:
+    var(--primary-soft);
+
+  border-color:
+    #bed4fb;
+}
+
+.team-trait-picker-item.active > b {
+  background: white;
+
+  color:
+    var(--primary-dark);
+}
+
+.team-trait-picker-item:disabled {
+  opacity: 0.4;
+
+  cursor:
+    not-allowed;
+}
+
+.team-trait-picker-empty {
+  grid-column:
+    1 / -1;
+
+  padding:
+    26px 12px;
+
+  color:
+    var(--muted);
+
+  font-size: 9px;
+  font-weight: 750;
+
+  text-align: center;
+}
+
+.team-trait-picker-footer {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 12px;
+
+  padding:
+    11px 18px;
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+.team-trait-picker-footer span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.team-trait-picker-footer button {
+  min-height: 34px;
+
+  padding:
+    6px 11px;
+
+  background:
+    var(--primary);
+
+  border:
+    1px solid
+    var(--primary);
+
+  border-radius:
+    7px;
+
+  color: white;
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .team-trait-summary-slot:hover,
+  button.team-traits-selected-card:hover,
+  .team-trait-picker-item:hover:not(:disabled) {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      #bed4fb;
+  }
+
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-trait-summary-grid,
+  .team-traits-selected-grid {
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .team-trait-summary-slot {
+    min-height: 62px;
+  }
+
+  .team-trait-picker-modal {
+    align-items:
+      flex-end;
+
+    padding: 0;
+  }
+
+  .team-trait-picker-dialog {
+    width: 100%;
+
+    max-height:
+      min(
+        90vh,
+        800px
+      );
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+
+    border-radius:
+      16px 16px 0 0;
+  }
+
+  .team-trait-picker-header {
+    padding:
+      14px 15px;
+  }
+
+  .team-trait-picker-tools {
+    padding:
+      11px 15px;
+  }
+
+  .team-trait-picker-filters {
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+
+    padding-bottom: 2px;
+
+    scrollbar-width: thin;
+  }
+
+  .team-trait-picker-filters button {
+    flex:
+      0 0 auto;
+
+    min-height: 36px;
+  }
+
+  .team-trait-picker-body {
+    grid-template-columns:
+      1fr;
+
+    padding:
+      12px 15px;
+  }
+
+  .team-trait-picker-item {
+    min-height: 68px;
+  }
+
+  .team-trait-picker-footer {
+    padding:
+      10px 15px;
+  }
+
+}
