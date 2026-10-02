@@ -96,6 +96,28 @@ function getActiveTeam() {
 }
 
 
+function teamHasPalmonSpecies(
+  team,
+  palmonId
+) {
+  if (
+    !team ||
+    !palmonId
+  ) {
+    return false;
+  }
+
+  return (
+    team.palmons ||
+    []
+  ).some(
+    member =>
+      member.palmonId ===
+      palmonId
+  );
+}
+
+
 function getTeamNumber(
   teamId
 ) {
@@ -283,16 +305,38 @@ function sanitizeTeamState() {
     []
   ).forEach(
     team => {
+      const usedPalmonIds =
+        new Set();
+
       team.palmons =
         (
           team.palmons ||
           []
         )
           .filter(
-            member =>
-              validPalmonIds.has(
+            member => {
+              if (
+                !validPalmonIds.has(
+                  member.palmonId
+                )
+              ) {
+                return false;
+              }
+
+              if (
+                usedPalmonIds.has(
+                  member.palmonId
+                )
+              ) {
+                return false;
+              }
+
+              usedPalmonIds.add(
                 member.palmonId
-              )
+              );
+
+              return true;
+            }
           )
           .slice(
             0,
@@ -672,10 +716,22 @@ function addPalmon(
   const team =
     getActiveTeam();
 
+  const palmon =
+    getPalmonById(
+      palmonId
+    );
+
   if (
     !team ||
     team.palmons.length >= 7 ||
-    !getPalmonById(
+    !palmon
+  ) {
+    return;
+  }
+
+  if (
+    teamHasPalmonSpecies(
+      team,
       palmonId
     )
   ) {
@@ -1028,48 +1084,79 @@ function renderAddPalmon(
   const maxed =
     team.palmons.length >= 7;
 
-  const sorted =
+  const usedPalmonIds =
+    new Set(
+      (
+        team.palmons ||
+        []
+      ).map(
+        member =>
+          member.palmonId
+      )
+    );
+
+  const available =
     [
       ...palmons
-    ].sort(
-      (a, b) =>
-        a.name.localeCompare(
-          b.name
-        )
-    );
+    ]
+      .filter(
+        palmon =>
+          !usedPalmonIds.has(
+            palmon.id
+          )
+      )
+      .sort(
+        (a, b) =>
+          a.name.localeCompare(
+            b.name
+          )
+      );
+
+  const noAvailablePalmons =
+    available.length === 0;
+
+  const disabled =
+    maxed ||
+    noAvailablePalmons;
 
   return `
     <div class="team-add-palmon">
 
       <select
         id="team-add-palmon-select"
-        ${maxed ? "disabled" : ""}
+        ${disabled ? "disabled" : ""}
       >
         ${
-          sorted
-            .map(
-              palmon => `
-                <option
-                  value="${palmon.id}"
-                >
-                  ${palmon.name}
-                  ·
-                  ${palmon.element}
-                  ·
-                  ${palmon.role}
-                  ·
-                  ${palmon.rarity}
-                </option>
-              `
-            )
-            .join("")
+          available.length > 0
+            ? available
+                .map(
+                  palmon => `
+                    <option
+                      value="${palmon.id}"
+                    >
+                      ${palmon.name}
+                      ·
+                      ${palmon.element}
+                      ·
+                      ${palmon.role}
+                      ·
+                      ${palmon.rarity}
+                    </option>
+                  `
+                )
+                .join("")
+            : `
+              <option value="">
+                No additional Palmons available
+              </option>
+            `
         }
       </select>
 
       <button
         type="button"
         data-team-add-palmon
-        ${maxed ? "disabled" : ""}
+        ${disabled ? "disabled" : ""}
       >
         + Add Palmon
       </button>
@@ -1077,7 +1164,6 @@ function renderAddPalmon(
     </div>
   `;
 }
-
 
 function renderEquipmentSummary(
   member
