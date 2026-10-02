@@ -1173,6 +1173,95 @@ function renderTeamTabs() {
   `;
 }
 
+function renderTeamSummary(
+  team,
+  results
+) {
+  const preferredElementOrder = [
+    "Water",
+    "Fire",
+    "Earth",
+    "Electric"
+  ];
+
+  const counts = new Map();
+
+  (team?.palmons || []).forEach(
+    member => {
+      const palmon =
+        getPalmonById(
+          member.palmonId
+        );
+
+      if (!palmon?.element) {
+        return;
+      }
+
+      counts.set(
+        palmon.element,
+        (counts.get(palmon.element) || 0) + 1
+      );
+    }
+  );
+
+  const elements = [
+    ...preferredElementOrder.filter(
+      element => counts.has(element)
+    ),
+    ...[...counts.keys()]
+      .filter(
+        element =>
+          !preferredElementOrder.includes(element)
+      )
+      .sort(
+        (a, b) => a.localeCompare(b)
+      )
+  ];
+
+  const elementHtml =
+    elements.length > 0
+      ? elements.map(
+          element => {
+            const matchingResult =
+              (results || []).find(
+                result =>
+                  result.palmon?.element === element
+              );
+
+            const bonus =
+              Number(
+                matchingResult?.meta?.sameElementBonus
+              ) || 0;
+
+            return `
+              <div class="team-summary-element team-summary-element-${element.toLowerCase()}">
+                <span>${element}</span>
+                <strong>${counts.get(element)}</strong>
+                ${bonus > 0 ? `<small>+${bonus}%</small>` : ""}
+              </div>
+            `;
+          }
+        ).join("")
+      : `
+          <span class="team-summary-empty">
+            No Palmons selected yet.
+          </span>
+        `;
+
+  return `
+    <div class="team-summary">
+      <div class="team-summary-stat">
+        <span>Squad</span>
+        <strong>${team.palmons.length}/7</strong>
+      </div>
+
+      <div class="team-summary-elements">
+        ${elementHtml}
+      </div>
+    </div>
+  `;
+}
+
 
 function getAvailablePalmonsForTeam(
   team
