@@ -1362,6 +1362,48 @@ function setMegaOathUnlocked(
   render();
 }
 
+function toggleTraitSelection(
+  instanceId,
+  traitId
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  const trait =
+    getTraitById(
+      traitId
+    );
+
+  if (!found || !trait) {
+    return;
+  }
+
+  const selected =
+    new Set(
+      found.item.traitIds ||
+      []
+    );
+
+  if (selected.has(traitId)) {
+    selected.delete(traitId);
+  }
+  else {
+    if (selected.size >= 4) {
+      return;
+    }
+
+    selected.add(traitId);
+  }
+
+  found.item.traitIds =
+    [...selected].slice(0, 4);
+
+  saveState();
+  render();
+}
+
 
 function setEquipment(
   instanceId,
@@ -2125,6 +2167,65 @@ function renderEquipmentSummary(
   `;
 }
 
+function renderTraitSummary(
+  member
+) {
+  const selected =
+    getSelectedTraits(
+      member
+    );
+
+  const slots =
+    Array.from(
+      { length: 4 },
+      (_, index) =>
+        selected[index] || null
+    );
+
+  return `
+    <div class="team-trait-summary-heading">
+      <span>Traits</span>
+      <strong>${selected.length}/4</strong>
+    </div>
+
+    <div class="team-trait-summary-grid">
+      ${slots.map(
+        (trait, index) => {
+          if (!trait) {
+            return `
+              <button
+                type="button"
+                class="team-trait-summary-slot empty"
+                data-team-card-trait-picker
+                data-team-instance-id="${member.instanceId}"
+                aria-label="Choose Trait ${index + 1}"
+              >
+                <span>Trait ${index + 1}</span>
+                <strong>Empty</strong>
+                <small>Choose trait</small>
+              </button>
+            `;
+          }
+
+          return `
+            <button
+              type="button"
+              class="team-trait-summary-slot"
+              data-team-card-trait-picker
+              data-team-instance-id="${member.instanceId}"
+              aria-label="Change traits"
+            >
+              <span>Rank ${trait.rank}</span>
+              <strong>${trait.name}</strong>
+              <small>${trait.displayEffect || ""}</small>
+            </button>
+          `;
+        }
+      ).join("")}
+    </div>
+  `;
+}
+
 function renderTeamPalmonCard(
   member,
   result
@@ -2297,6 +2398,15 @@ function renderTeamPalmonCard(
       <div class="team-palmon-equipment">
 
         ${renderEquipmentSummary(
+          member
+        )}
+
+      </div>
+
+
+      <div class="team-palmon-traits">
+
+        ${renderTraitSummary(
           member
         )}
 
@@ -3099,6 +3209,362 @@ function renderEvolutionPanel({
   `;
 }
 
+function renderTraitsPanel(
+  member
+) {
+  const selected =
+    getSelectedTraits(
+      member
+    );
+
+  const slots =
+    Array.from(
+      { length: 4 },
+      (_, index) =>
+        selected[index] || null
+    );
+
+  return `
+    <section class="team-config-section team-config-panel ${configTab === "traits" ? "active" : ""}">
+
+      <div class="team-traits-heading">
+        <div>
+          <h3>Traits</h3>
+          <p class="team-config-section-note">
+            Select up to four Traits for this individual Palmon.
+          </p>
+        </div>
+
+        <strong>${selected.length}/4</strong>
+      </div>
+
+      <div class="team-traits-selected-grid">
+        ${slots.map(
+          (trait, index) => {
+            if (!trait) {
+              return `
+                <button
+                  type="button"
+                  class="team-traits-selected-card empty"
+                  data-team-open-trait-picker
+                  data-team-instance-id="${member.instanceId}"
+                >
+                  <span>Trait ${index + 1}</span>
+                  <strong>Empty</strong>
+                  <small>Choose Trait</small>
+                </button>
+              `;
+            }
+
+            return `
+              <div class="team-traits-selected-card">
+                <div>
+                  <span>Rank ${trait.rank} · ${trait.category === "combat" ? "Combat" : "Work"}</span>
+                  <strong>${trait.name}</strong>
+                  <small>${trait.displayEffect || ""}</small>
+                </div>
+
+                <button
+                  type="button"
+                  data-team-remove-trait="${trait.id}"
+                  data-team-instance-id="${member.instanceId}"
+                  aria-label="Remove ${trait.name}"
+                >
+                  ×
+                </button>
+              </div>
+            `;
+          }
+        ).join("")}
+      </div>
+
+      <button
+        type="button"
+        class="team-traits-open-picker"
+        data-team-open-trait-picker
+        data-team-instance-id="${member.instanceId}"
+      >
+        ${selected.length >= 4 ? "Change Traits" : "+ Choose Trait"}
+      </button>
+
+    </section>
+  `;
+}
+
+
+function renderTraitPicker() {
+  if (
+    !traitPicker.open ||
+    !traitPicker.memberInstanceId
+  ) {
+    return "";
+  }
+
+  const found =
+    getTeamPalmon(
+      traitPicker.memberInstanceId
+    );
+
+  if (!found) {
+    return "";
+  }
+
+  const selectedIds =
+    new Set(
+      found.item.traitIds ||
+      []
+    );
+
+  const traits =
+    [...(traitsData?.traits || [])]
+      .filter(
+        trait =>
+          trait.status !== "inactive"
+      )
+      .sort(
+        (a, b) => {
+          const rankOrder =
+            { S: 0, A: 1, B: 2, C: 3 };
+
+          const rankDiff =
+            (rankOrder[a.rank] ?? 9) -
+            (rankOrder[b.rank] ?? 9);
+
+          return rankDiff ||
+            a.name.localeCompare(b.name);
+        }
+      );
+
+  return `
+    <div class="team-trait-picker-modal">
+
+      <button
+        type="button"
+        class="team-trait-picker-backdrop"
+        data-team-close-trait-picker
+        aria-label="Close Trait picker"
+      ></button>
+
+      <div
+        class="team-trait-picker-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="team-trait-picker-title"
+      >
+
+        <div class="team-trait-picker-header">
+          <div>
+            <h2 id="team-trait-picker-title">
+              Choose Traits
+            </h2>
+
+            <p>
+              ${getPalmonDisplayName(
+                getPalmonById(found.item.palmonId),
+                found.item
+              )}
+              ·
+              ${selectedIds.size}/4 selected
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="team-trait-picker-close"
+            data-team-close-trait-picker
+            aria-label="Close"
+          >×</button>
+        </div>
+
+        <div class="team-trait-picker-tools">
+          <input
+            type="search"
+            placeholder="Search Traits..."
+            autocomplete="off"
+            value="${traitPicker.query}"
+            data-team-trait-picker-search
+          >
+
+          <div class="team-trait-picker-filter-row">
+            <div class="team-trait-picker-filters" aria-label="Filter by category">
+              ${["all", "combat", "work"].map(
+                category => `
+                  <button
+                    type="button"
+                    class="${traitPicker.category === category ? "active" : ""}"
+                    data-team-trait-category="${category}"
+                  >
+                    ${category === "all" ? "All" : category === "combat" ? "Combat" : "Work"}
+                  </button>
+                `
+              ).join("")}
+            </div>
+
+            <div class="team-trait-picker-filters" aria-label="Filter by rank">
+              ${["all", "S", "A", "B", "C"].map(
+                rank => `
+                  <button
+                    type="button"
+                    class="${traitPicker.rank === rank ? "active" : ""}"
+                    data-team-trait-rank="${rank}"
+                  >
+                    ${rank === "all" ? "All ranks" : rank}
+                  </button>
+                `
+              ).join("")}
+            </div>
+          </div>
+        </div>
+
+        <div class="team-trait-picker-body">
+          ${traits.map(
+            trait => {
+              const selected =
+                selectedIds.has(trait.id);
+
+              const disabled =
+                !selected &&
+                selectedIds.size >= 4;
+
+              return `
+                <button
+                  type="button"
+                  class="team-trait-picker-item ${selected ? "active" : ""}"
+                  data-team-trait-picker-item="${trait.id}"
+                  data-team-trait-name="${trait.name}"
+                  data-team-trait-effect="${trait.displayEffect || ""}"
+                  data-team-trait-rank-value="${trait.rank}"
+                  data-team-trait-category-value="${trait.category}"
+                  ${disabled ? "disabled" : ""}
+                >
+                  <div>
+                    <span>Rank ${trait.rank} · ${trait.category === "combat" ? "Combat" : "Work"}</span>
+                    <strong>${trait.name}</strong>
+                    <small>${trait.displayEffect || ""}</small>
+                  </div>
+
+                  <b>${selected ? "Selected" : "+"}</b>
+                </button>
+              `;
+            }
+          ).join("")}
+
+          <div
+            class="team-trait-picker-empty team-palmon-picker-hidden"
+            data-team-trait-picker-empty
+          >
+            No matching Traits found.
+          </div>
+        </div>
+
+        <div class="team-trait-picker-footer">
+          <span>${selectedIds.size}/4 Traits selected</span>
+
+          <button
+            type="button"
+            data-team-close-trait-picker
+          >
+            Done
+          </button>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+
+function updateTraitPickerVisibility() {
+  const query =
+    traitPicker.query
+      .trim()
+      .toLowerCase();
+
+  let visibleCount = 0;
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-picker-item]"
+    )
+    .forEach(
+      button => {
+        const searchable =
+          [
+            button.dataset.teamTraitName || "",
+            button.dataset.teamTraitEffect || ""
+          ].join(" ").toLowerCase();
+
+        const matchesQuery =
+          !query ||
+          searchable.includes(query);
+
+        const matchesRank =
+          traitPicker.rank === "all" ||
+          button.dataset.teamTraitRankValue ===
+            traitPicker.rank;
+
+        const matchesCategory =
+          traitPicker.category === "all" ||
+          button.dataset.teamTraitCategoryValue ===
+            traitPicker.category;
+
+        const visible =
+          matchesQuery &&
+          matchesRank &&
+          matchesCategory;
+
+        button.classList.toggle(
+          "team-palmon-picker-hidden",
+          !visible
+        );
+
+        if (visible) {
+          visibleCount += 1;
+        }
+      }
+    );
+
+  const empty =
+    document.querySelector(
+      "[data-team-trait-picker-empty]"
+    );
+
+  if (empty) {
+    empty.classList.toggle(
+      "team-palmon-picker-hidden",
+      visibleCount > 0
+    );
+  }
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-rank]"
+    )
+    .forEach(
+      button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.teamTraitRank ===
+            traitPicker.rank
+        );
+      }
+    );
+
+  document
+    .querySelectorAll(
+      "[data-team-trait-category]"
+    )
+    .forEach(
+      button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.teamTraitCategory ===
+            traitPicker.category
+        );
+      }
+    );
+}
+
 function renderConfigModal() {
   if (!editingInstanceId) {
     return "";
@@ -3205,6 +3671,14 @@ function renderConfigModal() {
             data-team-config-tab="evolution"
           >
             Evolution
+          </button>
+
+          <button
+            type="button"
+            class="${configTab === "traits" ? "active" : ""}"
+            data-team-config-tab="traits"
+          >
+            Traits
           </button>
         </div>
 
@@ -3363,6 +3837,10 @@ function renderConfigModal() {
             palmon
           })}
 
+          ${renderTraitsPanel(
+            member
+          )}
+
 
           <div class="team-config-future-note">
 
@@ -3371,8 +3849,8 @@ function renderConfigModal() {
             </strong>
 
             <span>
-              Traits and full Palmon Skill
-              configuration. Until those
+              Full Palmon Skill configuration.
+              Until that
               systems are connected here, the displayed
               stat preview can be lower than the final
               ingame value.
@@ -3533,6 +4011,8 @@ function render() {
     ${renderConfigModal()}
 
     ${renderEquipmentPicker()}
+
+    ${renderTraitPicker()}
 
   `;
 
