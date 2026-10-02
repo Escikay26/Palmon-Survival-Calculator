@@ -11516,3 +11516,494 @@ body.team-modal-open {
   }
 
 }
+
+
+/* ========================================
+   TEAM EVOLUTION EDITOR
+   ======================================== */
+
+.team-evolution-heading {
+  display: flex;
+
+  align-items:
+    flex-start;
+  justify-content:
+    space-between;
+
+  gap: 12px;
+}
+
+.team-evolution-heading > div {
+  min-width: 0;
+}
+
+.team-evolution-heading > strong {
+  flex-shrink: 0;
+
+  padding:
+    4px 8px;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #cfdeff;
+
+  border-radius:
+    999px;
+
+  color:
+    var(--primary-dark);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-evolution-line {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 5px;
+
+  margin-bottom: 12px;
+}
+
+.team-evolution-line span {
+  padding:
+    4px 7px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--text-soft);
+
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.team-evolution-oath {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 12px;
+
+  padding:
+    9px 10px;
+
+  background:
+    #fff9e8;
+
+  border:
+    1px solid
+    #ead59a;
+
+  border-radius:
+    8px;
+
+  cursor: pointer;
+}
+
+.team-evolution-oath input {
+  width: 18px;
+  height: 18px;
+
+  margin: 0;
+
+  accent-color:
+    var(--primary);
+}
+
+.team-evolution-oath > span {
+  display: grid;
+
+  gap: 2px;
+}
+
+.team-evolution-oath strong {
+  color:
+    #654d0b;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-evolution-oath small {
+  color:
+    #806b31;
+
+  font-size: 8px;
+}
+
+.team-evolution-stage-list {
+  display: flex;
+
+  gap: 6px;
+
+  overflow-x: auto;
+
+  padding:
+    2px 1px 7px;
+
+  scroll-snap-type:
+    x proximity;
+
+  scrollbar-width: thin;
+}
+
+.team-evolution-stage-list button {
+  display: grid;
+
+  flex:
+    0 0 auto;
+
+  gap: 2px;
+
+  min-width: 66px;
+  min-height: 48px;
+
+  padding:
+    7px 9px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: center;
+
+  scroll-snap-align:
+    center;
+}
+
+.team-evolution-stage-list button strong {
+  color:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-evolution-stage-list button span {
+  font-size: 7px;
+  font-weight: 750;
+}
+
+.team-evolution-stage-list button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+.team-evolution-stage-list button:disabled {
+  opacity: 0.35;
+
+  cursor:
+    not-allowed;
+}
+
+.team-evolution-stage-meta {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 8px;
+
+  margin-top: 10px;
+}
+
+.team-evolution-stage-meta > span {
+  display: grid;
+
+  gap: 3px;
+
+  padding:
+    8px 9px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  font-size: 8px;
+}
+
+.team-evolution-stage-meta strong {
+  color:
+    var(--text);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-evolution-talents,
+.team-evolution-level-control {
+  display: grid;
+
+  gap: 7px;
+
+  margin-top: 14px;
+}
+
+.team-evolution-subheading {
+  display: flex;
+
+  align-items:
+    baseline;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+}
+
+.team-evolution-subheading strong {
+  color:
+    var(--text);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-evolution-subheading span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+
+  text-align: right;
+}
+
+.team-evolution-talent {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+
+  min-height: 40px;
+
+  padding:
+    8px 10px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--text-soft);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+}
+
+.team-evolution-talent > span {
+  min-width: 0;
+
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.team-evolution-talent > strong {
+  flex-shrink: 0;
+
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-evolution-talent.active {
+  background:
+    var(--primary-soft);
+
+  border-color:
+    #bed4fb;
+
+  color:
+    var(--primary-dark);
+}
+
+.team-evolution-talent.active > strong {
+  color:
+    var(--primary-dark);
+}
+
+.team-evolution-level-stepper {
+  display: grid;
+
+  grid-template-columns:
+    40px
+    minmax(0, 1fr)
+    40px;
+
+  gap: 8px;
+
+  align-items: center;
+}
+
+.team-evolution-level-stepper button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--primary-dark);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.team-evolution-level-stepper button:disabled {
+  opacity: 0.35;
+
+  cursor:
+    not-allowed;
+}
+
+.team-evolution-level-stepper > strong {
+  color:
+    var(--text);
+
+  font-size: 11px;
+  font-weight: 850;
+
+  text-align: center;
+}
+
+.team-evolution-level-range {
+  width: 100%;
+
+  accent-color:
+    var(--primary);
+}
+
+.team-evolution-empty {
+  margin-top: 10px;
+
+  padding:
+    12px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px dashed
+    var(--border-strong);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  font-size: 9px;
+
+  line-height: 1.45;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .team-evolution-stage-list
+  button:hover:not(:disabled):not(.active),
+  .team-evolution-talent:hover:not(.active) {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      #bed4fb;
+  }
+
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-evolution-stage-meta {
+    grid-template-columns:
+      1fr;
+  }
+
+  .team-evolution-stage-list button {
+    min-width: 72px;
+    min-height: 52px;
+  }
+
+  .team-evolution-talent {
+    min-height: 44px;
+  }
+
+}
