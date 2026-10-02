@@ -31,10 +31,10 @@ Game mechanics that are still uncertain or need validation belong in
 - [x] Collapsible Equipment categories
 - [x] Expand All / Collapse All inventory controls
 - [x] Current → Planned comparison shown only for changed Equipment
+- [x] Assigned / Unassigned status
+- [x] Show assigned Palmon and Team on Equipment cards
 
 ### Later
-- [ ] Assigned / Unassigned status
-- [ ] Show assigned Palmon and Team on Equipment cards
 - [ ] Direct "Equip to Palmon" action
 - [ ] Optional Equipment nicknames
 - [ ] More detailed build comparison if needed
