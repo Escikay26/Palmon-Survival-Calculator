@@ -14,6 +14,13 @@ import {
 } from "./palmon-equipment.js";
 
 import {
+  getPalmonEvolutionStageLimit,
+  getRequiredStarsForEvolutionStage,
+  getEvolutionStageDefinition
+} from "./palmon-evolution.js";
+
+
+import {
   calculateTeamStats,
   PALMON_STAT_CALCULATION_STATUS
 } from "./palmon-calculator.js";
@@ -136,6 +143,118 @@ function getPalmonDisplayName(
 
   return palmon.name;
 }
+function normalizeMemberEvolution(
+  member,
+  palmon
+) {
+  if (!member || !palmon) {
+    return;
+  }
+
+  const existing =
+    member.evolution ||
+    {};
+
+  const stageLimit =
+    getPalmonEvolutionStageLimit({
+      palmonType:
+        palmon.palmonType ||
+        "normal",
+      hasEvolution:
+        Boolean(
+          palmon.evolution
+            ?.hasEvolution
+        ),
+      hasMegaEvolution:
+        Boolean(
+          palmon.evolution
+            ?.hasMegaEvolution
+        )
+    });
+
+  const megaOathUnlocked =
+    Boolean(
+      existing.megaOathUnlocked ||
+      Number(existing.stage) >= 5
+    );
+
+  let maxStageByStars = 0;
+
+  for (
+    let stage = 1;
+    stage <= stageLimit;
+    stage += 1
+  ) {
+    if (
+      member.stars >=
+      getRequiredStarsForEvolutionStage(
+        stage
+      )
+    ) {
+      maxStageByStars = stage;
+    }
+  }
+
+  if (
+    !megaOathUnlocked &&
+    maxStageByStars >= 5
+  ) {
+    maxStageByStars = 4;
+  }
+
+  const stage =
+    clampInteger(
+      existing.stage,
+      0,
+      Math.min(
+        stageLimit,
+        maxStageByStars
+      )
+    );
+
+  const stageDefinition =
+    stage > 0
+      ? getEvolutionStageDefinition(
+          stage,
+          palmon.role
+        )
+      : null;
+
+  const maxTalentIndex =
+    Math.max(
+      0,
+      (
+        stageDefinition
+          ?.talents
+          ?.length ||
+        1
+      ) - 1
+    );
+
+  member.evolution = {
+    stage,
+
+    talentIndex:
+      clampInteger(
+        existing.talentIndex,
+        0,
+        maxTalentIndex
+      ),
+
+    talentLevel:
+      clampInteger(
+        existing.talentLevel,
+        0,
+        10
+      ),
+
+    megaEvolved:
+      stage >= 5,
+
+    megaOathUnlocked
+  };
+}
+
 
 function getActiveTeam() {
   return (
@@ -430,40 +549,12 @@ function sanitizeTeamState() {
                   .slice(0, 4)
               : [];
 
-          member.evolution = {
-            stage:
-              clampInteger(
-                member.evolution
-                  ?.stage,
-                0,
-                8
-              ),
-
-            talentIndex:
-              Math.max(
-                0,
-                Math.floor(
-                  Number(
-                    member.evolution
-                      ?.talentIndex
-                  ) || 0
-                )
-              ),
-
-            talentLevel:
-              clampInteger(
-                member.evolution
-                  ?.talentLevel,
-                0,
-                10
-              ),
-
-            megaEvolved:
-              Boolean(
-                member.evolution
-                  ?.megaEvolved
-              )
-          };
+          normalizeMemberEvolution(
+            member,
+            getPalmonById(
+              member.palmonId
+            )
+          );
 
           member.equipment = {
             weapon:
@@ -844,7 +935,8 @@ function addPalmon(
       stage: 0,
       talentIndex: 0,
       talentLevel: 0,
-      megaEvolved: false
+      megaEvolved: false,
+      megaOathUnlocked: false
     },
 
     traitIds: [],
@@ -982,6 +1074,13 @@ function setAscensionProgress(
 
   found.item.subLevel =
     state.subLevel;
+
+  normalizeMemberEvolution(
+    found.item,
+    getPalmonById(
+      found.item.palmonId
+    )
+  );
 
   saveState();
 
