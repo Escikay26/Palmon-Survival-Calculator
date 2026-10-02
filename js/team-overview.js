@@ -956,6 +956,15 @@ function renderCalculationNotice() {
             </span>
 
             <span>
+              Not yet configurable here:
+              <strong>
+                ${PALMON_STAT_CALCULATION_STATUS
+                  .configurationGaps
+                  .join(", ")}
+              </strong>
+            </span>
+
+            <span>
               Still being validated:
               <strong>
                 ${PALMON_STAT_CALCULATION_STATUS
