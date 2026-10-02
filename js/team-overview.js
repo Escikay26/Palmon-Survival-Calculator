@@ -3850,10 +3850,9 @@ function renderConfigModal() {
 
             <span>
               Full Palmon Skill configuration.
-              Until that
-              systems are connected here, the displayed
-              stat preview can be lower than the final
-              ingame value.
+              Until that system is connected here, the
+              displayed stat preview can be lower than
+              the final ingame value.
             </span>
 
           </div>
