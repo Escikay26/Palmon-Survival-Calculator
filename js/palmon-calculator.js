@@ -99,7 +99,6 @@ export const PALMON_STAT_CALCULATION_STATUS = {
   ],
 
   configurationGaps: [
-    "Trait selection in the Overview",
     "Full Palmon Skill setup"
   ]
 };
