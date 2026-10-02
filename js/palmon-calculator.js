@@ -96,6 +96,12 @@ export const PALMON_STAT_CALCULATION_STATUS = {
     "Mystic Palmon base/level model",
     "Exact elemental-counter math",
     "Some conditional battle effects"
+  ],
+
+  configurationGaps: [
+    "Evolution progression in the Overview",
+    "Trait selection in the Overview",
+    "Full Palmon Skill setup"
   ]
 };
 
