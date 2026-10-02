@@ -39,6 +39,14 @@ let palmonPickerElement = "all";
 
 let palmonPickerQuery = "";
 
+let equipmentPicker = {
+  open: false,
+  memberInstanceId: null,
+  category: null,
+  query: "",
+  rarity: "all"
+};
+
 
 // ========================================
 // FORMAT
@@ -642,14 +650,20 @@ initTeamOverview() {
             "Escape" &&
           (
             editingInstanceId ||
-            palmonPickerOpen
+            palmonPickerOpen ||
+            equipmentPicker.open
           )
         ) {
-          if (editingInstanceId) {
-            editingInstanceId =
-              null;
+          if (equipmentPicker.open) {
+            equipmentPicker = {
+              open: false,
+              memberInstanceId: null,
+              category: null,
+              query: "",
+              rarity: "all"
+            };
           }
-          else {
+          else if (palmonPickerOpen) {
             palmonPickerOpen =
               false;
 
@@ -658,6 +672,10 @@ initTeamOverview() {
 
             palmonPickerElement =
               "all";
+          }
+          else if (editingInstanceId) {
+            editingInstanceId =
+              null;
           }
 
           render();
@@ -1741,6 +1759,36 @@ function getAscensionIndex(
 }
 
 
+function changeAscensionProgress(
+  instanceId,
+  direction
+) {
+  const found =
+    getTeamPalmon(
+      instanceId
+    );
+
+  if (!found) {
+    return;
+  }
+
+  const currentIndex =
+    getAscensionIndex(
+      found.item
+    );
+
+  setAscensionProgress(
+    instanceId,
+    clampInteger(
+      currentIndex +
+        Number(direction || 0),
+      0,
+      ASCENSION_STATES.length - 1
+    )
+  );
+}
+
+
 function getAvailableEquipmentForCategory({
   member,
   category
@@ -1784,11 +1832,140 @@ function getAvailableEquipmentForCategory({
 }
 
 
-function renderEquipmentSelect({
+function renderEquipmentSlot({
   member,
   category,
   label
 }) {
+  const inventory =
+    getEquipmentInventory();
+
+  const currentId =
+    member.equipment
+      ?.[category] ||
+    null;
+
+  const instance =
+    currentId
+      ? inventory.find(
+          item =>
+            item.instanceId ===
+            currentId
+        )
+      : null;
+
+  const definition =
+    instance
+      ? getEquipmentDefinition(
+          equipmentData,
+          instance.equipmentId
+        )
+      : null;
+
+  return `
+    <div class="team-equipment-slot">
+
+      <div class="team-equipment-slot-header">
+        <span>
+          ${label}
+        </span>
+
+        ${definition
+          ? `
+            <span class="team-equipment-slot-rarity">
+              ${definition.rarity || ""}
+            </span>
+          `
+          : ""}
+      </div>
+
+      <div class="team-equipment-slot-content">
+
+        ${definition
+          ? `
+            <strong>
+              ${getEquipmentDisplayName(
+                instance,
+                inventory
+              )}
+            </strong>
+
+            <span>
+              Lv${instance.enhancementLevel}
+              ·
+              ${getEquipmentAscensionLabel(
+                equipmentData,
+                instance.ascensionLevel
+              )}
+            </span>
+          `
+          : `
+            <strong>
+              None equipped
+            </strong>
+
+            <span>
+              Choose an item from your inventory.
+            </span>
+          `
+        }
+
+      </div>
+
+      <div class="team-equipment-slot-actions">
+
+        <button
+          type="button"
+          class="team-equipment-choose-button"
+          data-team-open-equipment-picker="${category}"
+          data-team-instance-id="${member.instanceId}"
+        >
+          ${definition ? "Change" : "Choose"}
+        </button>
+
+        ${definition
+          ? `
+            <button
+              type="button"
+              class="team-equipment-unequip-button"
+              data-team-unequip-category="${category}"
+              data-team-instance-id="${member.instanceId}"
+            >
+              Unequip
+            </button>
+          `
+          : ""}
+      </div>
+
+    </div>
+  `;
+}
+
+
+function renderEquipmentPicker() {
+  if (
+    !equipmentPicker.open ||
+    !equipmentPicker.memberInstanceId ||
+    !equipmentPicker.category
+  ) {
+    return "";
+  }
+
+  const found =
+    getTeamPalmon(
+      equipmentPicker.memberInstanceId
+    );
+
+  if (!found) {
+    return "";
+  }
+
+  const member =
+    found.item;
+
+  const category =
+    equipmentPicker.category;
+
   const inventory =
     getEquipmentInventory();
 
@@ -1798,29 +1975,102 @@ function renderEquipmentSelect({
       category
     });
 
+  const categoryLabel =
+    category.charAt(0).toUpperCase() +
+    category.slice(1);
+
   const currentId =
     member.equipment
       ?.[category] ||
     "";
 
   return `
-    <label class="team-config-field">
+    <div class="team-equipment-picker-modal">
 
-      <span>
-        ${label}
-      </span>
+      <button
+        type="button"
+        class="team-equipment-picker-backdrop"
+        data-team-close-equipment-picker
+        aria-label="Close Equipment picker"
+      ></button>
 
-      <select
-        data-team-equipment-category="${category}"
-        data-team-instance-id="${member.instanceId}"
+      <div
+        class="team-equipment-picker-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="team-equipment-picker-title"
       >
 
-        <option value="">
-          None
-        </option>
+        <div class="team-equipment-picker-header">
 
-        ${
-          available
+          <div>
+            <h2 id="team-equipment-picker-title">
+              Choose ${categoryLabel}
+            </h2>
+
+            <p>
+              ${found.team.name}
+              ·
+              ${getPalmonById(member.palmonId)?.name || "Palmon"}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="team-equipment-picker-close"
+            data-team-close-equipment-picker
+            aria-label="Close"
+          >
+            ×
+          </button>
+
+        </div>
+
+        <div class="team-equipment-picker-tools">
+
+          <input
+            type="search"
+            placeholder="Search Equipment..."
+            autocomplete="off"
+            value="${equipmentPicker.query}"
+            data-team-equipment-picker-search
+          >
+
+          <div class="team-equipment-picker-filters">
+            ${["all", "UR", "SSR"]
+              .map(
+                rarity => `
+                  <button
+                    type="button"
+                    class="${equipmentPicker.rarity === rarity ? "active" : ""}"
+                    data-team-equipment-picker-rarity="${rarity}"
+                  >
+                    ${rarity === "all" ? "All" : rarity}
+                  </button>
+                `
+              )
+              .join("")}
+          </div>
+
+        </div>
+
+        <div class="team-equipment-picker-body">
+
+          <button
+            type="button"
+            class="team-equipment-picker-item team-equipment-picker-none"
+            data-team-equipment-picker-item=""
+          >
+            <strong>
+              None
+            </strong>
+
+            <span>
+              Unequip this slot
+            </span>
+          </button>
+
+          ${available
             .map(
               instance => {
                 const definition =
@@ -1829,42 +2079,158 @@ function renderEquipmentSelect({
                     instance.equipmentId
                   );
 
+                if (!definition) {
+                  return "";
+                }
+
                 return `
-                  <option
-                    value="${instance.instanceId}"
-                    ${
-                      currentId ===
-                        instance.instanceId
-                        ? "selected"
-                        : ""
-                    }
+                  <button
+                    type="button"
+                    class="team-equipment-picker-item ${currentId === instance.instanceId ? "active" : ""}"
+                    data-team-equipment-picker-item="${instance.instanceId}"
+                    data-team-equipment-name="${getEquipmentDisplayName(instance, inventory)}"
+                    data-team-equipment-rarity="${definition.rarity || ""}"
                   >
-                    ${definition?.rarity || ""}
-                    ·
-                    ${getEquipmentDisplayName(
-                      instance,
-                      inventory
-                    )}
-                    ·
-                    Lv${instance.enhancementLevel}
-                    ·
-                    ${getEquipmentAscensionLabel(
-                      equipmentData,
-                      instance.ascensionLevel
-                    )}
-                  </option>
+                    <div>
+                      <strong>
+                        ${getEquipmentDisplayName(
+                          instance,
+                          inventory
+                        )}
+                      </strong>
+
+                      <span>
+                        ${definition.rarity || ""}
+                        ·
+                        Lv${instance.enhancementLevel}
+                        ·
+                        ${getEquipmentAscensionLabel(
+                          equipmentData,
+                          instance.ascensionLevel
+                        )}
+                      </span>
+                    </div>
+
+                    ${currentId === instance.instanceId
+                      ? `
+                        <small>
+                          Equipped
+                        </small>
+                      `
+                      : ""}
+                  </button>
                 `;
               }
             )
-            .join("")
-        }
+            .join("")}
 
-      </select>
+          <div
+            class="team-equipment-picker-empty team-palmon-picker-hidden"
+            data-team-equipment-picker-empty
+          >
+            No matching Equipment found.
+          </div>
 
-    </label>
+        </div>
+
+      </div>
+
+    </div>
   `;
 }
 
+
+function updateEquipmentPickerVisibility() {
+  const query =
+    equipmentPicker.query
+      .trim()
+      .toLowerCase();
+
+  let visibleCount = 0;
+
+  document
+    .querySelectorAll(
+      "[data-team-equipment-picker-item]"
+    )
+    .forEach(
+      button => {
+        const instanceId =
+          button.dataset
+            .teamEquipmentPickerItem;
+
+        if (instanceId === "") {
+          button.classList.remove(
+            "team-palmon-picker-hidden"
+          );
+
+          return;
+        }
+
+        const name =
+          button.dataset
+            .teamEquipmentName
+            ?.toLowerCase() ||
+          "";
+
+        const rarity =
+          button.dataset
+            .teamEquipmentRarity ||
+          "";
+
+        const matchesQuery =
+          !query ||
+          name.includes(
+            query
+          );
+
+        const matchesRarity =
+          equipmentPicker.rarity ===
+            "all" ||
+          rarity ===
+            equipmentPicker.rarity;
+
+        const visible =
+          matchesQuery &&
+          matchesRarity;
+
+        button.classList.toggle(
+          "team-palmon-picker-hidden",
+          !visible
+        );
+
+        if (visible) {
+          visibleCount += 1;
+        }
+      }
+    );
+
+  const empty =
+    document.querySelector(
+      "[data-team-equipment-picker-empty]"
+    );
+
+  if (empty) {
+    empty.classList.toggle(
+      "team-palmon-picker-hidden",
+      visibleCount > 0
+    );
+  }
+
+  document
+    .querySelectorAll(
+      "[data-team-equipment-picker-rarity]"
+    )
+    .forEach(
+      button => {
+        button.classList.toggle(
+          "active",
+          button.dataset
+            .teamEquipmentPickerRarity ===
+            equipmentPicker.rarity
+        );
+      }
+    );
+}
 
 function renderConfigModal() {
   if (!editingInstanceId) {
@@ -1978,38 +2344,66 @@ function renderConfigModal() {
             >
 
 
-            <label class="team-config-field">
-              <span>
-                Ascension
-              </span>
+            <div class="team-ascension-control">
 
-              <select
-                data-team-ascension="${member.instanceId}"
-              >
-                ${
-                  ASCENSION_STATES
-                    .map(
-                      (
-                        state,
-                        index
-                      ) => `
-                        <option
-                          value="${index}"
-                          ${
-                            ascensionIndex ===
-                              index
-                              ? "selected"
-                              : ""
-                          }
-                        >
-                          ${state.stars}-${state.subLevel}★
-                        </option>
-                      `
-                    )
-                    .join("")
-                }
-              </select>
-            </label>
+              <div class="team-ascension-label-row">
+                <span>
+                  Ascension
+                </span>
+
+                <strong>
+                  ${ASCENSION_STATES[ascensionIndex].stars}-${ASCENSION_STATES[ascensionIndex].subLevel}★
+                </strong>
+              </div>
+
+              <div class="team-ascension-stepper">
+                <button
+                  type="button"
+                  data-team-ascension-step="-1"
+                  data-team-instance-id="${member.instanceId}"
+                  ${ascensionIndex <= 0 ? "disabled" : ""}
+                  aria-label="Previous Ascension stage"
+                >
+                  −
+                </button>
+
+                <div
+                  class="team-ascension-options"
+                  data-team-ascension-options
+                >
+                  ${
+                    ASCENSION_STATES
+                      .map(
+                        (
+                          state,
+                          index
+                        ) => `
+                          <button
+                            type="button"
+                            class="${ascensionIndex === index ? "active" : ""}"
+                            data-team-ascension-option="${index}"
+                            data-team-instance-id="${member.instanceId}"
+                          >
+                            ${state.stars}-${state.subLevel}★
+                          </button>
+                        `
+                      )
+                      .join("")
+                  }
+                </div>
+
+                <button
+                  type="button"
+                  data-team-ascension-step="1"
+                  data-team-instance-id="${member.instanceId}"
+                  ${ascensionIndex >= ASCENSION_STATES.length - 1 ? "disabled" : ""}
+                  aria-label="Next Ascension stage"
+                >
+                  +
+                </button>
+              </div>
+
+            </div>
 
           </section>
 
@@ -2027,7 +2421,7 @@ function renderConfigModal() {
 
             <div class="team-equipment-config-grid">
 
-              ${renderEquipmentSelect({
+              ${renderEquipmentSlot({
                 member,
                 category:
                   "weapon",
@@ -2035,7 +2429,7 @@ function renderConfigModal() {
                   "Weapon"
               })}
 
-              ${renderEquipmentSelect({
+              ${renderEquipmentSlot({
                 member,
                 category:
                   "shield",
@@ -2043,7 +2437,7 @@ function renderConfigModal() {
                   "Shield"
               })}
 
-              ${renderEquipmentSelect({
+              ${renderEquipmentSlot({
                 member,
                 category:
                   "accessory",
@@ -2051,7 +2445,7 @@ function renderConfigModal() {
                   "Accessory"
               })}
 
-              ${renderEquipmentSelect({
+              ${renderEquipmentSlot({
                 member,
                 category:
                   "headgear",
@@ -2227,13 +2621,16 @@ function render() {
 
     ${renderConfigModal()}
 
+    ${renderEquipmentPicker()}
+
   `;
 
   document.body.classList.toggle(
     "team-modal-open",
     Boolean(
       editingInstanceId ||
-      palmonPickerOpen
+      palmonPickerOpen ||
+      equipmentPicker.open
     )
   );
 
@@ -2482,17 +2879,18 @@ function addListeners() {
 
   document
     .querySelectorAll(
-      "[data-team-ascension]"
+      "[data-team-ascension-option]"
     )
     .forEach(
-      select => {
-        select.addEventListener(
-          "change",
+      button => {
+        button.addEventListener(
+          "click",
           () => {
             setAscensionProgress(
-              select.dataset
-                .teamAscension,
-              select.value
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamAscensionOption
             );
           }
         );
@@ -2502,20 +2900,174 @@ function addListeners() {
 
   document
     .querySelectorAll(
-      "[data-team-equipment-category]"
+      "[data-team-ascension-step]"
     )
     .forEach(
-      select => {
-        select.addEventListener(
-          "change",
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            changeAscensionProgress(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamAscensionStep
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-open-equipment-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            equipmentPicker = {
+              open: true,
+              memberInstanceId:
+                button.dataset
+                  .teamInstanceId,
+              category:
+                button.dataset
+                  .teamOpenEquipmentPicker,
+              query: "",
+              rarity: "all"
+            };
+
+            render();
+
+            requestAnimationFrame(
+              () => {
+                document
+                  .querySelector(
+                    "[data-team-equipment-picker-search]"
+                  )
+                  ?.focus();
+              }
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-unequip-category]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
           () => {
             setEquipment(
-              select.dataset
+              button.dataset
                 .teamInstanceId,
-              select.dataset
-                .teamEquipmentCategory,
-              select.value
+              button.dataset
+                .teamUnequipCategory,
+              null
             );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-close-equipment-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            equipmentPicker = {
+              open: false,
+              memberInstanceId: null,
+              category: null,
+              query: "",
+              rarity: "all"
+            };
+
+            render();
+          }
+        );
+      }
+    );
+
+
+  const equipmentPickerSearch =
+    document.querySelector(
+      "[data-team-equipment-picker-search]"
+    );
+
+  if (equipmentPickerSearch) {
+    equipmentPickerSearch.addEventListener(
+      "input",
+      () => {
+        equipmentPicker.query =
+          equipmentPickerSearch.value;
+
+        updateEquipmentPickerVisibility();
+      }
+    );
+  }
+
+
+  document
+    .querySelectorAll(
+      "[data-team-equipment-picker-rarity]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            equipmentPicker.rarity =
+              button.dataset
+                .teamEquipmentPickerRarity ||
+              "all";
+
+            updateEquipmentPickerVisibility();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-equipment-picker-item]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            setEquipment(
+              equipmentPicker.memberInstanceId,
+              equipmentPicker.category,
+              button.dataset
+                .teamEquipmentPickerItem ||
+                null
+            );
+
+            equipmentPicker = {
+              open: false,
+              memberInstanceId: null,
+              category: null,
+              query: "",
+              rarity: "all"
+            };
+
+            render();
           }
         );
       }
