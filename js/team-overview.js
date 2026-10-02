@@ -1386,9 +1386,8 @@ function renderPalmonPicker() {
             .join("")}
 
           <div
-            class="team-palmon-picker-empty"
+            class="team-palmon-picker-empty team-palmon-picker-hidden"
             data-team-palmon-picker-empty
-            hidden
           >
             No matching Palmons found.
           </div>
@@ -1439,8 +1438,10 @@ function updatePalmonPickerVisibility() {
           matchesElement &&
           matchesSearch;
 
-        button.hidden =
-          !visible;
+        button.classList.toggle(
+          "team-palmon-picker-hidden",
+          !visible
+        );
 
         if (visible) {
           visibleCount += 1;
@@ -1461,11 +1462,15 @@ function updatePalmonPickerVisibility() {
             )
           ].some(
             item =>
-              !item.hidden
+              !item.classList.contains(
+                "team-palmon-picker-hidden"
+              )
           );
 
-        group.hidden =
-          !hasVisibleItems;
+        group.classList.toggle(
+          "team-palmon-picker-hidden",
+          !hasVisibleItems
+        );
       }
     );
 
@@ -1475,8 +1480,10 @@ function updatePalmonPickerVisibility() {
     );
 
   if (empty) {
-    empty.hidden =
-      visibleCount > 0;
+    empty.classList.toggle(
+      "team-palmon-picker-hidden",
+      visibleCount > 0
+    );
   }
 
   document
