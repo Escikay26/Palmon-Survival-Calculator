@@ -10257,3 +10257,737 @@ body.team-modal-open {
 .team-palmon-picker-hidden {
   display: none !important;
 }
+
+
+/* ========================================
+   TEAM ASCENSION + EQUIPMENT PICKERS
+   ======================================== */
+
+.team-ascension-control {
+  display: grid;
+
+  gap: 8px;
+}
+
+.team-ascension-label-row {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+}
+
+.team-ascension-label-row > span {
+  color:
+    var(--muted);
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.team-ascension-label-row strong {
+  padding:
+    4px 8px;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #cfdeff;
+
+  border-radius:
+    999px;
+
+  color:
+    var(--primary-dark);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-ascension-stepper {
+  display: grid;
+
+  grid-template-columns:
+    auto
+    minmax(0, 1fr)
+    auto;
+
+  gap: 7px;
+
+  align-items: center;
+}
+
+.team-ascension-stepper > button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--primary-dark);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.team-ascension-stepper > button:disabled {
+  opacity: 0.35;
+
+  cursor:
+    not-allowed;
+}
+
+.team-ascension-options {
+  display: flex;
+
+  gap: 6px;
+
+  overflow-x: auto;
+
+  padding:
+    2px 1px 5px;
+
+  scroll-snap-type:
+    x proximity;
+
+  scrollbar-width: thin;
+}
+
+.team-ascension-options button {
+  flex:
+    0 0 auto;
+
+  min-width: 54px;
+  min-height: 36px;
+
+  padding:
+    7px 8px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  scroll-snap-align:
+    center;
+}
+
+.team-ascension-options button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+.team-equipment-slot {
+  display: grid;
+
+  gap: 8px;
+
+  padding: 10px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+}
+
+.team-equipment-slot-header {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 8px;
+}
+
+.team-equipment-slot-header > span:first-child {
+  color:
+    var(--muted);
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-equipment-slot-rarity {
+  padding:
+    2px 6px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--primary-dark);
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-equipment-slot-content {
+  display: grid;
+
+  gap: 3px;
+}
+
+.team-equipment-slot-content strong {
+  color:
+    var(--text);
+
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.team-equipment-slot-content span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+}
+
+.team-equipment-slot-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.team-equipment-slot-actions button {
+  min-height: 34px;
+
+  padding:
+    6px 9px;
+
+  border-radius:
+    7px;
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-equipment-choose-button {
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #cfdeff;
+
+  color:
+    var(--primary-dark);
+}
+
+.team-equipment-unequip-button {
+  background: white;
+
+  border:
+    1px solid
+    #efcece;
+
+  color:
+    #a14545;
+}
+
+.team-equipment-picker-modal {
+  position: fixed;
+
+  z-index: 1200;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.team-equipment-picker-backdrop {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  background:
+    rgba(
+      17,
+      31,
+      54,
+      0.52
+    );
+
+  border: 0;
+
+  cursor: default;
+}
+
+.team-equipment-picker-dialog {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  width:
+    min(
+      680px,
+      100%
+    );
+
+  max-height:
+    min(
+      760px,
+      calc(100vh - 40px)
+    );
+
+  overflow: hidden;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    14px;
+
+  box-shadow:
+    0 24px 80px
+    rgba(
+      23,
+      35,
+      59,
+      0.28
+    );
+}
+
+.team-equipment-picker-header {
+  display: flex;
+
+  align-items:
+    flex-start;
+  justify-content:
+    space-between;
+
+  gap: 14px;
+
+  padding:
+    16px 18px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-equipment-picker-header h2 {
+  margin: 0;
+
+  color:
+    var(--text);
+
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.team-equipment-picker-header p {
+  margin:
+    3px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size: 9px;
+}
+
+.team-equipment-picker-close {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  padding: 0;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font-size: 20px;
+}
+
+.team-equipment-picker-tools {
+  display: grid;
+
+  gap: 10px;
+
+  padding:
+    13px 18px;
+
+  background:
+    var(--surface-soft);
+
+  border-bottom:
+    1px solid
+    var(--border);
+}
+
+.team-equipment-picker-tools input {
+  width: 100%;
+
+  min-height: 42px;
+
+  padding:
+    9px 11px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  color:
+    var(--text);
+
+  font:
+    inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.team-equipment-picker-filters {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+}
+
+.team-equipment-picker-filters button {
+  min-height: 34px;
+
+  padding:
+    6px 10px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  color:
+    var(--muted);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 9px;
+  font-weight: 850;
+}
+
+.team-equipment-picker-filters button.active {
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+}
+
+.team-equipment-picker-body {
+  display: grid;
+
+  gap: 8px;
+
+  overflow-y: auto;
+
+  padding:
+    14px 18px 18px;
+}
+
+.team-equipment-picker-item {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 12px;
+
+  min-height: 58px;
+
+  padding:
+    10px 11px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    9px;
+
+  color:
+    var(--text);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  text-align: left;
+}
+
+.team-equipment-picker-item > div {
+  display: grid;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.team-equipment-picker-item strong {
+  overflow: hidden;
+
+  font-size: 10px;
+  font-weight: 850;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-equipment-picker-item span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.team-equipment-picker-item small {
+  flex-shrink: 0;
+
+  padding:
+    3px 6px;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #cfdeff;
+
+  border-radius:
+    999px;
+
+  color:
+    var(--primary-dark);
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-equipment-picker-item.active {
+  background:
+    var(--primary-soft);
+
+  border-color:
+    #bed4fb;
+}
+
+.team-equipment-picker-none {
+  display: grid;
+
+  justify-items:
+    start;
+}
+
+.team-equipment-picker-empty {
+  padding:
+    24px 12px;
+
+  color:
+    var(--muted);
+
+  font-size: 10px;
+  font-weight: 750;
+
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+  .team-ascension-options
+  button:hover:not(.active),
+  .team-equipment-picker-item:hover {
+    background:
+      var(--primary-soft);
+
+    border-color:
+      #bed4fb;
+  }
+
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-ascension-stepper {
+    grid-template-columns:
+      42px
+      minmax(0, 1fr)
+      42px;
+  }
+
+  .team-ascension-stepper > button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .team-ascension-options button {
+    min-height: 40px;
+  }
+
+  .team-equipment-slot-actions button {
+    flex:
+      1 1 auto;
+
+    min-height: 40px;
+  }
+
+  .team-equipment-picker-modal {
+    align-items:
+      flex-end;
+
+    padding: 0;
+  }
+
+  .team-equipment-picker-dialog {
+    width: 100%;
+
+    max-height:
+      min(
+        88vh,
+        760px
+      );
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+
+    border-radius:
+      16px 16px 0 0;
+  }
+
+  .team-equipment-picker-header {
+    padding:
+      14px 15px;
+  }
+
+  .team-equipment-picker-tools {
+    padding:
+      11px 15px;
+  }
+
+  .team-equipment-picker-body {
+    padding:
+      12px 15px 20px;
+  }
+
+  .team-equipment-picker-item {
+    min-height: 62px;
+
+    padding:
+      11px 12px;
+  }
+
+}
