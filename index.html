@@ -83,7 +83,7 @@
 
 
     <!-- ============================= -->
-    <!-- OVERVIEW -->
+    <!-- OVERVIEW / TEAMS -->
     <!-- ============================= -->
 
     <section
@@ -91,42 +91,40 @@
       class="app-page active"
     >
 
-      <div class="page-header">
-        <h2>Overview</h2>
+      <div class="page-header page-header-with-action">
 
-        <p>
-          Your overall progression and Palmon team
-          will be shown here.
-        </p>
-      </div>
+        <div>
 
-
-      <div class="overview-grid">
-
-        <div class="placeholder-card">
-
-          <h3>Overall Stats</h3>
+          <h2>
+            Overview
+          </h2>
 
           <p>
-            Achievement, research and other bonuses
-            will be combined here later.
+            Build your Palmon teams, assign Equipment
+            and preview calculated Palmon stats.
           </p>
 
         </div>
 
 
-        <div class="placeholder-card">
+        <div class="page-header-actions">
 
-          <h3>Palmon Team</h3>
-
-          <p>
-            Your team of up to 7 Palmon will be
-            configured here later.
-          </p>
+          <button
+            id="team-reset-button"
+            class="reset-button"
+            type="button"
+          >
+            Reset Teams
+          </button>
 
         </div>
 
       </div>
+
+
+      <div
+        id="team-overview-root"
+      ></div>
 
     </section>
 
