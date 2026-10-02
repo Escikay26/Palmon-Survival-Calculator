@@ -33,6 +33,13 @@ let ownedTokens = 0;
 let budgetBaseCost = 0;
 
 
+// Snapshot des echten Achievement-Stands
+// beim Start des Budget Builds.
+let budgetBaseLevels = {};
+
+let budgetBaseUnlocked = {};
+
+
 // =============================
 // STAT NAMES
 // =============================
@@ -164,7 +171,13 @@ function saveState() {
       buildMode,
 
     budgetBaseCost:
-      budgetBaseCost
+      budgetBaseCost,
+
+    budgetBaseLevels:
+      budgetBaseLevels,
+
+    budgetBaseUnlocked:
+      budgetBaseUnlocked
 
   });
 
@@ -194,6 +207,20 @@ function loadSavedState() {
   budgetBaseCost =
     data.budgetBaseCost;
 
+  budgetBaseLevels = {
+    ...(
+      data.budgetBaseLevels ||
+      {}
+    )
+  };
+
+  budgetBaseUnlocked = {
+    ...(
+      data.budgetBaseUnlocked ||
+      {}
+    )
+  };
+
 
   // Migration für ältere Saves:
   // Level > 0 bedeutet,
@@ -219,6 +246,36 @@ function loadSavedState() {
 
 
   updatePrerequisiteStates();
+
+
+  // Migration für ältere Budget-Saves,
+  // die noch keinen per-Achievement
+  // Ausgangszustand gespeichert haben.
+  if (
+    buildMode ===
+      "budget" &&
+    Object.keys(
+      budgetBaseLevels
+    ).length === 0 &&
+    Object.keys(
+      budgetBaseUnlocked
+    ).length === 0
+  ) {
+
+    const snapshot =
+      createAchievementBudgetSnapshot();
+
+    budgetBaseLevels =
+      snapshot.levels;
+
+    budgetBaseUnlocked =
+      snapshot.unlocked;
+
+    budgetBaseCost =
+      calculateTotalCost();
+
+  }
+
 
   saveState();
 
@@ -550,6 +607,126 @@ function calculateTotalCost() {
     },
     0
   );
+
+}
+
+
+// =============================
+// BUDGET SNAPSHOT
+// =============================
+
+function createAchievementBudgetSnapshot() {
+
+  return {
+    levels: {
+      ...selectedLevels
+    },
+
+    unlocked: {
+      ...unlockedAchievements
+    }
+  };
+
+}
+
+
+function getAchievementBaseState(
+  achievementName
+) {
+
+  const unlocked =
+    budgetBaseUnlocked[
+      achievementName
+    ] === true;
+
+  return {
+    unlocked,
+
+    level:
+      unlocked
+        ? Number(
+            budgetBaseLevels[
+              achievementName
+            ]
+          ) || 1
+        : 0
+  };
+
+}
+
+
+function isAchievementChanged(
+  achievementName
+) {
+
+  if (
+    buildMode !==
+    "budget"
+  ) {
+    return false;
+  }
+
+  const base =
+    getAchievementBaseState(
+      achievementName
+    );
+
+  const currentUnlocked =
+    unlockedAchievements[
+      achievementName
+    ] === true;
+
+  const currentLevel =
+    currentUnlocked
+      ? getLevel(
+          achievementName
+        )
+      : 0;
+
+  return (
+    base.unlocked !==
+      currentUnlocked ||
+    base.level !==
+      currentLevel
+  );
+
+}
+
+
+function hasAchievementPlanChanges() {
+
+  return achievements.some(
+    achievement =>
+      isAchievementChanged(
+        achievement.name
+      )
+  );
+
+}
+
+
+function resetAchievementPlan() {
+
+  if (
+    buildMode !==
+    "budget"
+  ) {
+    return;
+  }
+
+  selectedLevels = {
+    ...budgetBaseLevels
+  };
+
+  unlockedAchievements = {
+    ...budgetBaseUnlocked
+  };
+
+  updatePrerequisiteStates();
+
+  saveState();
+
+  render();
 
 }
 
