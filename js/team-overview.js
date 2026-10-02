@@ -3126,9 +3126,19 @@ function renderEvolutionPanel({
 
           <div class="team-evolution-talents">
             <div class="team-evolution-subheading">
-              <strong>Current talent</strong>
+              <strong>Evolution talents</strong>
               <span>
-                Earlier talents are treated as completed.
+                Select the talent you are currently leveling.
+              </span>
+            </div>
+
+            <div class="team-evolution-progress-note">
+              <strong>
+                Linear progression
+              </strong>
+
+              <span>
+                Selecting a later talent automatically means every talent above it is completed at 10/10.
               </span>
             </div>
 
@@ -3141,67 +3151,93 @@ function renderEvolutionPanel({
                       ? currentTalentLevel
                       : 0;
 
-                return `
-                  <button
-                    type="button"
-                    class="team-evolution-talent ${index === currentTalentIndex ? "active" : ""}"
-                    data-team-evolution-talent="${index}"
-                    data-team-instance-id="${member.instanceId}"
-                  >
-                    <span>
-                      ${talent.name}
-                    </span>
+                const active =
+                  index === currentTalentIndex;
 
-                    <strong>
-                      ${level}/10
-                    </strong>
-                  </button>
+                return `
+                  <div class="team-evolution-talent-row ${active ? "active" : ""}">
+
+                    <button
+                      type="button"
+                      class="team-evolution-talent ${active ? "active" : ""}"
+                      data-team-evolution-talent="${index}"
+                      data-team-instance-id="${member.instanceId}"
+                    >
+                      <span>
+                        ${talent.name}
+                      </span>
+
+                      <strong>
+                        ${level}/10
+                      </strong>
+                    </button>
+
+                    ${active
+                      ? `
+                        <div class="team-evolution-inline-level">
+
+                          <div class="team-evolution-inline-level-top">
+                            <span>
+                              Talent level
+                            </span>
+
+                            <div class="team-evolution-inline-level-actions">
+
+                              <button
+                                type="button"
+                                data-team-evolution-level-step="-1"
+                                data-team-instance-id="${member.instanceId}"
+                                ${currentTalentLevel <= 0 ? "disabled" : ""}
+                                aria-label="Decrease talent level"
+                              >
+                                −
+                              </button>
+
+                              <strong>
+                                ${currentTalentLevel}/10
+                              </strong>
+
+                              <button
+                                type="button"
+                                data-team-evolution-level-step="1"
+                                data-team-instance-id="${member.instanceId}"
+                                ${currentTalentLevel >= 10 ? "disabled" : ""}
+                                aria-label="Increase talent level"
+                              >
+                                +
+                              </button>
+
+                              <button
+                                type="button"
+                                class="team-evolution-max-button"
+                                data-team-evolution-max="${member.instanceId}"
+                                ${currentTalentLevel >= 10 ? "disabled" : ""}
+                              >
+                                MAX
+                              </button>
+
+                            </div>
+                          </div>
+
+                          <input
+                            class="team-evolution-level-range"
+                            type="range"
+                            min="0"
+                            max="10"
+                            step="1"
+                            value="${currentTalentLevel}"
+                            data-team-evolution-level="${member.instanceId}"
+                            aria-label="${talent.name} level"
+                          >
+
+                        </div>
+                      `
+                      : ""}
+
+                  </div>
                 `;
               }
             ).join("")}
-          </div>
-
-          <div class="team-evolution-level-control">
-            <div class="team-evolution-subheading">
-              <strong>Talent level</strong>
-              <span>
-                ${talents[currentTalentIndex]?.name || "Current talent"}
-              </span>
-            </div>
-
-            <div class="team-evolution-level-stepper">
-              <button
-                type="button"
-                data-team-evolution-level-step="-1"
-                data-team-instance-id="${member.instanceId}"
-                ${currentTalentLevel <= 0 ? "disabled" : ""}
-              >
-                −
-              </button>
-
-              <strong>
-                ${currentTalentLevel}/10
-              </strong>
-
-              <button
-                type="button"
-                data-team-evolution-level-step="1"
-                data-team-instance-id="${member.instanceId}"
-                ${currentTalentLevel >= 10 ? "disabled" : ""}
-              >
-                +
-              </button>
-            </div>
-
-            <input
-              class="team-evolution-level-range"
-              type="range"
-              min="0"
-              max="10"
-              step="1"
-              value="${currentTalentLevel}"
-              data-team-evolution-level="${member.instanceId}"
-            >
           </div>
         `}
 
