@@ -561,7 +561,8 @@ function normalizeTeamPalmon(
               Number(
                 item.evolution
                   ?.talentLevel
-            ) || 0
+              ) || 0
+            )
           )
         ),
 
