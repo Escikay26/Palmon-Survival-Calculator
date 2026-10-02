@@ -1283,6 +1283,91 @@ function getAchievementStatKeys(
 
 
 // =============================
+// RENDER BUDGET COMPARISON
+// =============================
+
+function renderAchievementPlanComparison(
+  achievement,
+  currentLevel,
+  unlocked
+) {
+
+  if (
+    buildMode !==
+      "budget" ||
+    !isAchievementChanged(
+      achievement.name
+    )
+  ) {
+    return "";
+  }
+
+  const base =
+    getAchievementBaseState(
+      achievement.name
+    );
+
+  const plannedLevel =
+    unlocked
+      ? currentLevel
+      : 0;
+
+  const baseCost =
+    base.unlocked
+      ? getCostForLevel(
+          achievement,
+          base.level
+        )
+      : 0;
+
+  const plannedCost =
+    unlocked
+      ? getCostForLevel(
+          achievement,
+          plannedLevel
+        )
+      : 0;
+
+  const costDelta =
+    plannedCost -
+    baseCost;
+
+  const baseText =
+    base.unlocked
+      ? `Lv${base.level}`
+      : "Locked";
+
+  const plannedText =
+    unlocked
+      ? `Lv${plannedLevel}`
+      : "Locked";
+
+  return `
+    <div class="achievement-plan-comparison">
+
+      <span>
+        Current → Planned
+      </span>
+
+      <strong>
+        ${baseText}
+        →
+        ${plannedText}
+      </strong>
+
+      <em>
+        ${costDelta >= 0 ? "+" : ""}${formatNumber(
+          costDelta
+        )} UR Tokens
+      </em>
+
+    </div>
+  `;
+
+}
+
+
+// =============================
 // RENDER ACHIEVEMENT BOOSTS
 // =============================
 
@@ -1659,6 +1744,40 @@ function renderSummary() {
   }
 
 
+  const resetPlanButton =
+    document.getElementById(
+      "achievements-reset-plan-button"
+    );
+
+
+  if (resetPlanButton) {
+
+    resetPlanButton.hidden =
+      buildMode !==
+      "budget";
+
+    resetPlanButton.disabled =
+      !hasAchievementPlanChanges();
+
+  }
+
+
+  const resetPlanButton =
+    document.getElementById(
+      "achievements-reset-plan-button"
+    );
+
+
+  if (resetPlanButton) {
+
+    resetPlanButton.addEventListener(
+      "click",
+      resetAchievementPlan
+    );
+
+  }
+
+
   document
     .querySelectorAll(
       ".build-mode-button"
@@ -1747,6 +1866,14 @@ function renderAchievements() {
 
       const trulyLocked =
         !unlocked;
+
+
+      const planComparison =
+        renderAchievementPlanComparison(
+          achievement,
+          currentLevel,
+          unlocked
+        );
 
 
       // -------------------------
@@ -2129,6 +2256,8 @@ function renderAchievements() {
             )
           }
 
+          ${planComparison}
+
           ${
             lockMessage
               ? `
@@ -2374,6 +2503,14 @@ function addBuildModeListeners() {
               budgetBaseCost =
                 calculateTotalCost();
 
+              const snapshot =
+                createAchievementBudgetSnapshot();
+
+              budgetBaseLevels =
+                snapshot.levels;
+
+              budgetBaseUnlocked =
+                snapshot.unlocked;
 
               buildMode =
                 "budget";
@@ -2386,6 +2523,10 @@ function addBuildModeListeners() {
                 "unlimited";
 
               budgetBaseCost = 0;
+
+              budgetBaseLevels = {};
+
+              budgetBaseUnlocked = {};
 
             }
 
