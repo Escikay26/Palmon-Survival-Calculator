@@ -64,6 +64,51 @@ let traitPicker = {
   category: "all"
 };
 
+const cardSectionOpen =
+  new Map();
+
+
+function isTeamCardSectionOpen(
+  instanceId,
+  section
+) {
+  const key =
+    `${instanceId}:${section}`;
+
+  if (
+    cardSectionOpen.has(
+      key
+    )
+  ) {
+    return cardSectionOpen.get(
+      key
+    );
+  }
+
+  return !window.matchMedia(
+    "(max-width: 560px)"
+  ).matches;
+}
+
+
+function toggleTeamCardSection(
+  instanceId,
+  section
+) {
+  const key =
+    `${instanceId}:${section}`;
+
+  cardSectionOpen.set(
+    key,
+    !isTeamCardSectionOpen(
+      instanceId,
+      section
+    )
+  );
+
+  render();
+}
+
 
 // ========================================
 // FORMAT
@@ -2065,7 +2110,10 @@ function updatePalmonPickerVisibility() {
 }
 
 function renderEquipmentSummary(
-  member
+  member,
+  {
+    showHeading = true
+  } = {}
 ) {
   const inventory =
     getEquipmentInventory();
@@ -2086,10 +2134,14 @@ function renderEquipmentSummary(
     ).length;
 
   return `
-    <div class="team-equipment-summary-heading">
-      <span>Equipment</span>
-      <strong>${equippedCount}/4</strong>
-    </div>
+    ${showHeading
+      ? `
+        <div class="team-equipment-summary-heading">
+          <span>Equipment</span>
+          <strong>${equippedCount}/4</strong>
+        </div>
+      `
+      : ""}
 
     <div class="team-equipment-summary-grid">
       ${slots.map(
@@ -2168,7 +2220,10 @@ function renderEquipmentSummary(
 }
 
 function renderTraitSummary(
-  member
+  member,
+  {
+    showHeading = true
+  } = {}
 ) {
   const selected =
     getSelectedTraits(
@@ -2183,10 +2238,14 @@ function renderTraitSummary(
     );
 
   return `
-    <div class="team-trait-summary-heading">
-      <span>Traits</span>
-      <strong>${selected.length}/4</strong>
-    </div>
+    ${showHeading
+      ? `
+        <div class="team-trait-summary-heading">
+          <span>Traits</span>
+          <strong>${selected.length}/4</strong>
+        </div>
+      `
+      : ""}
 
     <div class="team-trait-summary-grid">
       ${slots.map(
@@ -2320,17 +2379,32 @@ function renderTeamPalmonCard(
 
 
       <div class="team-palmon-progress">
-        <span>
+        <button
+          type="button"
+          data-team-card-config-tab="progression"
+          data-team-instance-id="${member.instanceId}"
+          aria-label="Open Progression"
+        >
           Lv${member.level}
-        </span>
+        </button>
 
-        <span>
+        <button
+          type="button"
+          data-team-card-config-tab="progression"
+          data-team-instance-id="${member.instanceId}"
+          aria-label="Open Progression"
+        >
           ${member.stars}-${member.subLevel}★
-        </span>
+        </button>
 
-        <span>
+        <button
+          type="button"
+          data-team-card-config-tab="evolution"
+          data-team-instance-id="${member.instanceId}"
+          aria-label="Open Evolution"
+        >
           Evo ${evolutionStage}
-        </span>
+        </button>
       </div>
 
 
@@ -2397,18 +2471,68 @@ function renderTeamPalmonCard(
 
       <div class="team-palmon-equipment">
 
-        ${renderEquipmentSummary(
-          member
-        )}
+        <button
+          type="button"
+          class="team-card-section-toggle"
+          data-team-card-section-toggle="equipment"
+          data-team-instance-id="${member.instanceId}"
+          aria-expanded="${isTeamCardSectionOpen(member.instanceId, "equipment")}"
+        >
+          <span>
+            Equipment
+          </span>
+
+          <strong>
+            ${Object.values(member.equipment || {}).filter(Boolean).length}/4
+          </strong>
+
+          <b>
+            ${isTeamCardSectionOpen(member.instanceId, "equipment") ? "−" : "+"}
+          </b>
+        </button>
+
+        ${isTeamCardSectionOpen(member.instanceId, "equipment")
+          ? renderEquipmentSummary(
+              member,
+              {
+                showHeading: false
+              }
+            )
+          : ""}
 
       </div>
 
 
       <div class="team-palmon-traits">
 
-        ${renderTraitSummary(
-          member
-        )}
+        <button
+          type="button"
+          class="team-card-section-toggle"
+          data-team-card-section-toggle="traits"
+          data-team-instance-id="${member.instanceId}"
+          aria-expanded="${isTeamCardSectionOpen(member.instanceId, "traits")}"
+        >
+          <span>
+            Traits
+          </span>
+
+          <strong>
+            ${getSelectedTraits(member).length}/4
+          </strong>
+
+          <b>
+            ${isTeamCardSectionOpen(member.instanceId, "traits") ? "−" : "+"}
+          </b>
+        </button>
+
+        ${isTeamCardSectionOpen(member.instanceId, "traits")
+          ? renderTraitSummary(
+              member,
+              {
+                showHeading: false
+              }
+            )
+          : ""}
 
       </div>
 
@@ -4223,9 +4347,6 @@ function addListeners() {
               button.dataset
                 .teamConfigure;
 
-            configTab =
-              "progression";
-
             render();
           }
         );
@@ -4482,9 +4603,6 @@ function addListeners() {
           () => {
             editingInstanceId =
               null;
-
-            configTab =
-              "progression";
 
             render();
           }
