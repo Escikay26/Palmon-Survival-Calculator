@@ -4640,6 +4640,26 @@ function addListeners() {
 
   document
     .querySelectorAll(
+      "[data-team-evolution-max]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            setEvolutionTalentLevel(
+              button.dataset
+                .teamEvolutionMax,
+              10
+            );
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
       "[data-team-evolution-level]"
     )
     .forEach(
