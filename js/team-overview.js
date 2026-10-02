@@ -56,6 +56,14 @@ let equipmentPicker = {
   rarity: "all"
 };
 
+let traitPicker = {
+  open: false,
+  memberInstanceId: null,
+  query: "",
+  rank: "all",
+  category: "all"
+};
+
 
 // ========================================
 // FORMAT
@@ -336,6 +344,30 @@ function getTeamPalmon(
   return null;
 }
 
+function getTraitById(
+  traitId
+) {
+  return (
+    traitsData?.traits ||
+    []
+  ).find(
+    trait =>
+      trait.id === traitId
+  ) || null;
+}
+
+
+function getSelectedTraits(
+  member
+) {
+  return (
+    member?.traitIds ||
+    []
+  )
+    .map(getTraitById)
+    .filter(Boolean);
+}
+
 
 function getEquipmentInventory() {
   const state =
@@ -540,13 +572,33 @@ function sanitizeTeamState() {
                   4
                 );
 
+          const validTraitIds =
+            new Set(
+              (
+                traitsData?.traits ||
+                []
+              ).map(
+                trait =>
+                  trait.id
+              )
+            );
+
           member.traitIds =
             Array.isArray(
               member.traitIds
             )
-              ? member.traitIds
-                  .map(String)
-                  .slice(0, 4)
+              ? [
+                  ...new Set(
+                    member.traitIds
+                      .map(String)
+                      .filter(
+                        traitId =>
+                          validTraitIds.has(
+                            traitId
+                          )
+                      )
+                  )
+                ].slice(0, 4)
               : [];
 
           normalizeMemberEvolution(
@@ -781,10 +833,20 @@ initTeamOverview() {
           (
             editingInstanceId ||
             palmonPickerOpen ||
-            equipmentPicker.open
+            equipmentPicker.open ||
+            traitPicker.open
           )
         ) {
-          if (equipmentPicker.open) {
+          if (traitPicker.open) {
+            traitPicker = {
+              open: false,
+              memberInstanceId: null,
+              query: "",
+              rank: "all",
+              category: "all"
+            };
+          }
+          else if (equipmentPicker.open) {
             equipmentPicker = {
               open: false,
               memberInstanceId: null,
@@ -3479,7 +3541,8 @@ function render() {
     Boolean(
       editingInstanceId ||
       palmonPickerOpen ||
-      equipmentPicker.open
+      equipmentPicker.open ||
+      traitPicker.open
     )
   );
 
