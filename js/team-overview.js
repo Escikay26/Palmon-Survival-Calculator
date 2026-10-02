@@ -1784,6 +1784,24 @@ function renderTeamPalmonCard(
       result?.supported
     );
 
+  const displayName =
+    getPalmonDisplayName(
+      palmon,
+      member
+    );
+
+  const evolvedNameActive =
+    displayName !==
+    palmon.name;
+
+  const evolutionStage =
+    clampInteger(
+      member.evolution
+        ?.stage,
+      0,
+      8
+    );
+
   return `
     <article class="team-palmon-card">
 
@@ -1792,9 +1810,19 @@ function renderTeamPalmonCard(
         <div>
           <div class="team-palmon-name-row">
 
-            <h3>
-              ${palmon.name}
-            </h3>
+            <div class="team-palmon-title">
+              <h3>
+                ${displayName}
+              </h3>
+
+              ${evolvedNameActive
+                ? `
+                  <span class="team-palmon-origin-name">
+                    ${palmon.name} evolution line
+                  </span>
+                `
+                : ""}
+            </div>
 
             <span class="team-preview-badge">
               Preview
@@ -1832,9 +1860,17 @@ function renderTeamPalmonCard(
 
 
       <div class="team-palmon-progress">
-        Lv${member.level}
-        ·
-        ${member.stars}-${member.subLevel}★
+        <span>
+          Lv${member.level}
+        </span>
+
+        <span>
+          ${member.stars}-${member.subLevel}★
+        </span>
+
+        <span>
+          Evo ${evolutionStage}
+        </span>
       </div>
 
 
@@ -1900,10 +1936,6 @@ function renderTeamPalmonCard(
 
 
       <div class="team-palmon-equipment">
-
-        <span>
-          Equipment
-        </span>
 
         ${renderEquipmentSummary(
           member
