@@ -1164,6 +1164,14 @@ function setBuildMode(
     };
 
     budgetBaseItems = {};
+
+    if (
+      selectedEquipmentFilter ===
+      "changed"
+    ) {
+      selectedEquipmentFilter =
+        "all";
+    }
   }
 
   saveState();
@@ -2011,9 +2019,26 @@ function renderCategory(
         category.id
     );
 
+  const visibleItems =
+    categoryItems.filter(
+      matchesEquipmentFilter
+    );
+
+  const isCollapsed =
+    collapsedCategoryIds.has(
+      category.id
+    );
+
   const addOpen =
     activeAddCategory ===
-    category.id;
+      category.id &&
+    !isCollapsed;
+
+  const countText =
+    selectedEquipmentFilter ===
+      "all"
+      ? `${categoryItems.length} ${categoryItems.length === 1 ? "item" : "items"}`
+      : `${visibleItems.length} shown · ${categoryItems.length} total`;
 
   const addOptions =
     (
@@ -2053,7 +2078,7 @@ function renderCategory(
       .join("");
 
   return `
-    <section class="equipment-category">
+    <section class="equipment-category ${isCollapsed ? "collapsed" : "expanded"}">
 
       <div class="equipment-category-header">
 
@@ -2063,70 +2088,91 @@ function renderCategory(
           </h3>
 
           <span>
-            ${categoryItems.length}
-            ${categoryItems.length === 1 ? "item" : "items"}
+            ${countText}
           </span>
         </div>
 
 
-        <button
-          type="button"
-          class="equipment-add-button"
-          data-equipment-add-category="${category.id}"
-          ${
-            buildMode ===
-              "budget"
-              ? "disabled"
-              : ""
-          }
-          title="${
-            buildMode ===
-              "budget"
-              ? "Switch to Unlimited mode to change the inventory."
-              : `Add ${category.name}`
-          }"
-        >
-          + Add
-        </button>
+        <div class="equipment-category-actions">
+
+          <button
+            type="button"
+            class="equipment-category-toggle"
+            data-equipment-category-toggle="${category.id}"
+            aria-expanded="${isCollapsed ? "false" : "true"}"
+            title="${isCollapsed ? "Expand category" : "Collapse category"}"
+          >
+            ${isCollapsed ? "▾" : "▴"}
+          </button>
+
+          <button
+            type="button"
+            class="equipment-add-button"
+            data-equipment-add-category="${category.id}"
+            ${
+              buildMode ===
+                "budget"
+                ? "disabled"
+                : ""
+            }
+            title="${
+              buildMode ===
+                "budget"
+                ? "Switch to Unlimited mode to change the inventory."
+                : `Add ${category.name}`
+            }"
+          >
+            + Add
+          </button>
+
+        </div>
 
       </div>
 
 
-      ${
-        addOpen &&
-        buildMode ===
-          "unlimited"
-          ? `
-            <div class="equipment-add-menu">
-              ${addOptions}
-            </div>
-          `
-          : ""
-      }
-
-
-      <div class="equipment-category-items">
+      <div class="equipment-category-content">
 
         ${
-          categoryItems.length > 0
-            ? categoryItems
-                .map(
-                  renderItemCard
-                )
-                .join("")
-            : `
-              <div class="equipment-empty-state">
-                No ${category.name} added yet.
+          addOpen &&
+          buildMode ===
+            "unlimited"
+            ? `
+              <div class="equipment-add-menu">
+                ${addOptions}
               </div>
             `
+            : ""
         }
+
+
+        <div class="equipment-category-items">
+
+          ${
+            visibleItems.length > 0
+              ? visibleItems
+                  .map(
+                    renderItemCard
+                  )
+                  .join("")
+              : `
+                <div class="equipment-empty-state">
+                  ${
+                    selectedEquipmentFilter ===
+                      "all"
+                      ? `No ${category.name} added yet.`
+                      : "No matching equipment in this category."
+                  }
+                </div>
+              `
+          }
+
+        </div>
 
       </div>
 
     </section>
   `;
 }
-
 
 // ========================================
 // RENDER
@@ -2457,6 +2503,56 @@ function render() {
 
 
       ${renderInventorySummary()}
+
+
+      <div class="equipment-toolbar">
+
+        <div class="equipment-filters">
+
+          ${
+            [
+              ["all", "All"],
+              ["changed", "Changed"],
+              ["UR", "UR"],
+              ["SSR", "SSR"]
+            ]
+              .map(
+                ([value, label]) => `
+                  <button
+                    type="button"
+                    class="equipment-filter-button ${selectedEquipmentFilter === value ? "active" : ""}"
+                    data-equipment-filter="${value}"
+                    ${value === "changed" && buildMode !== "budget" ? "disabled" : ""}
+                  >
+                    ${label}
+                  </button>
+                `
+              )
+              .join("")
+          }
+
+        </div>
+
+
+        <div class="equipment-collapse-actions">
+
+          <button
+            type="button"
+            data-equipment-expand-all
+          >
+            Expand All
+          </button>
+
+          <button
+            type="button"
+            data-equipment-collapse-all
+          >
+            Collapse All
+          </button>
+
+        </div>
+
+      </div>
 
 
       <div class="equipment-category-grid">
