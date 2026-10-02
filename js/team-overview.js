@@ -33,6 +33,8 @@ let teamState = null;
 
 let editingInstanceId = null;
 
+let configTab = "progression";
+
 let palmonPickerOpen = false;
 
 let palmonPickerElement = "all";
@@ -97,6 +99,43 @@ function getPalmonById(
   ) || null;
 }
 
+
+function getPalmonDisplayName(
+  palmon,
+  member
+) {
+  if (!palmon) {
+    return "";
+  }
+
+  const stage =
+    clampInteger(
+      member?.evolution
+        ?.stage,
+      0,
+      8
+    );
+
+  if (
+    stage >= 5 &&
+    palmon.evolution
+      ?.evo5Name
+  ) {
+    return palmon.evolution
+      .evo5Name;
+  }
+
+  if (
+    stage >= 4 &&
+    palmon.evolution
+      ?.evo4Name
+  ) {
+    return palmon.evolution
+      .evo4Name;
+  }
+
+  return palmon.name;
+}
 
 function getActiveTeam() {
   return (
