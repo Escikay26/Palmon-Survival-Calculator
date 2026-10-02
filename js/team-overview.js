@@ -584,6 +584,22 @@ initTeamOverview() {
       }
     );
 
+    document.addEventListener(
+      "keydown",
+      event => {
+        if (
+          event.key ===
+            "Escape" &&
+          editingInstanceId
+        ) {
+          editingInstanceId =
+            null;
+
+          render();
+        }
+      }
+    );
+
     window.addEventListener(
       "palmon-page-shown",
       event => {
@@ -1980,32 +1996,5 @@ function addListeners() {
     );
 
 
-  if (
-    editingInstanceId
-  ) {
-    document.addEventListener(
-      "keydown",
-      handleModalEscape,
-      {
-        once: true
-      }
-    );
-  }
 }
 
-
-function handleModalEscape(
-  event
-) {
-  if (
-    event.key !==
-    "Escape"
-  ) {
-    return;
-  }
-
-  editingInstanceId =
-    null;
-
-  render();
-}
