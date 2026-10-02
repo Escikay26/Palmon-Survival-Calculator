@@ -1427,12 +1427,12 @@ function renderPlanComparison(
     item.ascensionLevel !==
       baseItem.ascensionLevel;
 
+  if (!changed) {
+    return "";
+  }
+
   return `
-    <div class="equipment-plan-comparison ${
-      changed
-        ? "changed"
-        : "unchanged"
-    }">
+    <div class="equipment-plan-comparison changed">
 
       <div class="equipment-plan-header">
 
@@ -1462,7 +1462,6 @@ function renderPlanComparison(
           type="button"
           class="equipment-plan-reset-item"
           data-equipment-reset-item="${item.instanceId}"
-          ${changed ? "" : "disabled"}
         >
           Reset Item
         </button>
@@ -1470,19 +1469,9 @@ function renderPlanComparison(
       </div>
 
 
-      ${
-        statChanges
-          ? `
-            <div class="equipment-plan-stat-list">
-              ${statChanges}
-            </div>
-          `
-          : `
-            <span class="equipment-plan-no-change">
-              No stat changes planned.
-            </span>
-          `
-      }
+      <div class="equipment-plan-stat-list">
+        ${statChanges}
+      </div>
 
 
       <div class="equipment-plan-costs">
@@ -1650,6 +1639,11 @@ function renderItemCard(
       item
     );
 
+  const isCollapsed =
+    collapsedItemIds.has(
+      item.instanceId
+    );
+
   const stats =
     getEquipmentStats({
       equipmentData,
@@ -1698,7 +1692,7 @@ function renderItemCard(
 
   return `
     <article
-      class="equipment-card"
+      class="equipment-card ${isCollapsed ? "collapsed" : "expanded"}"
       data-equipment-instance="${item.instanceId}"
     >
 
@@ -1731,6 +1725,16 @@ function renderItemCard(
 
 
         <div class="equipment-card-actions">
+
+          <button
+            class="equipment-card-action equipment-card-toggle"
+            type="button"
+            data-equipment-toggle="${item.instanceId}"
+            aria-expanded="${isCollapsed ? "false" : "true"}"
+            title="${isCollapsed ? "Expand equipment" : "Collapse equipment"}"
+          >
+            ${isCollapsed ? "▾" : "▴"}
+          </button>
 
           <button
             class="equipment-card-action"
@@ -1792,6 +1796,8 @@ function renderItemCard(
 
       </div>
 
+
+      <div class="equipment-card-details">
 
       ${planComparison}
 
@@ -1983,6 +1989,8 @@ function renderItemCard(
             stats.extraEffects
           )}
         </div>
+
+      </div>
 
       </div>
 
