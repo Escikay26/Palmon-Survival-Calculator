@@ -10991,3 +10991,127 @@ body.team-modal-open {
   }
 
 }
+
+
+/* ========================================
+   TEAM CARD EQUIPMENT SLOT OVERVIEW
+   ======================================== */
+
+.team-equipment-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 6px;
+}
+
+.team-equipment-summary-slot {
+  display: grid;
+
+  gap: 3px;
+
+  min-width: 0;
+
+  padding:
+    7px 8px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    7px;
+}
+
+.team-equipment-summary-slot.empty {
+  background:
+    rgba(
+      248,
+      250,
+      253,
+      0.72
+    );
+
+  border-style:
+    dashed;
+}
+
+.team-equipment-summary-slot-label {
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 850;
+
+  letter-spacing:
+    0.04em;
+
+  text-transform:
+    uppercase;
+}
+
+.team-equipment-summary-slot strong {
+  overflow: hidden;
+
+  color:
+    var(--text-soft);
+
+  font-size: 8px;
+  font-weight: 850;
+
+  text-overflow:
+    ellipsis;
+
+  white-space: nowrap;
+}
+
+.team-equipment-summary-slot.empty strong {
+  color:
+    var(--muted);
+}
+
+.team-equipment-summary-slot-detail {
+  color:
+    var(--muted);
+
+  font-size: 7px;
+  font-weight: 750;
+
+  line-height: 1.25;
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-equipment-summary-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+  .team-equipment-summary-slot {
+    min-height: 72px;
+
+    padding:
+      8px 9px;
+  }
+
+  .team-equipment-summary-slot strong {
+    font-size: 9px;
+  }
+
+  .team-equipment-summary-slot-detail {
+    font-size: 8px;
+  }
+
+}
