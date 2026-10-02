@@ -2468,6 +2468,12 @@ function renderConfigModal() {
       member
     );
 
+  const displayName =
+    getPalmonDisplayName(
+      palmon,
+      member
+    );
+
   return `
     <div class="team-config-modal">
 
@@ -2490,7 +2496,7 @@ function renderConfigModal() {
 
           <div>
             <h2 id="team-config-title">
-              ${palmon.name}
+              ${displayName}
             </h2>
 
             <p>
@@ -2514,9 +2520,28 @@ function renderConfigModal() {
         </div>
 
 
+        <div class="team-config-tabs">
+          <button
+            type="button"
+            class="${configTab === "progression" ? "active" : ""}"
+            data-team-config-tab="progression"
+          >
+            Progression
+          </button>
+
+          <button
+            type="button"
+            class="${configTab === "equipment" ? "active" : ""}"
+            data-team-config-tab="equipment"
+          >
+            Equipment
+          </button>
+        </div>
+
+
         <div class="team-config-body">
 
-          <section class="team-config-section">
+          <section class="team-config-section team-config-panel ${configTab === "progression" ? "active" : ""}">
 
             <h3>
               Progression
@@ -2613,7 +2638,7 @@ function renderConfigModal() {
           </section>
 
 
-          <section class="team-config-section">
+          <section class="team-config-section team-config-panel ${configTab === "equipment" ? "active" : ""}">
 
             <h3>
               Equipment
@@ -3002,7 +3027,69 @@ function addListeners() {
               button.dataset
                 .teamConfigure;
 
+            configTab =
+              "progression";
+
             render();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-config-tab]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            configTab =
+              button.dataset
+                .teamConfigTab ||
+              "progression";
+
+            render();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-card-equipment-picker]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            equipmentPicker = {
+              open: true,
+              memberInstanceId:
+                button.dataset
+                  .teamInstanceId,
+              category:
+                button.dataset
+                  .teamCardEquipmentPicker,
+              query: "",
+              rarity: "all"
+            };
+
+            render();
+
+            requestAnimationFrame(
+              () => {
+                document
+                  .querySelector(
+                    "[data-team-equipment-picker-search]"
+                  )
+                  ?.focus();
+              }
+            );
           }
         );
       }
@@ -3039,6 +3126,9 @@ function addListeners() {
           () => {
             editingInstanceId =
               null;
+
+            configTab =
+              "progression";
 
             render();
           }
