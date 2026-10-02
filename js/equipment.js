@@ -754,19 +754,20 @@ function duplicateItem(
     return;
   }
 
-  const instanceId =
+  const newInstanceId =
     `eq-${nextInstanceId}`;
 
   items.push({
     ...source,
 
-    instanceId
+    instanceId:
+      newInstanceId
   });
 
   nextInstanceId += 1;
 
   collapsedItemIds.delete(
-    instanceId
+    newInstanceId
   );
 
   saveState();
