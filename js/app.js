@@ -15,10 +15,15 @@ import {
 } from "./research.js";
 
 import {
+  initTeamOverview
+} from "./team-overview.js";
+
+import {
   clearAchievementState,
   clearEquipmentState,
   clearBossPalmonState,
   clearResearchState,
+  clearTeamState,
   clearAllPlannerState
 } from "./storage.js";
 
@@ -99,6 +104,19 @@ function showPage(
       "active"
     );
   }
+
+
+  window.dispatchEvent(
+    new CustomEvent(
+      "palmon-page-shown",
+      {
+        detail: {
+          page:
+            pageName
+        }
+      }
+    )
+  );
 }
 
 
@@ -194,10 +212,26 @@ function addResetListeners() {
       "reset-all-button",
 
     message:
-      "Reset ALL saved calculator progress?\n\nAchievements, Equipment, Boss Palmon and Research will all be reset.",
+      "Reset ALL saved calculator progress?\n\nTeams, Achievements, Equipment, Boss Palmon and Research will all be reset.",
 
     reset:
       clearAllPlannerState
+  });
+
+
+  // ---------------------------------
+  // TEAMS / OVERVIEW
+  // ---------------------------------
+
+  addResetListener({
+    buttonId:
+      "team-reset-button",
+
+    message:
+      "Reset all Teams and Palmon assignments?",
+
+    reset:
+      clearTeamState
   });
 
 
@@ -287,6 +321,12 @@ async function startApp() {
     initBossPalmonSystem(),
     initResearchSystem()
   ]);
+
+
+  // The Team Overview consumes the live
+  // Achievement / Research / Boss state,
+  // so initialize it after those systems.
+  await initTeamOverview();
 }
 
 
