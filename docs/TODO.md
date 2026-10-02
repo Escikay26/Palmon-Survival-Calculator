@@ -86,7 +86,7 @@ Game mechanics that are still uncertain or need validation belong in
 - [x] Show explicit warning that stat calculation is not final
 
 ### Next
-- [ ] Configure Evolution progression in the Palmon editor
+- [x] Configure Evolution progression in the Palmon editor
 - [ ] Configure 1–4 Traits in the Palmon editor
 - [ ] Connect complete Palmon Skill data / configuration
 - [ ] Display secondary stats where useful
@@ -121,7 +121,6 @@ architecture instead of hard-coding a fixed list of systems.
 
 ## Nice to Have
 
-- [ ] Compare two Team builds
 - [ ] Compare two Palmon builds
 - [ ] Shareable build representation
 - [ ] Team-focused optimization tools only when the optimization target is explicit
