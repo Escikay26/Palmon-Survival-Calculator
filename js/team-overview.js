@@ -4026,6 +4026,10 @@ function render() {
   );
 
   addListeners();
+
+  if (traitPicker.open) {
+    updateTraitPickerVisibility();
+  }
 }
 
 
