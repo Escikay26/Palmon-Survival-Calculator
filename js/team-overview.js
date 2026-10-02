@@ -2274,7 +2274,9 @@ function renderTraitSummary(
               data-team-instance-id="${member.instanceId}"
               aria-label="Change traits"
             >
-              <span>Rank ${trait.rank}</span>
+              <span class="team-trait-rank-badge team-trait-rank-${String(trait.rank).toLowerCase()}">
+                ${trait.rank}
+              </span>
               <strong>${trait.name}</strong>
               <small>${trait.displayEffect || ""}</small>
             </button>
@@ -3200,8 +3202,17 @@ function renderEvolutionPanel({
             return `
               <button
                 type="button"
-                class="${stage === stageNumber ? "active" : ""}"
+                class="team-evolution-stage-step ${
+                  stage === stageNumber
+                    ? "active current"
+                    : stageNumber < stage
+                      ? "completed"
+                      : disabled
+                        ? "locked"
+                        : "available"
+                }"
                 data-team-evolution-stage="${stageNumber}"
+                ${stage === stageNumber ? "data-team-evolution-current-stage" : ""}
                 data-team-instance-id="${member.instanceId}"
                 ${disabled ? "disabled" : ""}
                 title="${
@@ -3279,7 +3290,10 @@ function renderEvolutionPanel({
                   index === currentTalentIndex;
 
                 return `
-                  <div class="team-evolution-talent-row ${active ? "active" : ""}">
+                  <div
+                    class="team-evolution-talent-row ${active ? "active" : ""}"
+                    ${active ? "data-team-evolution-current-talent" : ""}
+                  >
 
                     <button
                       type="button"
@@ -3419,7 +3433,12 @@ function renderTraitsPanel(
             return `
               <div class="team-traits-selected-card">
                 <div>
-                  <span>Rank ${trait.rank} · ${trait.category === "combat" ? "Combat" : "Work"}</span>
+                  <span class="team-trait-selected-meta">
+                    <b class="team-trait-rank-badge team-trait-rank-${String(trait.rank).toLowerCase()}">
+                      ${trait.rank}
+                    </b>
+                    ${trait.category === "combat" ? "Combat" : "Work"}
+                  </span>
                   <strong>${trait.name}</strong>
                   <small>${trait.displayEffect || ""}</small>
                 </div>
@@ -3483,6 +3502,25 @@ function renderTraitPicker() {
       )
       .sort(
         (a, b) => {
+          const aSelected =
+            selectedIds.has(
+              a.id
+            );
+
+          const bSelected =
+            selectedIds.has(
+              b.id
+            );
+
+          if (
+            aSelected !==
+            bSelected
+          ) {
+            return aSelected
+              ? -1
+              : 1;
+          }
+
           const rankOrder =
             { S: 0, A: 1, B: 2, C: 3 };
 
@@ -3598,7 +3636,12 @@ function renderTraitPicker() {
                   ${disabled ? "disabled" : ""}
                 >
                   <div>
-                    <span>Rank ${trait.rank} · ${trait.category === "combat" ? "Combat" : "Work"}</span>
+                    <span class="team-trait-picker-meta">
+                      <b class="team-trait-rank-badge team-trait-rank-${String(trait.rank).toLowerCase()}">
+                        ${trait.rank}
+                      </b>
+                      ${trait.category === "combat" ? "Combat" : "Work"}
+                    </span>
                     <strong>${trait.name}</strong>
                     <small>${trait.displayEffect || ""}</small>
                   </div>
@@ -4190,6 +4233,33 @@ function render() {
   if (traitPicker.open) {
     updateTraitPickerVisibility();
   }
+
+  if (
+    editingInstanceId &&
+    configTab === "evolution"
+  ) {
+    requestAnimationFrame(
+      () => {
+        document
+          .querySelector(
+            "[data-team-evolution-current-stage]"
+          )
+          ?.scrollIntoView({
+            block: "nearest",
+            inline: "center"
+          });
+
+        document
+          .querySelector(
+            "[data-team-evolution-current-talent]"
+          )
+          ?.scrollIntoView({
+            block: "nearest",
+            inline: "nearest"
+          });
+      }
+    );
+  }
 }
 
 
@@ -4369,6 +4439,52 @@ function addListeners() {
               "progression";
 
             render();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-card-config-tab]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            editingInstanceId =
+              button.dataset
+                .teamInstanceId;
+
+            configTab =
+              button.dataset
+                .teamCardConfigTab ||
+              configTab;
+
+            render();
+          }
+        );
+      }
+    );
+
+
+  document
+    .querySelectorAll(
+      "[data-team-card-section-toggle]"
+    )
+    .forEach(
+      button => {
+        button.addEventListener(
+          "click",
+          () => {
+            toggleTeamCardSection(
+              button.dataset
+                .teamInstanceId,
+              button.dataset
+                .teamCardSectionToggle
+            );
           }
         );
       }
