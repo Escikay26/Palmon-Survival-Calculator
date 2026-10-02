@@ -87,7 +87,7 @@ Game mechanics that are still uncertain or need validation belong in
 
 ### Next
 - [x] Configure Evolution progression in the Palmon editor
-- [ ] Configure 1–4 Traits in the Palmon editor
+- [x] Configure 1–4 Traits in the Palmon editor
 - [ ] Connect complete Palmon Skill data / configuration
 - [ ] Display secondary stats where useful
 - [ ] Element-counter context
