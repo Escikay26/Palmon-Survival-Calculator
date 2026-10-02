@@ -10252,3 +10252,8 @@ body.team-modal-open {
   }
 
 }
+
+
+.team-palmon-picker-hidden {
+  display: none !important;
+}
