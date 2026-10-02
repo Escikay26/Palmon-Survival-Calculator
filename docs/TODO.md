@@ -54,20 +54,44 @@ Game mechanics that are still uncertain or need validation belong in
 
 ---
 
+## Central Palmon Calculation
+
+- [x] Add extensible central Palmon stat pipeline
+- [x] Combine confirmed Base / Level / Ascension / Role / Bloodmoon sources
+- [x] Accept Evolution, Skill, Trait and Equipment bonuses through dedicated buckets
+- [x] Consume Achievements, Research, Boss Palmon and Same-element Squad bonuses
+- [x] Keep unresolved and battle-only mechanics separate instead of guessing them
+- [x] Mark current stat output as Preview / not final
+- [ ] Add Element Totems as a bonus source
+- [ ] Add Player Gear as a bonus source
+- [ ] Add Dream Island boosts as a bonus source
+- [ ] Complete per-Palmon skill data
+- [ ] Add targeted formula regression tests
+
+---
+
 ## Team Overview
 
-- [ ] Create and save multiple Teams
-- [ ] Allow 1–7 Palmons per Team
-- [ ] Configure Palmon level, Ascension, Evolution, Traits and Skills
-- [ ] Assign saved Equipment instances to Palmons
-- [ ] Maximum one Weapon, Shield, Accessory and Headgear per Palmon
-- [ ] Prevent the same Equipment instance from being assigned to multiple Palmons
-- [ ] Surface Equipment assignment back in the Equipment tab
-- [ ] Calculate final Palmon Attack / Defense / HP
-- [ ] Display secondary and combat stats where applicable
-- [ ] Same-element Squad bonus
+### Foundation implemented
+- [x] Create and save Team 1–4
+- [x] Allow 1–7 Palmons per Team
+- [x] Add/remove individual Palmon instances
+- [x] Configure Palmon Level and Ascension
+- [x] Assign saved Equipment instances to Palmons
+- [x] Maximum one Weapon, Shield, Accessory and Headgear per Palmon
+- [x] Prevent the same Equipment instance from being assigned to multiple Palmons
+- [x] Surface Equipment assignment back in the Equipment tab
+- [x] Show preview ATK / DEF / HP
+- [x] Apply Same-element Squad bonus
+- [x] Show explicit warning that stat calculation is not final
+
+### Next
+- [ ] Configure Evolution progression in the Palmon editor
+- [ ] Configure 1–4 Traits in the Palmon editor
+- [ ] Connect complete Palmon Skill data / configuration
+- [ ] Display secondary stats where useful
 - [ ] Element-counter context
-- [ ] Team / Squad conditional effects
+- [ ] Team / Squad conditional battle effects
 
 ---
 
