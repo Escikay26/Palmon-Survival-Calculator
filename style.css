@@ -12874,3 +12874,208 @@ button.team-traits-selected-card {
   }
 
 }
+
+
+/* ========================================
+   EVOLUTION TALENT UX
+   ======================================== */
+
+.team-evolution-progress-note {
+  display: grid;
+
+  gap: 2px;
+
+  padding:
+    8px 9px;
+
+  background:
+    var(--surface-soft);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+}
+
+.team-evolution-progress-note strong {
+  color:
+    var(--text);
+
+  font-size: 8px;
+  font-weight: 850;
+}
+
+.team-evolution-progress-note span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+
+  line-height: 1.4;
+}
+
+.team-evolution-talent-row {
+  display: grid;
+
+  gap: 0;
+}
+
+.team-evolution-talent-row.active {
+  overflow: hidden;
+
+  background:
+    var(--primary-soft);
+
+  border:
+    1px solid
+    #bed4fb;
+
+  border-radius:
+    9px;
+}
+
+.team-evolution-talent-row.active
+.team-evolution-talent {
+  border: 0;
+
+  border-radius:
+    0;
+
+  background:
+    transparent;
+}
+
+.team-evolution-inline-level {
+  display: grid;
+
+  gap: 8px;
+
+  padding:
+    0 10px 10px;
+}
+
+.team-evolution-inline-level-top {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 10px;
+}
+
+.team-evolution-inline-level-top > span {
+  color:
+    var(--muted);
+
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.team-evolution-inline-level-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+}
+
+.team-evolution-inline-level-actions button {
+  min-width: 30px;
+  height: 30px;
+
+  padding:
+    0 7px;
+
+  background: white;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    7px;
+
+  color:
+    var(--primary-dark);
+
+  cursor: pointer;
+
+  font:
+    inherit;
+
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.team-evolution-inline-level-actions button:disabled {
+  opacity: 0.4;
+
+  cursor:
+    not-allowed;
+}
+
+.team-evolution-inline-level-actions > strong {
+  min-width: 38px;
+
+  color:
+    var(--text);
+
+  font-size: 9px;
+  font-weight: 850;
+
+  text-align: center;
+}
+
+.team-evolution-inline-level-actions
+.team-evolution-max-button {
+  min-width: 44px;
+
+  background:
+    var(--primary);
+
+  border-color:
+    var(--primary);
+
+  color: white;
+
+  font-size: 8px;
+  letter-spacing:
+    0.02em;
+}
+
+@media (
+  max-width: 560px
+) {
+
+  .team-evolution-inline-level-top {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .team-evolution-inline-level-actions {
+    width: 100%;
+
+    justify-content:
+      space-between;
+  }
+
+  .team-evolution-inline-level-actions
+  button {
+    min-width: 36px;
+    height: 36px;
+  }
+
+  .team-evolution-inline-level-actions
+  .team-evolution-max-button {
+    margin-left: auto;
+
+    min-width: 54px;
+  }
+
+}
